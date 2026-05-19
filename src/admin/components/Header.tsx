@@ -1,10 +1,41 @@
-import { MdFaceRetouchingNatural } from 'react-icons/md';
+import { MdFace } from 'react-icons/md';
 import { MdDashboard } from 'react-icons/md';
+import { MdEmail } from 'react-icons/md';
+import { MdLibraryBooks } from 'react-icons/md';
 import { Link } from 'react-router';
 import { useI18n } from '../../i18n';
 
+interface MenuItem {
+  name: string;
+  url: string;
+  icon: React.ReactNode;
+}
+
 export const Header = () => {
-  const { setLang } = useI18n();
+  const { t, setLang } = useI18n();
+
+  const menu: MenuItem[] = [
+    {
+      name: t('menu.products'),
+      url: '/products',
+      icon: <MdDashboard />,
+    },
+    {
+      name: t('menu.users'),
+      url: '/users',
+      icon: <MdFace />,
+    },
+    {
+      name: t('menu.orders'),
+      url: '/orders',
+      icon: <MdLibraryBooks />,
+    },
+    {
+      name: t('menu.notifications'),
+      url: '/notifications',
+      icon: <MdEmail />,
+    },
+  ];
 
   return (
     <header className='navbar bg-primary-content shadow-sm'>
@@ -31,43 +62,38 @@ export const Header = () => {
             tabIndex={-1}
             className='menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow'
           >
-            <li>
-              <a>Item A</a>
-            </li>
-
-            <li>
-              <a>Item B</a>
-            </li>
+            {menu.map((item: MenuItem) => (
+              <li key={item.name} className='flex items-center gap-2'>
+                <Link to={item.url}>
+                  {item.icon}
+                  <span>{item.name}</span>
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
-        <a className='btn btn-ghost text-xl'>
-          <Link to='/'>
-            <img
-              src='/images/le-chaton-icon-bn.png'
-              className='h-9'
-              alt='Logo Le Chaton'
-            />
-          </Link>
-        </a>
+
+        <Link to='/' className='btn btn-ghost text-xl'>
+          <img
+            src='/images/le-chaton-icon-bn.png'
+            className='h-9'
+            alt='Logo Le Chaton'
+          />
+        </Link>
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
-          <li className='text-xl px-4'>
-            <Link to='/products'>
-              <a className='flex items-center gap-2'>
-                <MdDashboard />
-                <span>Productos</span>
-              </a>
-            </Link>
-          </li>
-
-          <li className='text-xl px-4'>
-            <Link to='/users'>
-              <a className='flex items-center gap-2'>
-                <MdFaceRetouchingNatural /> Usuarios
-              </a>
-            </Link>
-          </li>
+          {menu.map((item: MenuItem) => (
+            <li
+              key={item.name}
+              className='text-xl px-4 flex items-center gap-2'
+            >
+              <Link to={item.url}>
+                {item.icon}
+                <span>{item.name}</span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
       <div className='navbar-end'>

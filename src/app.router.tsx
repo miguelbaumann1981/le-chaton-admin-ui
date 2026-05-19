@@ -4,6 +4,8 @@ import { LoginPage } from './auth/pages/login/LoginPage';
 import { lazy } from 'react';
 import { ProductsPage } from './admin/pages/products/ProductsPage';
 import { UsersPage } from './admin/pages/users/UsersPage';
+import { OrdersPage } from './admin/pages/orders/OrdersPage';
+import { NotificationsPage } from './admin/pages/notifications/NotificationsPage';
 
 const AuthLayout = lazy(() => import('./auth/layout/AuthLayout'));
 const AdminLayout = lazy(() => import('./admin/layout/AdminLayout'));
@@ -38,6 +40,14 @@ export const appRouter = createBrowserRouter([
       {
         path: 'users',
         element: <UsersPage />,
+      },
+      {
+        path: 'orders',
+        element: <OrdersPage />,
+      },
+      {
+        path: 'notifications',
+        element: <NotificationsPage />,
       },
     ],
   },

@@ -1,4 +1,10 @@
 {
+  "menu": {
+    "products": "Products",
+    "users": "Users",
+    "orders": "Orders",
+    "notifications": "Notifications"
+  },
   "dashboard": {
     "title": "you are in your user area"
   }

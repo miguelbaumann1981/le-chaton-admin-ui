@@ -1,4 +1,10 @@
 {
+  "menu": {
+    "products": "Productos",
+    "users": "Usuarios",
+    "orders": "Pedidos",
+    "notifications": "Notificaciones"
+  },
   "dashboard": {
     "title": "estás en tu zona de usuario"
   }
