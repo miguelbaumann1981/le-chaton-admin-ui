@@ -1,7 +1,11 @@
 import { MdFaceRetouchingNatural } from 'react-icons/md';
 import { MdDashboard } from 'react-icons/md';
+import { Link } from 'react-router';
+import { useI18n } from '../../i18n';
 
 export const Header = () => {
+  const { setLang } = useI18n();
+
   return (
     <header className='navbar bg-primary-content shadow-sm'>
       <div className='navbar-start'>
@@ -37,30 +41,46 @@ export const Header = () => {
           </ul>
         </div>
         <a className='btn btn-ghost text-xl'>
-          <img
-            src='../../../public/images/le-chaton-icon-bn.png'
-            className='h-9'
-            alt='Logo Le Chaton'
-          />
+          <Link to='/'>
+            <img
+              src='/images/le-chaton-icon-bn.png'
+              className='h-9'
+              alt='Logo Le Chaton'
+            />
+          </Link>
         </a>
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
           <li className='text-xl px-4'>
-            <a>
-              <MdDashboard /> Productos
-            </a>
+            <Link to='/products'>
+              <a className='flex items-center gap-2'>
+                <MdDashboard />
+                <span>Productos</span>
+              </a>
+            </Link>
           </li>
 
           <li className='text-xl px-4'>
-            <a>
-              <MdFaceRetouchingNatural /> Usuarios
-            </a>
+            <Link to='/users'>
+              <a className='flex items-center gap-2'>
+                <MdFaceRetouchingNatural /> Usuarios
+              </a>
+            </Link>
           </li>
         </ul>
       </div>
       <div className='navbar-end'>
-        <a className='btn'>Button</a>
+        <a className='btn' onClick={() => setLang('es')}>
+          <img
+            src='/images/spain-flag.png'
+            alt='Spain flag icon'
+            className='h-5'
+          />
+        </a>
+        <a className='btn' onClick={() => setLang('en')}>
+          <img src='/images/uk-flag.png' alt='UK flag icon' className='h-5' />
+        </a>
       </div>
     </header>
   );
