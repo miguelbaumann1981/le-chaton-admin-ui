@@ -7,5 +7,11 @@
   },
   "dashboard": {
     "title": "estás en tu zona de usuario"
+  },
+  "orders": {
+    "canceled": "Cancelado",
+    "registered": "Registrado",
+    "inProgress": "En progreso",
+    "delivered": "Entregado"
   }
 }
