@@ -55,7 +55,7 @@ const data = [
 ];
 
 // #endregion
-const SimpleAreaChart = () => {
+const GraphDemo = () => {
   return (
     <AreaChart
       style={{
@@ -84,4 +84,4 @@ const SimpleAreaChart = () => {
   );
 };
 
-export default SimpleAreaChart;
+export default GraphDemo;

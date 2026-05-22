@@ -1,6 +1,7 @@
 import { useI18n } from '../../../i18n';
-import SimpleAreaChart from './components/GraphDemo';
+import GraphDemo from './components/GraphDemo';
 import { OrdersSection } from './components/OrdersSection';
+import SimpleBarChart from './components/SimpleBarChart';
 
 export const DashboardPage = () => {
   const { t } = useI18n();
@@ -18,10 +19,11 @@ export const DashboardPage = () => {
 
           <div className='p-2 border border-green-200'>NOTIFICACIONES</div>
         </div>
-        <div className='p-2 border border-red-200'>
+        <div className='p-2 '>
           <p>Graficos</p>
-          <div>
-            <SimpleAreaChart />
+          <div className='grid grid-cols-2 gap-4'>
+            <SimpleBarChart />
+            <GraphDemo />
           </div>
         </div>
       </div>

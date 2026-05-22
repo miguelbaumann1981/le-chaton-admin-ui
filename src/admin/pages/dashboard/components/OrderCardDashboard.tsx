@@ -53,20 +53,31 @@ export const OrderCardDashboard = ({
 
           <div className='badge badge-info'>{totalPrice?.toFixed(2)} €</div>
 
-          <p className='text-sm'>
-            ID pedido: <span className='text-white'>{id}</span>
-          </p>
+          <div className='flex text-sm'>
+            <span className='w-25'>ID pedido</span>
+            <span className='text-white'>{id}</span>
+          </div>
 
-          <p className='text-sm'>
-            Fecha pedido: <span className='text-white'>{displayDate}</span>
-          </p>
+          <div className='flex text-sm'>
+            <span className='w-25'>Fecha pedido</span>
+            <span className='text-white'>{displayDate}</span>
+          </div>
 
-          <p className='text-sm'>
-            ID usuario: <span className='text-white'>{userId}</span>
-          </p>
+          <div className='flex text-sm'>
+            <span className='w-25'>ID usuario</span>
+            <span className='text-white'>{userId}</span>
+          </div>
 
-          {/* <p>{JSON.stringify(details)}</p> */}
-          <OrderDetailsCard />
+          {details?.map((detail) => (
+            <OrderDetailsCard
+              key={detail.productId}
+              productId={detail.productId}
+              title={detail.title}
+              price={detail.price}
+              quantity={detail.quantity}
+            />
+          ))}
+
           <div className='modal-action'>
             <form method='dialog'>
               <button className='btn'>Close</button>
