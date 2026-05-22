@@ -1,8 +1,8 @@
-import { useOrders } from '../../../hooks/useOrders';
+import { useLatestOrders } from '../../../hooks/useLatestOrders';
 import { OrderCardDashboard } from './OrderCardDashboard';
 
 export const OrdersSection = () => {
-  const { data } = useOrders(3);
+  const { data } = useLatestOrders();
   console.log(data?.orders);
 
   return (
@@ -14,10 +14,13 @@ export const OrdersSection = () => {
           {data?.orders.map((order) => (
             <OrderCardDashboard
               key={order.id}
-              name={order?.description}
-              date={order?.orderDate}
-              price={order?.totalPrice}
+              id={order.id}
+              description={order?.description}
+              orderDate={order?.orderDate}
+              userId={order?.userId}
+              totalPrice={order?.totalPrice}
               status={order?.status}
+              details={order?.details}
             />
           ))}
         </div>
