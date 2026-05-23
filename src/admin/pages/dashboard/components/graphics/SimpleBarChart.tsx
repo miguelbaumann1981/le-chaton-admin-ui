@@ -8,7 +8,7 @@ import {
   Legend,
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
-import { useAllOrdersProducts } from '../../../hooks/useAllOrdersProducts';
+import { useAllOrdersProducts } from '../../../../hooks/useAllOrdersProducts';
 
 interface QuantityProducts {
   productId: string;
