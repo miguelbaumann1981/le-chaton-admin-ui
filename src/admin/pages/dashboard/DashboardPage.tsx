@@ -1,33 +1,30 @@
 import { useI18n } from '../../../i18n';
 import GraphDemo from './components/graphics/GraphDemo';
 import { OrdersSection } from './components/OrdersSection';
-import SimpleBarChart from './components/graphics/SimpleBarChart';
 import GraphOrdersPriceDate from './components/graphics/GraphOrdersPriceDate';
+import GraphOrdersProductsQuantity from './components/graphics/GraphOrdersProductsQuantity';
+import { NotificationsSection } from './components/NotificationsSection';
 
 export const DashboardPage = () => {
   const { t } = useI18n();
 
   return (
     <>
-      <div className='flex flex-col gap-4'>
-        <h1 className='text-3xl'>
-          <span className='text-secondary'>Baumann</span>,{' '}
-          {t('dashboard.title')}
+      <div className='flex flex-col gap-5'>
+        <h1 className='text-4xl font-bold mb-4'>
+          <span className='text-primary'>Baumann</span>, {t('dashboard.title')}
         </h1>
 
-        <div className='grid grid-cols-2 gap-4'>
+        <div className='grid grid-cols-2 gap-10'>
           <OrdersSection />
 
-          <div className='p-2 border border-green-200'>NOTIFICACIONES</div>
+          <NotificationsSection />
         </div>
-        <div className='p-2 '>
-          <p>Graficos</p>
-          <div className='grid grid-cols-2 gap-4'>
-            <SimpleBarChart />
-            <GraphOrdersPriceDate />
-          </div>
 
-          <div>
+        <div className='mt-5 p-2'>
+          <div className='grid grid-cols-2 gap-10'>
+            <GraphOrdersProductsQuantity />
+            <GraphOrdersPriceDate />
             <GraphDemo />
           </div>
         </div>

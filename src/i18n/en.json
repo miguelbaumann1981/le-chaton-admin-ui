@@ -6,12 +6,32 @@
     "notifications": "Notifications"
   },
   "dashboard": {
-    "title": "you are in your user area"
+    "title": "you are in your admin area",
+    "latestOrders": "Latest orders",
+    "viewAllOrders": "View all",
+    "latestNotifications": "Latest notifications",
+    "viewAllNotifications": "View all"
   },
   "orders": {
     "canceled": "Cancel",
     "registered": "Registered",
     "inProgress": "In progress",
     "delivered": "Delivered"
+  },
+  "graphics": {
+    "quantityProducts": "Quantity of products per order",
+    "salesDate": "Sales by date"
+  },
+  "notifications": {
+    "registration": "Registration",
+    "login": "Login",
+    "create": "Create",
+    "delete": "Delete",
+    "update": "Update",
+    "registrationDescription": "A new user has registered",
+    "loginDescription": "A user has logged in",
+    "createDescription": "A new item has been created",
+    "deleteDescription": "An item has been deleted",
+    "updateDescription": "An item has been updated"
   }
 }

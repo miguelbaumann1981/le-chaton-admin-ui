@@ -5,3 +5,10 @@
     dark --prefersdark,
     dim;
 }
+
+.custom-link {
+  color: #b6d6ff;
+}
+.custom-link:hover {
+  color: var(--base-content);
+}

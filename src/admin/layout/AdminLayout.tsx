@@ -6,7 +6,7 @@ const AdminLayout = () => {
   return (
     <>
       <Header />
-      <main className='p-5 border border-amber-200'>
+      <main className='py-5 px-8'>
         <Outlet />
       </main>
       {/* <Footer /> */}

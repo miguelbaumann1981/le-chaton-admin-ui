@@ -6,12 +6,32 @@
     "notifications": "Notificaciones"
   },
   "dashboard": {
-    "title": "estás en tu zona de usuario"
+    "title": "estás en tu zona de administración",
+    "latestOrders": "Últimos pedidos",
+    "viewAllOrders": "Ver todos",
+    "latestNotifications": "Últimas notificaciones",
+    "viewAllNotifications": "Ver todas"
   },
   "orders": {
     "canceled": "Cancelado",
     "registered": "Registrado",
     "inProgress": "En progreso",
     "delivered": "Entregado"
+  },
+  "graphics": {
+    "quantityProducts": "Cantidad de productos por pedido",
+    "salesDate": "Ventas por fecha"
+  },
+  "notifications": {
+    "registration": "Registro",
+    "login": "Inicio de sesión",
+    "create": "Creación",
+    "delete": "Eliminación",
+    "update": "Actualización",
+    "registrationDescription": "Un nuevo usuario se ha registrado",
+    "loginDescription": "Un usuario ha iniciado sesión",
+    "createDescription": "Un nuevo artículo ha sido creado",
+    "deleteDescription": "Un artículo ha sido eliminado",
+    "updateDescription": "Un artículo ha sido actualizado"
   }
 }

@@ -57,30 +57,33 @@ const data = [
 // #endregion
 const GraphDemo = () => {
   return (
-    <AreaChart
-      style={{
-        width: '100%',
-        maxWidth: '700px',
-        maxHeight: '70vh',
-        aspectRatio: 1.618,
-      }}
-      responsive
-      data={data}
-      margin={{
-        top: 20,
-        right: 0,
-        left: 0,
-        bottom: 0,
-      }}
-      onContextMenu={(_, e) => e.preventDefault()}
-    >
-      <CartesianGrid strokeDasharray='3 3' />
-      <XAxis dataKey='name' niceTicks='snap125' />
-      <YAxis width='auto' niceTicks='snap125' />
-      <Tooltip />
-      <Area type='monotone' dataKey='uv' stroke='#8884d8' fill='#8884d8' />
-      <RechartsDevtools />
-    </AreaChart>
+    <div className='flex flex-col gap-3 border border-gray-400 p-4 bg-base-300 rounded-lg'>
+      <h2 className='text-xl font-semibold'>Graph demo</h2>
+      <AreaChart
+        style={{
+          width: '100%',
+          maxWidth: '700px',
+          maxHeight: '70vh',
+          aspectRatio: 1.618,
+        }}
+        responsive
+        data={data}
+        margin={{
+          top: 20,
+          right: 0,
+          left: 0,
+          bottom: 0,
+        }}
+        onContextMenu={(_, e) => e.preventDefault()}
+      >
+        <CartesianGrid strokeDasharray='3 3' />
+        <XAxis dataKey='name' niceTicks='snap125' />
+        <YAxis width='auto' niceTicks='snap125' />
+        <Tooltip />
+        <Area type='monotone' dataKey='uv' stroke='#8884d8' fill='#8884d8' />
+        <RechartsDevtools />
+      </AreaChart>
+    </div>
   );
 };
 
