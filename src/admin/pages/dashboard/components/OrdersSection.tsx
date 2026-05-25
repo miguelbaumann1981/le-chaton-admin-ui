@@ -2,10 +2,11 @@ import { Link } from 'react-router';
 import { useI18n } from '../../../../i18n';
 import { useLatestOrders } from '../../../hooks/useLatestOrders';
 import { OrderCardDashboard } from './OrderCardDashboard';
+import type { Order } from '../../../interfaces/order.interface';
 
 export const OrdersSection = () => {
   const { t } = useI18n();
-  const { data } = useLatestOrders();
+  const { data } = useLatestOrders(3);
 
   return (
     <div className='flex flex-col gap-3 w-full'>
@@ -17,7 +18,7 @@ export const OrdersSection = () => {
       </div>
 
       <div className='grid grid-cols-3 gap-3'>
-        {data?.orders.map((order) => (
+        {data?.orders.map((order: Order) => (
           <OrderCardDashboard
             key={order.id}
             id={order.id}

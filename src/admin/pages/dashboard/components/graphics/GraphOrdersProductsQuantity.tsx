@@ -42,7 +42,7 @@ const GraphOrdersProductsQuantity = () => {
     : [];
 
   return (
-    <div className='flex flex-col gap-3 border border-gray-600 p-4 bg-base-300 rounded-lg'>
+    <div className='flex flex-col gap-3 border border-gray-600 py-4 px-8 bg-base-300 rounded-lg'>
       <h2 className='text-xl font-semibold'>
         {t('graphics.quantityProducts')}
       </h2>

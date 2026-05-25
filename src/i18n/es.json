@@ -28,10 +28,10 @@
     "create": "Creación",
     "delete": "Eliminación",
     "update": "Actualización",
-    "registrationDescription": "Un nuevo usuario se ha registrado",
-    "loginDescription": "Un usuario ha iniciado sesión",
-    "createDescription": "Un nuevo artículo ha sido creado",
-    "deleteDescription": "Un artículo ha sido eliminado",
-    "updateDescription": "Un artículo ha sido actualizado"
+    "NEW_ORDER_REGISTERED_BY": "Se ha creado un nuevo pedido",
+    "ORDER_DELETED_BY": "Un pedido ha sido cancelado",
+    "ORDER_UPDATED_BY": "Un pedido ha sido modificado",
+    "NEW_REGISTER_CREATED": "Se ha registrado un nuevo usuario",
+    "NEW_LOGIN_DONE": "Un usuario ha iniciado sesión"
   }
 }

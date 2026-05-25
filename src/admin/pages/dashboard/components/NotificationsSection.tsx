@@ -1,9 +1,12 @@
 import { Link } from 'react-router';
 import { useI18n } from '../../../../i18n';
 import { NotificationCardDashboard } from './NotificationCardDashboard';
+import { useLatestNotifications } from '../../../hooks/useLatestNotifications';
+import type { NotificationLog } from '../../../interfaces/notification-log.interface';
 
 export const NotificationsSection = () => {
   const { t } = useI18n();
+  const { data } = useLatestNotifications(6);
 
   return (
     <div className='flex flex-col gap-3 w-full'>
@@ -17,12 +20,17 @@ export const NotificationsSection = () => {
       </div>
 
       <div className='grid grid-cols-3 gap-3'>
-        <NotificationCardDashboard />
-        <NotificationCardDashboard />
-        <NotificationCardDashboard />
-        <NotificationCardDashboard />
-        <NotificationCardDashboard />
-        <NotificationCardDashboard />
+        {data?.map((notification: NotificationLog) => (
+          <NotificationCardDashboard
+            key={notification?.id}
+            id={notification?.id}
+            message={notification?.message}
+            action={notification?.action}
+            createdAt={notification?.createdAt}
+            userId={notification?.userId}
+            orderId={notification?.orderId}
+          />
+        ))}
       </div>
     </div>
   );

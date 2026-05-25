@@ -28,10 +28,10 @@
     "create": "Create",
     "delete": "Delete",
     "update": "Update",
-    "registrationDescription": "A new user has registered",
-    "loginDescription": "A user has logged in",
-    "createDescription": "A new item has been created",
-    "deleteDescription": "An item has been deleted",
-    "updateDescription": "An item has been updated"
+    "NEW_ORDER_REGISTERED_BY": "A new order has been created",
+    "ORDER_DELETED_BY": "An order has been cancelled",
+    "ORDER_UPDATED_BY": "An oarder has been modified",
+    "NEW_REGISTER_CREATED": "A new user has been registered",
+    "NEW_LOGIN_DONE": "A user has logged in"
   }
 }

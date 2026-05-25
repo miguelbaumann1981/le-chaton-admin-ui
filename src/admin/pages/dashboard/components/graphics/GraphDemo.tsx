@@ -1,88 +1,96 @@
 import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
+  Pie,
+  PieChart,
+  type PieLabelRenderProps,
+  type PieSectorShapeProps,
+  Sector,
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
 
 // #region Sample data
 const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
+  { name: 'Group A', value: 400 },
+  { name: 'Group B', value: 300 },
+  { name: 'Group C', value: 300 },
+  { name: 'Group D', value: 200 },
 ];
 
 // #endregion
-const GraphDemo = () => {
+const RADIAN = Math.PI / 180;
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+}: PieLabelRenderProps) => {
+  if (cx == null || cy == null || innerRadius == null || outerRadius == null) {
+    return null;
+  }
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const ncx = Number(cx);
+  const x = ncx + radius * Math.cos(-(midAngle ?? 0) * RADIAN);
+  const ncy = Number(cy);
+  const y = ncy + radius * Math.sin(-(midAngle ?? 0) * RADIAN);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill='white'
+      textAnchor={x > ncx ? 'start' : 'end'}
+      dominantBaseline='central'
+    >
+      {`${((percent ?? 1) * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
+const MyCustomPie = (props: PieSectorShapeProps) => {
+  return <Sector {...props} fill={COLORS[props.index % COLORS.length]} />;
+};
+
+// #endregion
+const GraphDemo = ({
+  isAnimationActive = true,
+}: {
+  isAnimationActive?: boolean;
+}) => {
   return (
     <div className='flex flex-col gap-3 border border-gray-400 p-4 bg-base-300 rounded-lg'>
       <h2 className='text-xl font-semibold'>Graph demo</h2>
-      <AreaChart
+      <PieChart
         style={{
           width: '100%',
-          maxWidth: '700px',
-          maxHeight: '70vh',
-          aspectRatio: 1.618,
+          maxWidth: '500px',
+          maxHeight: '80vh',
+          aspectRatio: 1,
         }}
         responsive
-        data={data}
-        margin={{
-          top: 20,
-          right: 0,
-          left: 0,
-          bottom: 0,
-        }}
-        onContextMenu={(_, e) => e.preventDefault()}
       >
-        <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='name' niceTicks='snap125' />
-        <YAxis width='auto' niceTicks='snap125' />
-        <Tooltip />
-        <Area type='monotone' dataKey='uv' stroke='#8884d8' fill='#8884d8' />
+        <Pie
+          data={data}
+          labelLine={false}
+          label={renderCustomizedLabel}
+          fill='#8884d8'
+          dataKey='value'
+          isAnimationActive={isAnimationActive}
+          shape={MyCustomPie}
+        />
         <RechartsDevtools />
-      </AreaChart>
+      </PieChart>
+
+      <div className='text-sm text-gray-500'>
+        <p>Leyenda</p>
+        <div className='flex items-center gap-2'>
+          <span className='inline-block w-3 h-3 bg-blue-500 mr-1' /> Group A
+          <span className='inline-block w-3 h-3 bg-yellow-500 mr-1' /> Group C
+          <span className='inline-block w-3 h-3 bg-orange-500 mr-1' /> Group D
+        </div>
+      </div>
     </div>
   );
 };
