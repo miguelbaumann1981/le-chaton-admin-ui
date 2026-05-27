@@ -1,9 +1,9 @@
 import { useI18n } from '../../../i18n';
-import GraphDemo from './components/graphics/GraphDemo';
 import { OrdersSection } from './components/OrdersSection';
 import GraphOrdersPriceDate from './components/graphics/GraphOrdersPriceDate';
 import GraphOrdersProductsQuantity from './components/graphics/GraphOrdersProductsQuantity';
 import { NotificationsSection } from './components/NotificationsSection';
+import GraphOrdersByAction from './components/graphics/GraphOrdersByAction';
 
 export const DashboardPage = () => {
   const { t } = useI18n();
@@ -25,7 +25,7 @@ export const DashboardPage = () => {
           <div className='grid grid-cols-2 gap-10'>
             <GraphOrdersProductsQuantity />
             <GraphOrdersPriceDate />
-            <GraphDemo />
+            <GraphOrdersByAction />
           </div>
         </div>
       </div>

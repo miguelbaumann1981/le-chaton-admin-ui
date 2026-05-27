@@ -20,7 +20,8 @@
   },
   "graphics": {
     "quantityProducts": "Cantidad de productos por pedido",
-    "salesDate": "Ventas por fecha"
+    "salesDate": "Ventas por fecha",
+    "distributionOrders": "Distribución de pedidos por acción"
   },
   "notifications": {
     "registration": "Registro",

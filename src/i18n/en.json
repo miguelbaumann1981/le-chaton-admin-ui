@@ -20,7 +20,8 @@
   },
   "graphics": {
     "quantityProducts": "Quantity of products per order",
-    "salesDate": "Sales by date"
+    "salesDate": "Sales by date",
+    "distributionOrders": "Distribution of orders by action"
   },
   "notifications": {
     "registration": "Registration",
