@@ -5,7 +5,7 @@ export const getLatestOrdersAction = async (
   limit: number,
 ): Promise<LatestOrdersApiResponse> => {
   const { data } = await leChatonApi.get<LatestOrdersApiResponse>(
-    '/orders/latest',
+    '/api/orders/latest',
     {
       params: {
         limit,

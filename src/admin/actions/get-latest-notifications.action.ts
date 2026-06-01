@@ -5,7 +5,7 @@ export const getLatestNotificationsAction = async (
   limit: number,
 ): Promise<NotificationLog[]> => {
   const { data } = await leChatonApi.get<NotificationLog[]>(
-    '/notifications/latest',
+    '/api/notifications/latest',
     {
       params: {
         limit,

@@ -5,7 +5,7 @@ export const getOrdersByActionLogAction = async (): Promise<
   OrdersByAction[]
 > => {
   const { data } = await leChatonApi.get<OrdersByAction[]>(
-    '/notifications/orders-by-action',
+    '/api/notifications/orders-by-action',
   );
 
   return data;

@@ -4,7 +4,7 @@ import type { ProductsOrdersApiResponse } from '../interfaces/products-orders-ap
 export const getAllOrdersProductsAction =
   async (): Promise<ProductsOrdersApiResponse> => {
     const { data } = await leChatonApi.get<ProductsOrdersApiResponse>(
-      '/orders/products-summary',
+      '/api/orders/products-summary',
     );
 
     return { productsOrders: data.productsOrders };

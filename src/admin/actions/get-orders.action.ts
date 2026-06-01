@@ -11,7 +11,7 @@ export const getOrdersAction = async (
 ): Promise<OrdersApiResponse> => {
   const { page, limit } = options;
 
-  const { data } = await leChatonApi.get<OrdersApiResponse>('/orders', {
+  const { data } = await leChatonApi.get<OrdersApiResponse>('/api/orders', {
     params: {
       page,
       limit,
