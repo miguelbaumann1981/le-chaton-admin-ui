@@ -1,4 +1,7 @@
 {
+  "common": {
+    "close": "Close"
+  },
   "menu": {
     "products": "Products",
     "users": "Users",
@@ -34,5 +37,21 @@
     "ORDER_UPDATED_BY": "An oarder has been modified",
     "NEW_REGISTER_CREATED": "A new user has been registered",
     "NEW_LOGIN_DONE": "A user has logged in"
-  }
+  },
+  "products": {
+    "cakes": "Cakes",
+    "biscuits": "Biscuits",
+    "roscones": "Roscones",
+    "vegan": "Vegan",
+    "idProduct": "Product ID",
+    "product": "Product",
+    "price": "Price",
+    "category": "Category",
+    "language": "Language",
+    "name": "Name"
+  },
+  "CAKES": "Cakes",
+  "BISCUITS": "Biscuits",
+  "ROSCONES": "Roscones",
+  "VEGAN": "Vegan"
 }

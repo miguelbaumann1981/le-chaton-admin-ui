@@ -1,4 +1,7 @@
 {
+  "common": {
+    "close": "Cerrar"
+  },
   "menu": {
     "products": "Productos",
     "users": "Usuarios",
@@ -34,5 +37,21 @@
     "ORDER_UPDATED_BY": "Un pedido ha sido modificado",
     "NEW_REGISTER_CREATED": "Se ha registrado un nuevo usuario",
     "NEW_LOGIN_DONE": "Un usuario ha iniciado sesión"
-  }
+  },
+  "products": {
+    "cakes": "Tartas",
+    "biscuits": "Galletas",
+    "roscones": "Roscones",
+    "vegan": "Vegano",
+    "idProduct": "ID producto",
+    "product": "Producto",
+    "price": "Precio",
+    "category": "Categoría",
+    "language": "Idioma",
+    "name": "Nombre"
+  },
+  "CAKES": "Tartas",
+  "BISCUITS": "Galletas",
+  "ROSCONES": "Roscones",
+  "VEGAN": "Vegano"
 }
