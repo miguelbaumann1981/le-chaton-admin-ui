@@ -18,6 +18,10 @@ export const getProductsAction = async (
     },
   });
 
+  // const productsByLang = data.products.filter(
+  //   (product) => product.language === 'en',
+  // );
+
   const productsWithImages = data.products.map((product) => ({
     ...product,
     image: `${import.meta.env.VITE_API_URL}${product.image}`,
