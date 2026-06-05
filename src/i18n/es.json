@@ -48,7 +48,8 @@
     "price": "Precio",
     "category": "Categoría",
     "language": "Idioma",
-    "name": "Nombre"
+    "name": "Nombre",
+    "noProducts": "No hay productos disponibles"
   },
   "CAKES": "Tartas",
   "BISCUITS": "Galletas",

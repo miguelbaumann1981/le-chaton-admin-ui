@@ -1,5 +1,4 @@
-import { MdFace } from 'react-icons/md';
-import { MdDashboard } from 'react-icons/md';
+import { MdFace, MdStorefront } from 'react-icons/md';
 import { MdEmail } from 'react-icons/md';
 import { MdLibraryBooks } from 'react-icons/md';
 import { Link } from 'react-router';
@@ -18,7 +17,7 @@ export const Header = () => {
     {
       name: t('menu.products'),
       url: '/products',
-      icon: <MdDashboard />,
+      icon: <MdStorefront />,
     },
     {
       name: t('menu.users'),

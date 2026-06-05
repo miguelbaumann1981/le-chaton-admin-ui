@@ -1,14 +1,25 @@
-import { MdDashboard } from 'react-icons/md';
+import { MdDashboard, MdStorefront } from 'react-icons/md';
+import { useRef, useState } from 'react';
 import { useI18n } from '../../../i18n';
 import { useProducts } from './hooks/useProducts';
 import type { Product } from './interfaces/products-api-response.interface';
+import { Paginator } from '../../components/Paginator';
+import { Spinner } from '../../components/Spinner';
+// import { useProductById } from './hooks/useProductByid';
 
 export const ProductsPage = () => {
   const { t } = useI18n();
+  const { data, isLoading, error } = useProducts();
+  // const [searchId, setSearchId] = useState('');
+  // const { data: dataFiltered } = useProductById(searchId);
+  const idInput = useRef<HTMLInputElement>(null);
 
-  const { data, isLoading } = useProducts();
-
+  // const filteredData: Product[] = dataFiltered || [];
   const productsData: Product[] = data?.products || [];
+  // const displayedData = filteredData.length > 0 ? filteredData : productsData;
+
+  const totalPages =
+    data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
 
   const handleBadgeCategory = (category: string) => {
     switch (category) {
@@ -23,22 +34,80 @@ export const ProductsPage = () => {
     }
   };
 
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+
+  const handleCheckAccordion = () => {
+    setIsAccordionOpen((previous) => !previous);
+  };
+
+  const handleSearchById = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== 'Enter') return;
+    console.log('Buscar por ID:', idInput.current?.value);
+    // const idToSearch = idInput.current?.value;
+    // if (!idToSearch) {
+    //   setSearchId('');
+    //   return;
+    // }
+
+    // setSearchId(idToSearch);
+  };
+
   return (
     <>
       <div className='flex flex-col gap-5'>
         <h1 className='text-4xl font-bold mb-4 flex items-center gap-2'>
-          <MdDashboard /> {t('menu.products')}
+          <MdStorefront /> {t('menu.products')}
         </h1>
 
-        <div className='w-full border border-green-100 p-5'>FILTROS</div>
+        <div className='collapse collapse-arrow bg-base-300 border border-base-300'>
+          <input
+            type='radio'
+            name='my-accordion-3'
+            checked={isAccordionOpen}
+            onClick={handleCheckAccordion}
+          />
+          <div className='collapse-title font-semibold'>Filtros</div>
+          <div className='collapse-content text-sm'>
+            <label className='input'>
+              <svg
+                className='h-[1em] opacity-50'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 24 24'
+              >
+                <g
+                  strokeLinejoin='round'
+                  strokeLinecap='round'
+                  strokeWidth='2.5'
+                  fill='none'
+                  stroke='currentColor'
+                >
+                  <circle cx='11' cy='11' r='8'></circle>
+                  <path d='m21 21-4.3-4.3'></path>
+                </g>
+              </svg>
+              <input
+                type='search'
+                className='grow'
+                placeholder='Buscar por ID'
+                ref={idInput}
+                onKeyDown={handleSearchById}
+              />
+            </label>
+          </div>
+        </div>
 
-        {isLoading ? (
-          <div className='w-full border border-yellow-100 p-5'>Cargando...</div>
+        {error && (
+          <div className='w-full border border-red-100 p-5 text-center'>
+            Ocurrió un error al cargar los productos.
+          </div>
+        )}
+
+        {isLoading && !error ? (
+          <Spinner />
         ) : (
           <div className='card bg-base-300 border border-gray-600 rounded-t-lg'>
             <div className='overflow-x-auto'>
-              <table className='table table-zebra'>
-                {/* head */}
+              <table className='table table-zebra '>
                 <thead>
                   <tr className='bg-white/10 text-white'>
                     <th className='border-b-gray-600'>
@@ -57,8 +126,14 @@ export const ProductsPage = () => {
                     </th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  {/* row 1 */}
+                  {productsData.length === 0 && (
+                    <div className='w-full p-5 text-center text-xl text-white'>
+                      {t('products.noProducts')}
+                    </div>
+                  )}
+
                   {productsData.map((product) => (
                     <tr
                       key={product.id}
@@ -117,9 +192,13 @@ export const ProductsPage = () => {
                   ))}
                 </tbody>
               </table>
-
-              <div className='w-full border-t  border-gray-600'>Paginador</div>
             </div>
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div className='flex justify-center items-center my-4 border-t-gray-600'>
+            <Paginator totalPages={totalPages} />
           </div>
         )}
       </div>
@@ -127,8 +206,12 @@ export const ProductsPage = () => {
       {productsData.map((product) => (
         <dialog key={product.id} id={product.id} className='modal'>
           <div className='modal-box flex flex-col gap-4'>
-            <h3 className='font-bold text-xl'>{product.title}</h3>
-            <img src={product?.image} alt={product?.title} className='w-full' />
+            <h3 className='font-bold text-xl text-white'>{product.title}</h3>
+            <img
+              src={product?.image}
+              alt={product?.title}
+              className='w-full rounded-xl border border-gray-400'
+            />
 
             <div className='flex justify-between items-center max-lg:flex-col max-lg:justify-start max-lg:items-start'>
               <div className='flex items-center gap-3'>
@@ -170,7 +253,9 @@ export const ProductsPage = () => {
             )}
 
             <form method='dialog' className='flex flex-row-reverse gap-2 mt-5'>
-              <button className='btn btn-secondary'>{t('common.close')}</button>
+              <button className='btn btn-outline btn-secondary'>
+                {t('common.close')}
+              </button>
             </form>
           </div>
         </dialog>

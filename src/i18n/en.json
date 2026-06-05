@@ -48,7 +48,8 @@
     "price": "Price",
     "category": "Category",
     "language": "Language",
-    "name": "Name"
+    "name": "Name",
+    "noProducts": "No products available"
   },
   "CAKES": "Cakes",
   "BISCUITS": "Biscuits",
