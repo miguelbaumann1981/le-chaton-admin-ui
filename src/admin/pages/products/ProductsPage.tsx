@@ -1,4 +1,4 @@
-import { MdDashboard, MdStorefront } from 'react-icons/md';
+import { MdStorefront } from 'react-icons/md';
 import { useRef, useState } from 'react';
 import { useI18n } from '../../../i18n';
 import { useProducts } from './hooks/useProducts';
