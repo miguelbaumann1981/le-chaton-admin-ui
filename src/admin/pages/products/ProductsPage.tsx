@@ -1,22 +1,26 @@
 import { MdStorefront } from 'react-icons/md';
-import { useRef, useState } from 'react';
 import { useI18n } from '../../../i18n';
 import { useProducts } from './hooks/useProducts';
 import type { Product } from './interfaces/products-api-response.interface';
 import { Paginator } from '../../components/Paginator';
 import { Spinner } from '../../components/Spinner';
-// import { useProductById } from './hooks/useProductByid';
+import { useState } from 'react';
+import type { Category } from './types/category.type';
+import { useCategoryTranslation } from './hooks/useCategoryTranslation';
+import type { Language } from './types/language.type';
 
 export const ProductsPage = () => {
   const { t } = useI18n();
-  const { data, isLoading, error } = useProducts();
-  // const [searchId, setSearchId] = useState('');
-  // const { data: dataFiltered } = useProductById(searchId);
-  const idInput = useRef<HTMLInputElement>(null);
+  const [customLimit, setCustomLimit] = useState(7);
+  const [customCategory, setCustomCategory] = useState<Category>('');
+  const [language, setLanguage] = useState<Language>('');
+  const { data, isLoading, error } = useProducts(
+    customLimit,
+    customCategory,
+    language,
+  );
 
-  // const filteredData: Product[] = dataFiltered || [];
   const productsData: Product[] = data?.products || [];
-  // const displayedData = filteredData.length > 0 ? filteredData : productsData;
 
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
@@ -34,22 +38,25 @@ export const ProductsPage = () => {
     }
   };
 
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-
-  const handleCheckAccordion = () => {
-    setIsAccordionOpen((previous) => !previous);
+  const handleCategoryFilter = (category: Category) => {
+    if (category === '') {
+      setCustomLimit(7);
+      setCustomCategory('');
+      setLanguage('');
+      return;
+    }
+    setCustomLimit(1000);
+    setCustomCategory(category);
   };
 
-  const handleSearchById = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') return;
-    console.log('Buscar por ID:', idInput.current?.value);
-    // const idToSearch = idInput.current?.value;
-    // if (!idToSearch) {
-    //   setSearchId('');
-    //   return;
-    // }
-
-    // setSearchId(idToSearch);
+  const handleLanguageFilter = (lang: Language) => {
+    if (lang === '') {
+      setLanguage('');
+      return;
+    }
+    setCustomLimit(1000);
+    setCustomCategory(customCategory);
+    setLanguage(lang);
   };
 
   return (
@@ -59,40 +66,71 @@ export const ProductsPage = () => {
           <MdStorefront /> {t('menu.products')}
         </h1>
 
-        <div className='collapse collapse-arrow bg-base-300 border border-base-300'>
-          <input
-            type='radio'
-            name='my-accordion-3'
-            checked={isAccordionOpen}
-            onClick={handleCheckAccordion}
-          />
-          <div className='collapse-title font-semibold'>Filtros</div>
-          <div className='collapse-content text-sm'>
-            <label className='input'>
-              <svg
-                className='h-[1em] opacity-50'
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-              >
-                <g
-                  strokeLinejoin='round'
-                  strokeLinecap='round'
-                  strokeWidth='2.5'
-                  fill='none'
-                  stroke='currentColor'
-                >
-                  <circle cx='11' cy='11' r='8'></circle>
-                  <path d='m21 21-4.3-4.3'></path>
-                </g>
-              </svg>
-              <input
-                type='search'
-                className='grow'
-                placeholder='Buscar por ID'
-                ref={idInput}
-                onKeyDown={handleSearchById}
+        <div className='flex flex-row justify-between items-center'>
+          <div className='flex gap-2'>
+            <button
+              className={`btn btn-warning ${customCategory === 'CAKES' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleCategoryFilter('CAKES')}
+            >
+              {useCategoryTranslation('CAKES')}
+            </button>
+            <button
+              className={`btn btn-info ${customCategory === 'BISCUITS' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleCategoryFilter('BISCUITS')}
+            >
+              {useCategoryTranslation('BISCUITS')}
+            </button>
+            <button
+              className={`btn  btn-primary ${customCategory === 'ROSCONES' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleCategoryFilter('ROSCONES')}
+            >
+              {useCategoryTranslation('ROSCONES')}
+            </button>
+            <button
+              className={`btn  btn-success ${customCategory === 'VEGAN' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleCategoryFilter('VEGAN')}
+            >
+              {useCategoryTranslation('VEGAN')}
+            </button>
+            <button
+              className='btn btn-soft btn-neutral text-base-content'
+              onClick={() => handleCategoryFilter('')}
+            >
+              Todos
+            </button>
+          </div>
+
+          <div className='flex items-center'>
+            <button
+              className={`btn ${language === 'es' ? 'btn-outline' : 'btn-soft'} `}
+              onClick={() => handleLanguageFilter('es')}
+            >
+              <img
+                src='/images/spain-flag.png'
+                alt='Spain flag icon'
+                className='h-5'
               />
-            </label>
+            </button>
+            <button
+              className={`btn ${language === 'en' ? 'btn-outline' : 'btn-soft'} `}
+              onClick={() => handleLanguageFilter('en')}
+            >
+              <img
+                src='/images/uk-flag.png'
+                alt='UK flag icon'
+                className='h-5'
+              />
+            </button>
+            <button
+              className='btn btn-soft btn-neutral text-base-content'
+              onClick={() => handleLanguageFilter('')}
+            >
+              Reset
+            </button>
+          </div>
+
+          <div className='flex gap-2 items-center'>
+            <button className='btn  btn-neutral'>Buscador</button>
           </div>
         </div>
 
@@ -197,8 +235,19 @@ export const ProductsPage = () => {
         )}
 
         {totalPages > 1 && (
-          <div className='flex justify-center items-center my-4 border-t-gray-600'>
+          <div className='flex justify-between items-center my-4 border-t-gray-600'>
             <Paginator totalPages={totalPages} />
+
+            <div className='flex gap-2 items-center'>
+              <span className='text-sm'>Resultados por página</span>
+              <input
+                type='number'
+                placeholder='Introduzca límite...'
+                className='input w-18 text-center'
+                value={customLimit}
+                onChange={(e) => setCustomLimit(Number(e.target.value))}
+              />
+            </div>
           </div>
         )}
       </div>

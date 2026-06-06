@@ -1,1 +1,1 @@
-export type Category = 'CAKES' | 'BISCUITS' | 'ROSCONES' | 'VEGAN';
+export type Category = 'CAKES' | 'BISCUITS' | 'ROSCONES' | 'VEGAN' | '';

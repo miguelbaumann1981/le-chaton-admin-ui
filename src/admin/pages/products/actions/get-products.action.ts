@@ -4,23 +4,26 @@ import type {
   ProductsApiResponse,
 } from '../interfaces/products-api-response.interface';
 import type { Category } from '../types/category.type';
+import type { Language } from '../types/language.type';
 
 interface Options {
   page?: number | string;
   limit?: number | string;
   category?: Category | string;
+  language?: Language;
 }
 
 export const getProductsAction = async (
   options: Options,
 ): Promise<ProductsApiResponse> => {
-  const { page, limit, category } = options;
+  const { page, limit, category, language } = options;
 
   const { data } = await leChatonApi.get<ProductsApiResponse>('/api/products', {
     params: {
       page,
       limit,
       category,
+      language,
     },
   });
 
@@ -28,6 +31,15 @@ export const getProductsAction = async (
     ...product,
     image: `${import.meta.env.VITE_API_URL}${product.image}`,
   }));
+
+  if (language) {
+    return {
+      ...data,
+      products: productsWithImages.filter(
+        (product) => product.language === language,
+      ),
+    };
+  }
 
   return {
     ...data,

@@ -14,4 +14,5 @@ export const useCategoryTranslation = (category: Category): string => {
     case 'VEGAN':
       return t('products.vegan');
   }
+  return '';
 };
