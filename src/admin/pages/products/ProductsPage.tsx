@@ -1,4 +1,4 @@
-import { MdStorefront } from 'react-icons/md';
+import { MdOutlineSearch, MdStorefront } from 'react-icons/md';
 import { useI18n } from '../../../i18n';
 import { useProducts } from './hooks/useProducts';
 import type { Product } from './interfaces/products-api-response.interface';
@@ -21,6 +21,7 @@ export const ProductsPage = () => {
   );
 
   const productsData: Product[] = data?.products || [];
+  const totalResults = data?.total || 0;
 
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
@@ -66,6 +67,7 @@ export const ProductsPage = () => {
           <MdStorefront /> {t('menu.products')}
         </h1>
 
+        {/* FILTROS */}
         <div className='flex flex-row justify-between items-center'>
           <div className='flex gap-2'>
             <button
@@ -100,7 +102,7 @@ export const ProductsPage = () => {
             </button>
           </div>
 
-          <div className='flex items-center'>
+          <div className='flex items-center gap-2'>
             <button
               className={`btn ${language === 'es' ? 'btn-outline' : 'btn-soft'} `}
               onClick={() => handleLanguageFilter('es')}
@@ -130,7 +132,16 @@ export const ProductsPage = () => {
           </div>
 
           <div className='flex gap-2 items-center'>
-            <button className='btn  btn-neutral'>Buscador</button>
+            <button className='btn  btn-neutral'>
+              <MdOutlineSearch /> Buscador
+            </button>
+          </div>
+
+          <div className='flex items-center gap-2'>
+            <span>Resultados</span>
+            <span className='badge badge-outline badge-accent'>
+              {totalResults}
+            </span>
           </div>
         </div>
 
@@ -144,7 +155,9 @@ export const ProductsPage = () => {
           <Spinner />
         ) : (
           <div className='card bg-base-300 border border-gray-600 rounded-t-lg'>
-            <div className='overflow-x-auto'>
+            <div
+              className={`overflow-x-auto ${customLimit === 1000 ? 'max-h-150' : ''}`}
+            >
               <table className='table table-zebra '>
                 <thead>
                   <tr className='bg-white/10 text-white'>

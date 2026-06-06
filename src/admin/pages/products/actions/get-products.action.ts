@@ -33,11 +33,13 @@ export const getProductsAction = async (
   }));
 
   if (language) {
+    const filteredProducts = productsWithImages.filter(
+      (product) => product.language === language,
+    );
     return {
       ...data,
-      products: productsWithImages.filter(
-        (product) => product.language === language,
-      ),
+      total: filteredProducts.length,
+      products: filteredProducts,
     };
   }
 
