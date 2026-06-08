@@ -1,26 +1,23 @@
 import { leChatonApi } from '../../../../api/leChatonApi';
 import type { ProductsApiResponse } from '../interfaces/products-api-response.interface';
-import type { Category } from '../types/category.type';
-import type { Language } from '../types/language.type';
 
 interface Options {
-  page?: number | string;
   limit?: number | string;
-  category?: Category | string;
-  language?: Language;
+  id?: string;
+  slug?: string;
+  title?: string;
 }
 
-export const getProductsAction = async (
+export const getProductByArgumentAction = async (
   options: Options,
 ): Promise<ProductsApiResponse> => {
-  const { page, limit, category, language } = options;
-
+  const { limit, id, slug, title } = options;
   const { data } = await leChatonApi.get<ProductsApiResponse>('/api/products', {
     params: {
-      page,
       limit,
-      category,
-      language,
+      id,
+      slug,
+      title,
     },
   });
 
@@ -29,13 +26,35 @@ export const getProductsAction = async (
     image: `${import.meta.env.VITE_API_URL}${product.image}`,
   }));
 
-  if (language) {
-    const filteredProducts = productsWithImages.filter(
-      (product) => product.language === language,
+  if (id) {
+    const filteredProducts = productsWithImages.filter((product) =>
+      product?.id.includes(id),
     );
     return {
       ...data,
-      total: filteredProducts.length,
+      limit: 1000,
+      products: filteredProducts,
+    };
+  }
+
+  if (slug) {
+    const filteredProducts = productsWithImages.filter(
+      (product) => product?.slug === slug,
+    );
+    return {
+      ...data,
+      limit: 1000,
+      products: filteredProducts,
+    };
+  }
+
+  if (title) {
+    const filteredProducts = productsWithImages.filter((product) =>
+      product?.title.toLowerCase().includes(title.toLowerCase()),
+    );
+    return {
+      ...data,
+      limit: 1000,
       products: filteredProducts,
     };
   }

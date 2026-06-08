@@ -1,4 +1,8 @@
-import { MdOutlineSearch, MdStorefront } from 'react-icons/md';
+import {
+  MdOutlineFilterAltOff,
+  MdOutlineSearch,
+  MdStorefront,
+} from 'react-icons/md';
 import { useI18n } from '../../../i18n';
 import { useProducts } from './hooks/useProducts';
 import type { Product } from './interfaces/products-api-response.interface';
@@ -8,6 +12,7 @@ import { useState } from 'react';
 import type { Category } from './types/category.type';
 import { useCategoryTranslation } from './hooks/useCategoryTranslation';
 import type { Language } from './types/language.type';
+import { useProductByArgument } from './hooks/useProductByArgument';
 
 export const ProductsPage = () => {
   const { t } = useI18n();
@@ -19,6 +24,13 @@ export const ProductsPage = () => {
     customCategory,
     language,
   );
+
+  const {
+    data: dataArgument,
+    isLoading: isLoadingArgument,
+    error: errorArgument,
+  } = useProductByArgument('', '', 'chocolate');
+  console.log(dataArgument?.products, isLoadingArgument, errorArgument);
 
   const productsData: Product[] = data?.products || [];
   const totalResults = data?.total || 0;
@@ -69,79 +81,91 @@ export const ProductsPage = () => {
 
         {/* FILTROS */}
         <div className='flex flex-row justify-between items-center'>
-          <div className='flex gap-2'>
+          <div className='flex gap-15 items-center'>
             <button
-              className={`btn btn-warning ${customCategory === 'CAKES' ? 'btn-outline' : 'btn-soft'}`}
-              onClick={() => handleCategoryFilter('CAKES')}
+              className='btn btn-neutral'
+              onClick={() => {
+                const dialog = document.getElementById(
+                  'searcher',
+                ) as HTMLDialogElement | null;
+                dialog?.showModal();
+              }}
             >
-              {useCategoryTranslation('CAKES')}
+              <MdOutlineSearch /> {t('common.searcher')}
             </button>
+
+            <div className='flex items-center gap-1'>
+              <button
+                className={`btn btn-warning ${customCategory === 'CAKES' ? 'btn-outline' : 'btn-soft'}`}
+                onClick={() => handleCategoryFilter('CAKES')}
+              >
+                {useCategoryTranslation('CAKES')}
+              </button>
+              <button
+                className={`btn btn-info ${customCategory === 'BISCUITS' ? 'btn-outline' : 'btn-soft'}`}
+                onClick={() => handleCategoryFilter('BISCUITS')}
+              >
+                {useCategoryTranslation('BISCUITS')}
+              </button>
+              <button
+                className={`btn  btn-primary ${customCategory === 'ROSCONES' ? 'btn-outline' : 'btn-soft'}`}
+                onClick={() => handleCategoryFilter('ROSCONES')}
+              >
+                {useCategoryTranslation('ROSCONES')}
+              </button>
+              <button
+                className={`btn  btn-success ${customCategory === 'VEGAN' ? 'btn-outline' : 'btn-soft'}`}
+                onClick={() => handleCategoryFilter('VEGAN')}
+              >
+                {useCategoryTranslation('VEGAN')}
+              </button>
+            </div>
+
+            <div className='flex items-center gap-1'>
+              <button
+                className={`btn ${language === 'es' ? 'btn-outline' : 'btn-soft'} `}
+                onClick={() => handleLanguageFilter('es')}
+              >
+                <img
+                  src='/images/spain-flag.png'
+                  alt='Spain flag icon'
+                  className='h-5'
+                />
+              </button>
+              <button
+                className={`btn ${language === 'en' ? 'btn-outline' : 'btn-soft'} `}
+                onClick={() => handleLanguageFilter('en')}
+              >
+                <img
+                  src='/images/uk-flag.png'
+                  alt='UK flag icon'
+                  className='h-5'
+                />
+              </button>
+              <button
+                className='btn btn-soft btn-neutral text-base-content'
+                onClick={() => handleLanguageFilter('')}
+              >
+                {t('common.all')}
+              </button>
+            </div>
+          </div>
+
+          <div className='flex items-center gap-5'>
+            <div className='flex items-center gap-2'>
+              <span className='text-sm'>{t('common.results')}</span>
+              <span className='badge badge-outline badge-accent'>
+                {totalResults}
+              </span>
+            </div>
+
             <button
-              className={`btn btn-info ${customCategory === 'BISCUITS' ? 'btn-outline' : 'btn-soft'}`}
-              onClick={() => handleCategoryFilter('BISCUITS')}
-            >
-              {useCategoryTranslation('BISCUITS')}
-            </button>
-            <button
-              className={`btn  btn-primary ${customCategory === 'ROSCONES' ? 'btn-outline' : 'btn-soft'}`}
-              onClick={() => handleCategoryFilter('ROSCONES')}
-            >
-              {useCategoryTranslation('ROSCONES')}
-            </button>
-            <button
-              className={`btn  btn-success ${customCategory === 'VEGAN' ? 'btn-outline' : 'btn-soft'}`}
-              onClick={() => handleCategoryFilter('VEGAN')}
-            >
-              {useCategoryTranslation('VEGAN')}
-            </button>
-            <button
-              className='btn btn-soft btn-neutral text-base-content'
+              className='btn btn-neutral'
+              disabled={customCategory === '' && language === ''}
               onClick={() => handleCategoryFilter('')}
             >
-              Todos
+              <MdOutlineFilterAltOff /> {t('common.restoreFilters')}
             </button>
-          </div>
-
-          <div className='flex items-center gap-2'>
-            <button
-              className={`btn ${language === 'es' ? 'btn-outline' : 'btn-soft'} `}
-              onClick={() => handleLanguageFilter('es')}
-            >
-              <img
-                src='/images/spain-flag.png'
-                alt='Spain flag icon'
-                className='h-5'
-              />
-            </button>
-            <button
-              className={`btn ${language === 'en' ? 'btn-outline' : 'btn-soft'} `}
-              onClick={() => handleLanguageFilter('en')}
-            >
-              <img
-                src='/images/uk-flag.png'
-                alt='UK flag icon'
-                className='h-5'
-              />
-            </button>
-            <button
-              className='btn btn-soft btn-neutral text-base-content'
-              onClick={() => handleLanguageFilter('')}
-            >
-              Reset
-            </button>
-          </div>
-
-          <div className='flex gap-2 items-center'>
-            <button className='btn  btn-neutral'>
-              <MdOutlineSearch /> Buscador
-            </button>
-          </div>
-
-          <div className='flex items-center gap-2'>
-            <span>Resultados</span>
-            <span className='badge badge-outline badge-accent'>
-              {totalResults}
-            </span>
           </div>
         </div>
 
@@ -252,13 +276,17 @@ export const ProductsPage = () => {
             <Paginator totalPages={totalPages} />
 
             <div className='flex gap-2 items-center'>
-              <span className='text-sm'>Resultados por página</span>
+              <span className='text-sm'>{t('common.resultsPerPage')}</span>
               <input
                 type='number'
-                placeholder='Introduzca límite...'
+                placeholder={`${t('commonn.enterLimit')}...`}
                 className='input w-18 text-center'
                 value={customLimit}
-                onChange={(e) => setCustomLimit(Number(e.target.value))}
+                onChange={(e) => {
+                  const limit = e.target.value;
+                  if (!limit || limit === '0') return;
+                  setCustomLimit(Number(limit));
+                }}
               />
             </div>
           </div>
@@ -322,6 +350,28 @@ export const ProductsPage = () => {
           </div>
         </dialog>
       ))}
+
+      {/* Modal for Searcher */}
+      <dialog id='searcher' className='modal'>
+        <div className='modal-box'>
+          <h3 className='font-bold text-xl text-white'>
+            {t('common.searcher')}
+          </h3>
+          <div className='py-4'>
+            <input
+              type='text'
+              placeholder='Buscar por ID, slug....'
+              className='input input-xl w-full'
+            />
+          </div>
+
+          <div className='modal-action'>
+            <form method='dialog'>
+              <button className='btn'>Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </>
   );
 };

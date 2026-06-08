@@ -1,6 +1,12 @@
 {
   "common": {
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "all": "Todos",
+    "restoreFilters": "Restaurar filtros",
+    "results": "Resultados",
+    "searcher": "Buscador",
+    "resultsPerPage": "Resultados por página",
+    "enterLimit": "Introduzca límite"
   },
   "menu": {
     "products": "Productos",

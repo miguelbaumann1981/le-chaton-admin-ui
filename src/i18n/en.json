@@ -1,6 +1,12 @@
 {
   "common": {
-    "close": "Close"
+    "close": "Close",
+    "all": "All",
+    "restoreFilters": "Restore filters",
+    "results": "Results",
+    "searcher": "Searcher",
+    "resultsPerPage": "Results per page",
+    "enterLimit": "Enter limit"
   },
   "menu": {
     "products": "Products",
@@ -16,7 +22,7 @@
     "viewAllNotifications": "View all"
   },
   "orders": {
-    "canceled": "Cancel",
+    "canceled": "Canceled",
     "registered": "Registered",
     "inProgress": "In progress",
     "delivered": "Delivered"
