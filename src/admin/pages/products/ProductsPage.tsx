@@ -12,7 +12,7 @@ import { useState } from 'react';
 import type { Category } from './types/category.type';
 import { useCategoryTranslation } from './hooks/useCategoryTranslation';
 import type { Language } from './types/language.type';
-import { useProductByArgument } from './hooks/useProductByArgument';
+import { SearchProductModal } from './components/SearchProductModal';
 
 export const ProductsPage = () => {
   const { t } = useI18n();
@@ -24,13 +24,6 @@ export const ProductsPage = () => {
     customCategory,
     language,
   );
-
-  const {
-    data: dataArgument,
-    isLoading: isLoadingArgument,
-    error: errorArgument,
-  } = useProductByArgument('', '', 'chocolate');
-  console.log(dataArgument?.products, isLoadingArgument, errorArgument);
 
   const productsData: Product[] = data?.products || [];
   const totalResults = data?.total || 0;
@@ -79,7 +72,7 @@ export const ProductsPage = () => {
           <MdStorefront /> {t('menu.products')}
         </h1>
 
-        {/* FILTROS */}
+        {/* FILTERS */}
         <div className='flex flex-row justify-between items-center'>
           <div className='flex gap-15 items-center'>
             <button
@@ -175,8 +168,11 @@ export const ProductsPage = () => {
           </div>
         )}
 
+        {/* RESULTS */}
         {isLoading && !error ? (
-          <Spinner />
+          <div className='w-full h-75 flex flex-col items-center justify-center'>
+            <Spinner />
+          </div>
         ) : (
           <div className='card bg-base-300 border border-gray-600 rounded-t-lg'>
             <div
@@ -271,6 +267,7 @@ export const ProductsPage = () => {
           </div>
         )}
 
+        {/* PAGINATOR */}
         {totalPages > 1 && (
           <div className='flex justify-between items-center my-4 border-t-gray-600'>
             <Paginator totalPages={totalPages} />
@@ -293,6 +290,7 @@ export const ProductsPage = () => {
         )}
       </div>
 
+      {/* MODAL FOR PRODUCT */}
       {productsData.map((product) => (
         <dialog key={product.id} id={product.id} className='modal'>
           <div className='modal-box flex flex-col gap-4'>
@@ -352,26 +350,7 @@ export const ProductsPage = () => {
       ))}
 
       {/* Modal for Searcher */}
-      <dialog id='searcher' className='modal'>
-        <div className='modal-box'>
-          <h3 className='font-bold text-xl text-white'>
-            {t('common.searcher')}
-          </h3>
-          <div className='py-4'>
-            <input
-              type='text'
-              placeholder='Buscar por ID, slug....'
-              className='input input-xl w-full'
-            />
-          </div>
-
-          <div className='modal-action'>
-            <form method='dialog'>
-              <button className='btn'>Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <SearchProductModal />
     </>
   );
 };

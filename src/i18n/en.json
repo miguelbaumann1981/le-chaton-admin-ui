@@ -1,12 +1,18 @@
 {
   "common": {
     "close": "Close",
+    "reset": "Reset",
+    "search": "Search",
     "all": "All",
     "restoreFilters": "Restore filters",
     "results": "Results",
     "searcher": "Searcher",
     "resultsPerPage": "Results per page",
-    "enterLimit": "Enter limit"
+    "enterLimit": "Enter limit",
+    "searchById": "Search by ID",
+    "searchBySlug": "Search by slug",
+    "searchByTitle": "Search by name",
+    "serverError": "Server error, please try later"
   },
   "menu": {
     "products": "Products",
@@ -55,7 +61,8 @@
     "category": "Category",
     "language": "Language",
     "name": "Name",
-    "noProducts": "No products available"
+    "noProducts": "No products available",
+    "noResults": "Results not found"
   },
   "CAKES": "Cakes",
   "BISCUITS": "Biscuits",

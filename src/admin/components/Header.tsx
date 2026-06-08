@@ -1,7 +1,7 @@
 import { MdFace, MdStorefront } from 'react-icons/md';
 import { MdEmail } from 'react-icons/md';
 import { MdLibraryBooks } from 'react-icons/md';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { useI18n } from '../../i18n';
 
 interface MenuItem {
@@ -35,6 +35,13 @@ export const Header = () => {
       icon: <MdEmail />,
     },
   ];
+  const { pathname } = useLocation();
+  const isActiveRoute = (to: string) => {
+    if (pathname.includes('/products/') && to === '/products') {
+      return true;
+    }
+    return pathname === to;
+  };
 
   return (
     <header className='navbar bg-primary-content shadow-sm'>
@@ -87,7 +94,10 @@ export const Header = () => {
               key={item.name}
               className='text-xl px-4 flex items-center gap-2'
             >
-              <Link to={item.url}>
+              <Link
+                to={item.url}
+                className={`${isActiveRoute(item.url) ? 'bg-neutral text-white' : ''}`}
+              >
                 {item.icon}
                 <span>{item.name}</span>
               </Link>

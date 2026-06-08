@@ -1,6 +1,6 @@
 export const Spinner = () => {
   return (
-    <div className='flex items-center justify-center gap-2 min-h-75'>
+    <div className='flex items-center justify-center gap-2'>
       <span className='loading loading-spinner loading-xl text-primary'></span>
       <span className='loading loading-spinner loading-xl text-secondary'></span>
       <span className='loading loading-spinner loading-xl text-accent'></span>
