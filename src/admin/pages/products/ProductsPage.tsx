@@ -88,6 +88,7 @@ export const ProductsPage = () => {
               <MdOutlineSearch /> {t('common.searcher')}
             </button>
 
+            {/* CATEGORIES */}
             <div className='flex items-center gap-1'>
               <button
                 className={`btn btn-warning ${customCategory === 'CAKES' ? 'btn-outline' : 'btn-soft'}`}

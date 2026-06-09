@@ -3,6 +3,7 @@
     "close": "Close",
     "reset": "Reset",
     "search": "Search",
+    "back": "Back",
     "all": "All",
     "restoreFilters": "Restore filters",
     "results": "Results",
@@ -12,7 +13,8 @@
     "searchById": "Search by ID",
     "searchBySlug": "Search by slug",
     "searchByTitle": "Search by name",
-    "serverError": "Server error, please try later"
+    "serverError": "Server error, please try later",
+    "noApply": "No apply"
   },
   "menu": {
     "products": "Products",
@@ -65,7 +67,12 @@
     "noResults": "Results not found",
     "byId": "By ID",
     "bySlug": "By slug",
-    "byTitle": "By name"
+    "byTitle": "By name",
+    "ingredients": "Ingredients",
+    "slug": "Slug",
+    "description": "Description",
+    "pack": "Pack",
+    "weight": "Weight"
   },
   "CAKES": "Cakes",
   "BISCUITS": "Biscuits",

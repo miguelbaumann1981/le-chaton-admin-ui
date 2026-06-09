@@ -3,6 +3,7 @@
     "close": "Cerrar",
     "reset": "Limpiar",
     "search": "Buscar",
+    "back": "Volver",
     "all": "Todos",
     "restoreFilters": "Restaurar filtros",
     "results": "Resultados",
@@ -12,7 +13,8 @@
     "searchById": "Buscar por ID",
     "searchBySlug": "Buscar por ruta",
     "searchByTitle": "Buscar por nombre",
-    "serverError": "Error de servidor. Vuelva a intentarlo más tarde"
+    "serverError": "Error de servidor. Vuelva a intentarlo más tarde",
+    "noApply": "No aplica"
   },
   "menu": {
     "products": "Productos",
@@ -65,7 +67,12 @@
     "noResults": "No se encuentran resultados",
     "byId": "Por ID",
     "bySlug": "Por ruta",
-    "byTitle": "Por nombre"
+    "byTitle": "Por nombre",
+    "ingredients": "Ingredientes",
+    "slug": "Segmento de ruta",
+    "description": "Descripción",
+    "pack": "Paquete",
+    "weight": "Peso"
   },
   "CAKES": "Tartas",
   "BISCUITS": "Galletas",
