@@ -6,6 +6,7 @@ import { ProductsPage } from './admin/pages/products/ProductsPage';
 import { UsersPage } from './admin/pages/users/UsersPage';
 import { OrdersPage } from './admin/pages/orders/OrdersPage';
 import { NotificationsPage } from './admin/pages/notifications/NotificationsPage';
+import { ProductFormPage } from './admin/pages/product-form/ProductFormPage';
 
 const AuthLayout = lazy(() => import('./auth/layout/AuthLayout'));
 const AdminLayout = lazy(() => import('./admin/layout/AdminLayout'));
@@ -36,6 +37,10 @@ export const appRouter = createBrowserRouter([
       {
         path: 'products',
         element: <ProductsPage />,
+      },
+      {
+        path: 'product/:slug',
+        element: <ProductFormPage />,
       },
       {
         path: 'users',

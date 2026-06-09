@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { useI18n } from '../../../../i18n';
 import { useProductByArgument } from '../hooks/useProductByArgument';
-// import { useNavigate } from 'react-router';
 import type { Product } from '../interfaces/products-api-response.interface';
 import { Spinner } from '../../../components/Spinner';
 import { Link } from 'react-router';
@@ -9,10 +8,13 @@ import { MdOutlineWarning } from 'react-icons/md';
 
 type SearchMode = 'id' | 'slug' | 'title' | '';
 
-export const SearchProductModal = () => {
+interface Props {
+  idRef: string;
+}
+
+export const SearchProductModal = ({ idRef }: Props) => {
   const { t } = useI18n();
   const search = useRef<HTMLInputElement>(null);
-  // const navigate = useNavigate();
   const [searchMode, setSearchMode] = useState<SearchMode>('');
   const [querySearch, setQuerySearch] = useState<string>('');
   const [placeholder, setPlaceholder] = useState<string>(t('common.search'));
@@ -85,7 +87,7 @@ export const SearchProductModal = () => {
   };
 
   return (
-    <dialog id='searcher' className='modal'>
+    <dialog id={idRef} className='modal'>
       <div className='modal-box flex flex-col gap-3'>
         <h3 className='font-bold text-xl text-white mb-3'>
           {t('common.searcher')}
@@ -101,7 +103,7 @@ export const SearchProductModal = () => {
               value='id'
               onChange={() => handleRadioSelection('id')}
             />
-            <span>Por ID</span>
+            <span>{t('products.byId')}</span>
           </div>
 
           <div className='flex items-center gap-2'>
@@ -112,7 +114,7 @@ export const SearchProductModal = () => {
               value='slug'
               onChange={() => handleRadioSelection('slug')}
             />
-            <span>Por slug</span>
+            <span>{t('products.bySlug')}</span>
           </div>
 
           <div className='flex items-center gap-2'>
@@ -123,7 +125,7 @@ export const SearchProductModal = () => {
               value='title'
               onChange={() => handleRadioSelection('title')}
             />
-            <span>Por nombre</span>
+            <span>{t('products.byTitle')}</span>
           </div>
         </div>
 
@@ -154,19 +156,28 @@ export const SearchProductModal = () => {
               {results.map((product) => (
                 <li key={product?.id}>
                   {searchMode === 'id' && (
-                    <Link className='custom-link' to={'/'}>
+                    <Link
+                      className='custom-link'
+                      to={`/product/${product?.slug}`}
+                    >
                       {' '}
                       {product?.id}{' '}
                     </Link>
                   )}
                   {searchMode === 'slug' && (
-                    <Link className='custom-link' to={'/'}>
+                    <Link
+                      className='custom-link'
+                      to={`/product/${product?.slug}`}
+                    >
                       {' '}
                       {product?.slug}{' '}
                     </Link>
                   )}
                   {searchMode === 'title' && (
-                    <Link className='custom-link' to={'/'}>
+                    <Link
+                      className='custom-link'
+                      to={`/product/${product?.slug}`}
+                    >
                       {' '}
                       {product?.title}{' '}
                     </Link>

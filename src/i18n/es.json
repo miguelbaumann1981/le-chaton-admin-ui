@@ -10,7 +10,7 @@
     "resultsPerPage": "Resultados por página",
     "enterLimit": "Introduzca límite",
     "searchById": "Buscar por ID",
-    "searchBySlug": "Buscar por slug",
+    "searchBySlug": "Buscar por ruta",
     "searchByTitle": "Buscar por nombre",
     "serverError": "Error de servidor. Vuelva a intentarlo más tarde"
   },
@@ -62,7 +62,10 @@
     "language": "Idioma",
     "name": "Nombre",
     "noProducts": "No hay productos disponibles",
-    "noResults": "No se encuentran resultados"
+    "noResults": "No se encuentran resultados",
+    "byId": "Por ID",
+    "bySlug": "Por ruta",
+    "byTitle": "Por nombre"
   },
   "CAKES": "Tartas",
   "BISCUITS": "Galletas",

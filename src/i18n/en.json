@@ -62,7 +62,10 @@
     "language": "Language",
     "name": "Name",
     "noProducts": "No products available",
-    "noResults": "Results not found"
+    "noResults": "Results not found",
+    "byId": "By ID",
+    "bySlug": "By slug",
+    "byTitle": "By name"
   },
   "CAKES": "Cakes",
   "BISCUITS": "Biscuits",
