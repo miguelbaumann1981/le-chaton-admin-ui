@@ -34,7 +34,14 @@
     "canceled": "Canceled",
     "registered": "Registered",
     "inProgress": "In progress",
-    "delivered": "Delivered"
+    "delivered": "Delivered",
+    "idOrder": "Order ID",
+    "orderDate": "Order date",
+    "userId": "User ID",
+    "name": "Name",
+    "state": "State",
+    "noOrders": "No orders available",
+    "details": "Order details"
   },
   "graphics": {
     "quantityProducts": "Quantity of products per order",
@@ -59,6 +66,7 @@
     "roscones": "Roscones",
     "vegan": "Vegan",
     "idProduct": "Product ID",
+    "id": "ID",
     "product": "Product",
     "price": "Price",
     "category": "Category",

@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 import { useI18n } from '../../../../i18n';
 import { NotificationCardDashboard } from './NotificationCardDashboard';
-import { useLatestNotifications } from '../../../hooks/useLatestNotifications';
-import type { NotificationLog } from '../../../interfaces/notification-log.interface';
+import { useLatestNotifications } from '../hooks/useLatestNotifications';
+import type { NotificationLog } from '../interfaces/notification-log.interface';
 
 export const NotificationsSection = () => {
   const { t } = useI18n();

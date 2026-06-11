@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getProductBySlug } from '../actions/get-product-by-slug.action';
 
-export const useProductById = (slug: string) => {
+export const useProductBySlug = (slug: string) => {
   return useQuery({
     queryKey: ['product by slug', slug],
     queryFn: async () => {

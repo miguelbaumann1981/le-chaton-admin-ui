@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 import { useI18n } from '../../../../i18n';
-import { useLatestOrders } from '../../../hooks/useLatestOrders';
+import { useLatestOrders } from '../hooks/useLatestOrders';
 import { OrderCardDashboard } from './OrderCardDashboard';
-import type { Order } from '../../../interfaces/order.interface';
+import type { Order } from '../../orders/interfaces/order.interface';
 
 export const OrdersSection = () => {
   const { t } = useI18n();
@@ -19,16 +19,7 @@ export const OrdersSection = () => {
 
       <div className='grid grid-cols-3 gap-3'>
         {data?.orders.map((order: Order) => (
-          <OrderCardDashboard
-            key={order.id}
-            id={order.id}
-            description={order?.description}
-            orderDate={order?.orderDate}
-            userId={order?.userId}
-            totalPrice={order?.totalPrice}
-            status={order?.status}
-            details={order?.details}
-          />
+          <OrderCardDashboard key={order.id} {...order} />
         ))}
       </div>
     </div>

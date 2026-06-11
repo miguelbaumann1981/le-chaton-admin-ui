@@ -1,9 +1,9 @@
-import { useNotificationActionDescription } from '../../../hooks/useNotificationActionDescription';
-import { useNotificationActionStyle } from '../../../hooks/useNotificationActionStyle';
-import { useNotificationActionText } from '../../../hooks/useNotificationActionText';
+import { useNotificationActionDescription } from '../hooks/useNotificationActionDescription';
+import { useNotificationActionStyle } from '../hooks/useNotificationActionStyle';
+import { useNotificationActionText } from '../hooks/useNotificationActionText';
 import { MdInfo } from 'react-icons/md';
-import { useNotificationColor } from '../../../hooks/useNotificationColor';
-import type { NotificationLog } from '../../../interfaces/notification-log.interface';
+import { useNotificationColor } from '../hooks/useNotificationColor';
+import type { NotificationLog } from '../interfaces/notification-log.interface';
 
 export const NotificationCardDashboard = ({
   id,

@@ -34,7 +34,14 @@
     "canceled": "Cancelado",
     "registered": "Registrado",
     "inProgress": "En progreso",
-    "delivered": "Entregado"
+    "delivered": "Entregado",
+    "idOrder": "ID pedido",
+    "orderDate": "Fecha de pedido",
+    "userId": "ID usuario",
+    "name": "Nombre",
+    "state": "Estado",
+    "noOrders": "No hay pedidos disponibles",
+    "details": "Detalle del pedido"
   },
   "graphics": {
     "quantityProducts": "Cantidad de productos por pedido",
@@ -59,6 +66,7 @@
     "roscones": "Roscones",
     "vegan": "Vegano",
     "idProduct": "ID producto",
+    "id": "ID",
     "product": "Producto",
     "price": "Precio",
     "category": "Categoría",

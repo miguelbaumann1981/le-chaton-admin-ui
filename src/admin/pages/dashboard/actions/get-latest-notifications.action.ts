@@ -1,4 +1,4 @@
-import { leChatonApi } from '../../api/leChatonApi';
+import { leChatonApi } from '../../../../api/leChatonApi';
 import type { NotificationLog } from '../interfaces/notification-log.interface';
 
 export const getLatestNotificationsAction = async (

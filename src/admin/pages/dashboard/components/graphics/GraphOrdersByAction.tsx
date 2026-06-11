@@ -6,9 +6,9 @@ import {
   Sector,
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
-import { useOrdersByAction } from '../../../../hooks/useOrdersByAction';
-import type { OrdersByAction } from '../../../../interfaces/orders-by-action.interface';
-import { useNotificationActionText } from '../../../../hooks/useNotificationActionText';
+import { useOrdersByAction } from '../../hooks/useOrdersByAction';
+import type { OrdersByAction } from '../../interfaces/orders-by-action.interface';
+import { useNotificationActionText } from '../../hooks/useNotificationActionText';
 import { useI18n } from '../../../../../i18n';
 
 // #endregion

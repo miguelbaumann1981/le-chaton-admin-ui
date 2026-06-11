@@ -1,8 +1,7 @@
 import { useParams } from 'react-router';
-import { useProductByArgument } from '../products/hooks/useProductByArgument';
 import type { Product } from '../products/interfaces/products-api-response.interface';
 import { useI18n } from '../../../i18n';
-import { MdCake } from 'react-icons/md';
+import { MdOutlinePlaylistAddCheck, MdOutlineSearch } from 'react-icons/md';
 import { CategoriesProductForm } from './components/CategoriesProductForm';
 import { LanguagesProductForm } from './components/LanguagesProductForm';
 import { IngredientsProductForm } from './components/IngredientsProductForm';
@@ -10,20 +9,19 @@ import type { Language } from '../products/types/language.type';
 import { useState } from 'react';
 import { Spinner } from '../../components/Spinner';
 import { SearchProductModal } from '../products/components/SearchProductModal';
+import { useProductBySlug } from '../products/hooks/useProductBySlug';
 
 export const ProductFormPage = () => {
   const { t } = useI18n();
-  // const navigate = useNavigate();
   const { slug } = useParams();
-  const { data, isLoading, error } = useProductByArgument('', slug);
+  const { data, isLoading, error } = useProductBySlug(slug || '');
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('');
 
-  const product: Product = data?.products[0] || ({} as Product);
+  const product: Product = data || ({} as Product);
   const activeLang: Language = product?.language ?? selectedLanguage;
   const styleInputs: string = 'bg-base-300 text-white';
 
   const handleReturn = () => {
-    // navigate('/products');
     const dialog = document.getElementById(
       'repeatSearch',
     ) as HTMLDialogElement | null;
@@ -45,11 +43,11 @@ export const ProductFormPage = () => {
           {/* TITLE */}
           <div className='flex items-center justify-between'>
             <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
-              <MdCake /> {product?.title}
+              <MdOutlinePlaylistAddCheck /> {product?.title}
             </h1>
 
             <button className='btn btn-neutral' onClick={() => handleReturn()}>
-              {t('common.back')}
+              <MdOutlineSearch /> {t('common.searcher')}
             </button>
           </div>
 

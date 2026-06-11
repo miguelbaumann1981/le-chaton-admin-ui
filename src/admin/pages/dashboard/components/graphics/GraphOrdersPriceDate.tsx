@@ -8,8 +8,8 @@ import {
   Legend,
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
-import { useOrdersPriceDate } from '../../../../hooks/useOrdersPriceDate';
-import type { OrdersPriceDate } from '../../../../interfaces/orders-price-date.inteface';
+import { useOrdersPriceDate } from '../../hooks/useOrdersPriceDate';
+import type { OrdersPriceDate } from '../../interfaces/orders-price-date.inteface';
 import { useI18n } from '../../../../../i18n';
 
 interface PriceMonth {

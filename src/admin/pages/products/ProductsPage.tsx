@@ -32,7 +32,7 @@ export const ProductsPage = () => {
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
 
-  const handleBadgeCategory = (category: string) => {
+  const handleBadgeCategory = (category: Category) => {
     switch (category) {
       case 'CAKES':
         return 'badge-warning';
@@ -180,7 +180,7 @@ export const ProductsPage = () => {
             <div
               className={`overflow-x-auto ${customLimit === 1000 ? 'max-h-150' : ''}`}
             >
-              <table className='table table-zebra '>
+              <table className='table table-zebra'>
                 <thead>
                   <tr className='bg-white/10 text-white'>
                     <th className='border-b-gray-600'>

@@ -1,5 +1,5 @@
-import { useI18n } from '../../i18n';
-import type { OrderStatus } from '../types/order-status.type';
+import { useI18n } from '../../../../i18n';
+import type { OrderStatus } from '../../orders/types/order-status.type';
 
 export const useOrderStatusText = (status: OrderStatus): string => {
   const { t } = useI18n();
@@ -14,4 +14,5 @@ export const useOrderStatusText = (status: OrderStatus): string => {
     case 3:
       return t('orders.delivered');
   }
+  return '';
 };

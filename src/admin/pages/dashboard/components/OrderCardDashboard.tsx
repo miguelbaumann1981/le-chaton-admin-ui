@@ -1,21 +1,13 @@
-import { useOrderStatusText } from '../../../hooks/useOrderStatusText';
-import { useOrderStatusStyle } from '../../../hooks/useOrderStatusStyle';
-import type { Order } from '../../../interfaces/order.interface';
-import { OrderDetailsCard } from './OrderDetailsCard';
+import { useOrderStatusText } from '../hooks/useOrderStatusText';
+import { useOrderStatusStyle } from '../hooks/useOrderStatusStyle';
+import type { Order } from '../../orders/interfaces/order.interface';
+import { OrderDetailsModal } from '../../orders/components/OrderDetailsModal';
 
-export const OrderCardDashboard = ({
-  id,
-  orderDate,
-  userId,
-  description,
-  totalPrice,
-  status,
-  details,
-}: Order) => {
-  const statusText = useOrderStatusText(status);
-  const statusStyle = useOrderStatusStyle(status);
+export const OrderCardDashboard = (order: Order) => {
+  const statusText = useOrderStatusText(order?.status);
+  const statusStyle = useOrderStatusStyle(order?.status);
 
-  const displayDate = new Date(orderDate).toLocaleDateString();
+  const displayDate = new Date(order?.orderDate).toLocaleDateString();
 
   return (
     <>
@@ -23,17 +15,17 @@ export const OrderCardDashboard = ({
         className='card bg-base-300 border border-gray-600 cursor-pointer hover:bg-base-100 transition-colors'
         onClick={() => {
           const dialog = document.getElementById(
-            id,
+            order?.id,
           ) as HTMLDialogElement | null;
           dialog?.showModal();
         }}
       >
         <div className='card-body'>
-          <h2 className='card-title text-base-content'>{description}</h2>
+          <h2 className='card-title text-base-content'>{order?.description}</h2>
           <p>{displayDate}</p>
           <div className='flex items-center justify-between mt-3'>
             <div className='badge badge-info text-base'>
-              {totalPrice?.toFixed(2)} €
+              {order?.totalPrice?.toFixed(2)} €
             </div>
             <div className={`badge badge-soft font-medium ${statusStyle}`}>
               {statusText}
@@ -42,49 +34,7 @@ export const OrderCardDashboard = ({
         </div>
       </div>
 
-      <dialog id={id} className='modal'>
-        <div className='modal-box flex flex-col gap-2'>
-          <div className='flex items-center justify-between py-2'>
-            <h3 className='font-bold text-lg'>{description}</h3>
-            <div className={`badge badge-soft font-medium ${statusStyle}`}>
-              {statusText}
-            </div>
-          </div>
-
-          <div className='badge badge-info'>{totalPrice?.toFixed(2)} €</div>
-
-          <div className='flex text-sm'>
-            <span className='w-25'>ID pedido</span>
-            <span className='text-white'>{id}</span>
-          </div>
-
-          <div className='flex text-sm'>
-            <span className='w-25'>Fecha pedido</span>
-            <span className='text-white'>{displayDate}</span>
-          </div>
-
-          <div className='flex text-sm'>
-            <span className='w-25'>ID usuario</span>
-            <span className='text-white'>{userId}</span>
-          </div>
-
-          {details?.map((detail) => (
-            <OrderDetailsCard
-              key={detail.productId}
-              productId={detail.productId}
-              title={detail.title}
-              price={detail.price}
-              quantity={detail.quantity}
-            />
-          ))}
-
-          <div className='modal-action'>
-            <form method='dialog'>
-              <button className='btn'>Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <OrderDetailsModal {...order} />
     </>
   );
 };

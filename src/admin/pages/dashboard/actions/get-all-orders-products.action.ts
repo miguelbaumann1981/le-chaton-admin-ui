@@ -1,4 +1,4 @@
-import { leChatonApi } from '../../api/leChatonApi';
+import { leChatonApi } from '../../../../api/leChatonApi';
 import type { ProductsOrdersApiResponse } from '../interfaces/products-orders-api-response.interface';
 
 export const getAllOrdersProductsAction =
