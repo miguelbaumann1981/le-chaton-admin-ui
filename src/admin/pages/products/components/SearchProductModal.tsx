@@ -5,8 +5,7 @@ import type { Product } from '../interfaces/products-api-response.interface';
 import { Spinner } from '../../../components/Spinner';
 import { Link } from 'react-router';
 import { MdOutlineWarning } from 'react-icons/md';
-
-type SearchMode = 'id' | 'slug' | 'title' | '';
+import type { SearchMode } from '../types/search-mode.type';
 
 interface Props {
   idRef: string;
@@ -15,6 +14,7 @@ interface Props {
 export const SearchProductModal = ({ idRef }: Props) => {
   const { t } = useI18n();
   const search = useRef<HTMLInputElement>(null);
+
   const [searchMode, setSearchMode] = useState<SearchMode>('');
   const [querySearch, setQuerySearch] = useState<string>('');
   const [placeholder, setPlaceholder] = useState<string>(t('common.search'));
@@ -41,6 +41,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
   const handleRadioSelection = (mode: SearchMode) => {
     if (mode === '') return;
 
+    setDisableReset(true);
     setSearchMode(mode);
     setQuerySearch('');
 
@@ -75,6 +76,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
       search.current.value = '';
       setDisableReset(true);
       setQuerySearch('');
+      localStorage.removeItem('search');
     }
   };
 
@@ -84,6 +86,11 @@ export const SearchProductModal = ({ idRef }: Props) => {
     } else {
       setDisableReset(false);
     }
+  };
+
+  const onCloseDialog = () => {
+    const dialog = document.getElementById(idRef) as HTMLDialogElement | null;
+    dialog?.close();
   };
 
   return (
@@ -154,7 +161,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
             <h4 className='font-semibold'>Resultados</h4>
             <ul className='max-h-75 overflow-auto'>
               {results.map((product) => (
-                <li key={product?.id}>
+                <li key={product?.id} onClick={() => onCloseDialog()}>
                   {searchMode === 'id' && (
                     <Link
                       className='custom-link'
@@ -164,6 +171,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
                       {product?.id}{' '}
                     </Link>
                   )}
+
                   {searchMode === 'slug' && (
                     <Link
                       className='custom-link'
@@ -173,6 +181,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
                       {product?.slug}{' '}
                     </Link>
                   )}
+
                   {searchMode === 'title' && (
                     <Link
                       className='custom-link'

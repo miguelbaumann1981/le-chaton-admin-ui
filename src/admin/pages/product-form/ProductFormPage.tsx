@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useProductByArgument } from '../products/hooks/useProductByArgument';
 import type { Product } from '../products/interfaces/products-api-response.interface';
 import { useI18n } from '../../../i18n';
@@ -9,29 +9,29 @@ import { IngredientsProductForm } from './components/IngredientsProductForm';
 import type { Language } from '../products/types/language.type';
 import { useState } from 'react';
 import { Spinner } from '../../components/Spinner';
+import { SearchProductModal } from '../products/components/SearchProductModal';
 
 export const ProductFormPage = () => {
   const { t } = useI18n();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { slug } = useParams();
   const { data, isLoading, error } = useProductByArgument('', slug);
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('');
-  const [enableEdition, setEnableEdition] = useState<boolean>(false);
 
   const product: Product = data?.products[0] || ({} as Product);
   const activeLang: Language = product?.language ?? selectedLanguage;
   const styleInputs: string = 'bg-base-300 text-white';
 
   const handleReturn = () => {
-    navigate('/products');
+    // navigate('/products');
+    const dialog = document.getElementById(
+      'repeatSearch',
+    ) as HTMLDialogElement | null;
+    dialog?.showModal();
   };
 
   const onSubmitLanguage = (lang: Language) => {
     setSelectedLanguage(lang);
-  };
-
-  const handleEditionForm = (state: boolean) => {
-    setEnableEdition(state);
   };
 
   return (
@@ -64,9 +64,9 @@ export const ProductFormPage = () => {
                   <input
                     type='text'
                     className={`input ${styleInputs} w-full`}
-                    placeholder='Type here...'
+                    placeholder={`${t('common.typeHere')} ${t('products.idProduct')}...`}
                     value={product?.id}
-                    disabled={enableEdition}
+                    readOnly
                   />
                 </div>
 
@@ -76,9 +76,9 @@ export const ProductFormPage = () => {
                   <input
                     type='text'
                     className={`input ${styleInputs} w-full`}
-                    placeholder='Type here...'
+                    placeholder={`${t('common.typeHere')} ${t('products.slug')}...`}
                     value={product?.slug}
-                    disabled
+                    readOnly
                   />
                 </div>
               </div>
@@ -90,7 +90,7 @@ export const ProductFormPage = () => {
                   <input
                     type='text'
                     className={`input ${styleInputs} w-full`}
-                    placeholder='Type here...'
+                    placeholder={`${t('common.typeHere')} ${t('products.name')}...`}
                     value={product?.title}
                     readOnly
                   />
@@ -108,7 +108,7 @@ export const ProductFormPage = () => {
                 <label className='text-sm'>{t('products.description')}</label>
                 <textarea
                   className={`textarea h-24 ${styleInputs} w-full`}
-                  placeholder='Bio'
+                  placeholder={`${t('common.typeHere')} ${t('products.description')}...`}
                   value={product?.description}
                   readOnly
                 ></textarea>
@@ -121,7 +121,7 @@ export const ProductFormPage = () => {
                   <input
                     type='number'
                     className={`input ${styleInputs} w-full`}
-                    placeholder='Type here...'
+                    placeholder={`${t('common.typeHere')} ${t('products.price')}...`}
                     value={product?.price}
                     readOnly
                   />
@@ -133,7 +133,7 @@ export const ProductFormPage = () => {
                   <input
                     type='number'
                     className={`input bg-base-300 w-full ${product?.pack === null ? 'text-base-content italic' : 'text-white'}`}
-                    placeholder='Type here...'
+                    placeholder={`${t('common.typeHere')} ${t('products.pack')}...`}
                     value={product?.pack ?? t('common.noApply')}
                     disabled={product?.pack === null}
                     readOnly
@@ -146,7 +146,7 @@ export const ProductFormPage = () => {
                   <input
                     type='text'
                     className={`input bg-base-300 w-full ${product?.weight === null ? 'text-base-content italic' : 'text-white'}`}
-                    placeholder='Type here...'
+                    placeholder={`${t('common.typeHere')} ${t('products.weight')}...`}
                     value={product?.weight ?? t('common.noApply')}
                     disabled={product?.weight === null}
                     readOnly
@@ -166,27 +166,16 @@ export const ProductFormPage = () => {
               <img
                 src={product?.image}
                 alt={product?.title}
-                className='w-full rounded-xl border border-gray-400 object-cover'
+                className='w-full rounded-lg border border-gray-500 object-cover'
               />
             </div>
-          </div>
-
-          {/* ACTION BUTTONS */}
-          <div className='flex justify-end items-end mt-5 gap-3'>
-            <button
-              className='btn btn-primary'
-              onClick={() => handleEditionForm(true)}
-            >
-              Editar
-            </button>
-
-            <button className='btn btn-secondary' disabled={enableEdition}>
-              Save
-            </button>
           </div>
         </div>
       )}
       {error && <div className='text-error'>{t('comomon.serverError')}</div>}
+
+      {/* Modal for Searcher */}
+      <SearchProductModal idRef='repeatSearch' />
     </>
   );
 };

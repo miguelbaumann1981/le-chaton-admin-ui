@@ -16,18 +16,18 @@ export const IngredientsProductForm = ({ ingredients }: Props) => {
             key={ingredient}
             type='text'
             className='input w-fit bg-base-300 text-white'
-            placeholder='Type here'
+            placeholder={`${t('common.typeHere')} ${t('products.ingredients')}...`}
             value={ingredient}
             readOnly
           />
         ))}
 
-        <input
+        {/* <input
           type='text'
           className='input w-fit bg-base-300 text-white'
           placeholder='Add new...'
           disabled
-        />
+        /> */}
       </div>
     </div>
   );

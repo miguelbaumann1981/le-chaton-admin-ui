@@ -14,7 +14,8 @@
     "searchBySlug": "Search by slug",
     "searchByTitle": "Search by name",
     "serverError": "Server error, please try later",
-    "noApply": "No apply"
+    "noApply": "No apply",
+    "typeHere": "Type"
   },
   "menu": {
     "products": "Products",

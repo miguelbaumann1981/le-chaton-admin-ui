@@ -14,7 +14,8 @@
     "searchBySlug": "Buscar por ruta",
     "searchByTitle": "Buscar por nombre",
     "serverError": "Error de servidor. Vuelva a intentarlo más tarde",
-    "noApply": "No aplica"
+    "noApply": "No aplica",
+    "typeHere": "Inserte"
   },
   "menu": {
     "products": "Productos",
