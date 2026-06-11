@@ -1,35 +1,37 @@
 import { useRef, useState } from 'react';
 import { useI18n } from '../../../../i18n';
-import { useProductByArgument } from '../hooks/useProductByArgument';
-import type { Product } from '../interfaces/products-api-response.interface';
 import { Spinner } from '../../../components/Spinner';
 import { Link } from 'react-router';
 import { MdOutlineWarning } from 'react-icons/md';
-import type { SearchMode } from '../types/search-mode.type';
+import type { SearchOrderMode } from '../../products/types/search-mode.type';
+import { useOrderByArgument } from '../hooks/useOrderByArgument';
+import type { Order } from '../interfaces/order.interface';
+// import type { Order } from '../interfaces/order.interface';
 
 interface Props {
   idRef: string;
 }
 
-export const SearchProductModal = ({ idRef }: Props) => {
+export const SearchOrderModal = ({ idRef }: Props) => {
   const { t } = useI18n();
   const search = useRef<HTMLInputElement>(null);
 
-  const [searchMode, setSearchMode] = useState<SearchMode>('');
+  const [searchMode, setSearchMode] = useState<SearchOrderMode>('');
   const [querySearch, setQuerySearch] = useState<string>('');
   const [placeholder, setPlaceholder] = useState<string>(t('common.search'));
   const [disableReset, setDisableReset] = useState<boolean>(true);
 
   const idArgument = searchMode === 'id' ? querySearch : '';
-  const slugArgument = searchMode === 'slug' ? querySearch : '';
-  const titleArgument = searchMode === 'title' ? querySearch : '';
+  const dateArgument = searchMode === 'date' ? querySearch : '';
+  const nameArgument = searchMode === 'name' ? querySearch : '';
 
-  const { data, isLoading, error } = useProductByArgument(
+  const { data, isLoading, error } = useOrderByArgument(
     idArgument,
-    slugArgument,
-    titleArgument,
+    dateArgument,
+    nameArgument,
   );
-  const results: Product[] = data?.products || [];
+
+  const results: Order[] = data?.orders || [];
   const showResults: boolean =
     results &&
     results.length > 0 &&
@@ -38,7 +40,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
     searchMode !== '' &&
     querySearch !== '';
 
-  const handleRadioSelection = (mode: SearchMode) => {
+  const handleRadioSelection = (mode: SearchOrderMode) => {
     if (mode === '') return;
 
     setDisableReset(true);
@@ -53,11 +55,11 @@ export const SearchProductModal = ({ idRef }: Props) => {
       case 'id':
         setPlaceholder(t('common.searchById'));
         break;
-      case 'slug':
-        setPlaceholder(t('common.searchBySlug'));
+      case 'date':
+        setPlaceholder(t('common.searchByDate'));
         break;
-      case 'title':
-        setPlaceholder(t('common.searchByTitle'));
+      case 'name':
+        setPlaceholder(t('common.searchByName'));
         break;
     }
   };
@@ -104,7 +106,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
           <div className='flex items-center gap-2'>
             <input
               type='radio'
-              name='searchProduct'
+              name='searchOrder'
               className={`radio ${searchMode === 'id' ? 'radio-primary' : ''}`}
               value='id'
               onChange={() => handleRadioSelection('id')}
@@ -115,23 +117,23 @@ export const SearchProductModal = ({ idRef }: Props) => {
           <div className='flex items-center gap-2'>
             <input
               type='radio'
-              name='searchProduct'
-              className={`radio ${searchMode === 'slug' ? 'radio-primary' : ''}`}
-              value='slug'
-              onChange={() => handleRadioSelection('slug')}
+              name='searchOrder'
+              className={`radio ${searchMode === 'date' ? 'radio-primary' : ''}`}
+              value='date'
+              onChange={() => handleRadioSelection('date')}
             />
-            <span>{t('products.bySlug')}</span>
+            <span>{t('products.byDate')}</span>
           </div>
 
           <div className='flex items-center gap-2'>
             <input
               type='radio'
-              name='searchProduct'
-              className={`radio ${searchMode === 'title' ? 'radio-primary' : ''}`}
-              value='title'
-              onChange={() => handleRadioSelection('title')}
+              name='searchOrder'
+              className={`radio ${searchMode === 'name' ? 'radio-primary' : ''}`}
+              value='name'
+              onChange={() => handleRadioSelection('name')}
             />
-            <span>{t('products.byTitle')}</span>
+            <span>{t('products.byName')}</span>
           </div>
         </div>
 
@@ -159,35 +161,27 @@ export const SearchProductModal = ({ idRef }: Props) => {
           <div className='flex flex-col gap-2 mt-3'>
             <h4 className='font-semibold'>{t('common.results')}</h4>
             <ul className='max-h-75 overflow-auto'>
-              {results.map((product) => (
-                <li key={product?.id} onClick={() => onCloseDialog()}>
+              {results.map((order) => (
+                <li key={order?.id} onClick={() => onCloseDialog()}>
                   {searchMode === 'id' && (
-                    <Link
-                      className='custom-link'
-                      to={`/product/${product?.slug}`}
-                    >
+                    <Link className='custom-link' to={`/`}>
                       {' '}
-                      {product?.id}{' '}
+                      {order?.id}{' '}
                     </Link>
                   )}
 
-                  {searchMode === 'slug' && (
-                    <Link
-                      className='custom-link'
-                      to={`/product/${product?.slug}`}
-                    >
+                  {searchMode === 'date' && (
+                    <Link className='custom-link' to={`/`}>
                       {' '}
-                      {product?.slug}{' '}
+                      {order?.orderDate?.toLocaleString?.().slice(0, 10) ??
+                        ''}{' '}
                     </Link>
                   )}
 
-                  {searchMode === 'title' && (
-                    <Link
-                      className='custom-link'
-                      to={`/product/${product?.slug}`}
-                    >
+                  {searchMode === 'name' && (
+                    <Link className='custom-link' to={`/`}>
                       {' '}
-                      {product?.title}{' '}
+                      {order?.description}{' '}
                     </Link>
                   )}
                 </li>

@@ -1,3 +1,4 @@
+import { NumericFormat } from 'react-number-format';
 import { useI18n } from '../../../../i18n';
 import type { Product } from '../interfaces/products-api-response.interface';
 
@@ -48,7 +49,15 @@ export const ProductCardModal = (product: Product) => {
           </div>
 
           <div className='badge badge-primary font-bold'>
-            ${product.price.toFixed(2)}
+            <NumericFormat
+              value={product?.price}
+              thousandSeparator='.'
+              decimalSeparator=','
+              suffix={' €'}
+              decimalScale={2}
+              fixedDecimalScale={true}
+              displayType='text'
+            />
           </div>
         </div>
 
@@ -58,7 +67,7 @@ export const ProductCardModal = (product: Product) => {
           <div className='flex flex-col gap-2'>
             <div className='flex flex-row flex-wrap gap-2 my-2'>
               {product.ingredients.map((ingredient, index) => (
-                <span key={index} className='badge badge-outline '>
+                <span key={index} className='badge badge-soft badge-warning'>
                   {ingredient}
                 </span>
               ))}
@@ -67,9 +76,7 @@ export const ProductCardModal = (product: Product) => {
         )}
 
         <form method='dialog' className='flex flex-row-reverse gap-2 mt-5'>
-          <button className='btn btn-outline btn-secondary'>
-            {t('common.close')}
-          </button>
+          <button className='btn btn-outline'>{t('common.close')}</button>
         </form>
       </div>
     </dialog>

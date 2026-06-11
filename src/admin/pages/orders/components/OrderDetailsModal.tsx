@@ -2,6 +2,7 @@ import { useI18n } from '../../../../i18n';
 import type { Order } from '../interfaces/order.interface';
 import { OrderDetailsCard } from '../../dashboard/components/OrderDetailsCard';
 import { useOrderStatusNode } from '../hooks/useOrderStatusNode';
+import { NumericFormat } from 'react-number-format';
 
 export const OrderDetailsModal = (order: Order) => {
   const { t } = useI18n();
@@ -19,7 +20,15 @@ export const OrderDetailsModal = (order: Order) => {
           </div>
 
           <div className='badge badge-lg badge-outline badge-primary'>
-            {order?.totalPrice?.toFixed(2)} €
+            <NumericFormat
+              value={order?.totalPrice}
+              thousandSeparator='.'
+              decimalSeparator=','
+              suffix={' €'}
+              decimalScale={2}
+              fixedDecimalScale={true}
+              displayType='text'
+            />
           </div>
 
           <div className='flex text-sm'>
@@ -51,10 +60,9 @@ export const OrderDetailsModal = (order: Order) => {
           </div>
 
           <div className='modal-action'>
+            <button className='btn btn-error'>Eliminar</button>
             <form method='dialog'>
-              <button className='btn btn-outline btn-error'>
-                {t('common.close')}
-              </button>
+              <button className='btn btn-outline'>{t('common.close')}</button>
             </form>
           </div>
         </div>

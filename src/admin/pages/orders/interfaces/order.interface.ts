@@ -2,7 +2,7 @@ import type { OrderStatus } from '../types/order-status.type';
 
 export interface Order {
   id: string;
-  orderDate: Date;
+  orderDate: Date | string;
   userId: string;
   description: string;
   totalPrice: number;

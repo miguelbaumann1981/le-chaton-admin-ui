@@ -15,7 +15,9 @@
     "searchByTitle": "Search by name",
     "serverError": "Server error, please try later",
     "noApply": "No apply",
-    "typeHere": "Type"
+    "typeHere": "Type",
+    "searchByDate": "Search by date (yyyy-mm-dd)",
+    "searchByName": "Search by name"
   },
   "menu": {
     "products": "Products",
@@ -81,7 +83,9 @@
     "slug": "Slug",
     "description": "Description",
     "pack": "Pack",
-    "weight": "Weight"
+    "weight": "Weight",
+    "byDate": "By date",
+    "byName": "By name"
   },
   "CAKES": "Cakes",
   "BISCUITS": "Biscuits",

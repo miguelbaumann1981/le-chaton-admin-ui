@@ -14,10 +14,13 @@ import { useCategoryTranslation } from './hooks/useCategoryTranslation';
 import type { Language } from './types/language.type';
 import { SearchProductModal } from './components/SearchProductModal';
 import { ProductCardModal } from './components/ProductCardModal';
+import { NumericFormat } from 'react-number-format';
 
 export const ProductsPage = () => {
+  const limitByDefault: number = 7;
+  const limitMax: number = 1000;
   const { t } = useI18n();
-  const [customLimit, setCustomLimit] = useState(7);
+  const [customLimit, setCustomLimit] = useState(limitByDefault);
   const [customCategory, setCustomCategory] = useState<Category>('');
   const [language, setLanguage] = useState<Language>('');
   const { data, isLoading, error } = useProducts(
@@ -28,7 +31,6 @@ export const ProductsPage = () => {
 
   const productsData: Product[] = data?.products || [];
   const totalResults = data?.total || 0;
-
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
 
@@ -47,12 +49,12 @@ export const ProductsPage = () => {
 
   const handleCategoryFilter = (category: Category) => {
     if (category === '') {
-      setCustomLimit(7);
+      setCustomLimit(limitByDefault);
       setCustomCategory('');
       setLanguage('');
       return;
     }
-    setCustomLimit(1000);
+    setCustomLimit(limitMax);
     setCustomCategory(category);
   };
 
@@ -61,7 +63,7 @@ export const ProductsPage = () => {
       setLanguage('');
       return;
     }
-    setCustomLimit(1000);
+    setCustomLimit(limitMax);
     setCustomCategory(customCategory);
     setLanguage(lang);
   };
@@ -178,7 +180,7 @@ export const ProductsPage = () => {
         ) : (
           <div className='card bg-base-300 border border-gray-600 rounded-t-lg'>
             <div
-              className={`overflow-x-auto ${customLimit === 1000 ? 'max-h-150' : ''}`}
+              className={`overflow-x-auto ${customLimit === limitMax ? 'max-h-150' : ''}`}
             >
               <table className='table table-zebra'>
                 <thead>
@@ -210,7 +212,7 @@ export const ProductsPage = () => {
                   {productsData.map((product) => (
                     <tr
                       key={product.id}
-                      className='cursor-pointer hover:bg-accent-content'
+                      className='cursor-pointer hover:bg-accent-content hover:text-white'
                       onClick={() => {
                         const dialog = document.getElementById(
                           product.id,
@@ -234,7 +236,15 @@ export const ProductsPage = () => {
 
                       <td className='border-b-gray-600'>
                         <span className='text-primary'>
-                          ${product.price.toFixed(2)}
+                          <NumericFormat
+                            value={product?.price}
+                            thousandSeparator='.'
+                            decimalSeparator=','
+                            suffix={' €'}
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            displayType='text'
+                          />
                         </span>
                       </td>
 

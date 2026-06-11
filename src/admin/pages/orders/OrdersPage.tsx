@@ -11,13 +11,16 @@ import { useState } from 'react';
 import type { OrderStatus } from './types/order-status.type';
 import { Paginator } from '../../components/Paginator';
 import { OrderDetailsModal } from './components/OrderDetailsModal';
+import { SearchOrderModal } from './components/SearchOrderModal';
 
 export const OrdersPage = () => {
+  const limitByDefault: number = 10;
   const { t } = useI18n();
-  const [customLimit, setCustomLimit] = useState(10);
-  const { data, isLoading, error } = useOrders(customLimit, null);
-  const ordersData: Order[] = data?.orders || [];
+  const [customLimit, setCustomLimit] = useState(limitByDefault);
+  const [customState, setCustomState] = useState<OrderStatus>(null);
+  const { data, isLoading, error } = useOrders(customLimit, customState);
 
+  const ordersData: Order[] = data?.orders || [];
   const totalResults = data?.total || 0;
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
@@ -51,6 +54,16 @@ export const OrdersPage = () => {
     }
   };
 
+  const handleStateFilter = (state: OrderStatus) => {
+    if (state === null) {
+      setCustomLimit(limitByDefault);
+      setCustomState(null);
+      return;
+    }
+    setCustomLimit(1000);
+    setCustomState(state);
+  };
+
   return (
     <>
       <div className='flex flex-col gap-5'>
@@ -75,9 +88,29 @@ export const OrdersPage = () => {
 
             {/* STATES */}
             <div className='flex items-center gap-1'>
-              <button className={`btn btn-warning btn-soft`}>Entregado</button>
-              <button className={`btn btn-success btn-soft`}>
-                En progreso
+              <button
+                className={`btn btn-error ${customState === 0 ? 'btn-outline' : 'btn-soft'}`}
+                onClick={() => handleStateFilter(0)}
+              >
+                {t('orders.canceled')}
+              </button>
+              <button
+                className={`btn btn-warning ${customState === 1 ? 'btn-outline' : 'btn-soft'}`}
+                onClick={() => handleStateFilter(1)}
+              >
+                {t('orders.registered')}
+              </button>
+              <button
+                className={`btn btn-info ${customState === 2 ? 'btn-outline' : 'btn-soft'}`}
+                onClick={() => handleStateFilter(2)}
+              >
+                {t('orders.inProgress')}
+              </button>
+              <button
+                className={`btn btn-success ${customState === 3 ? 'btn-outline' : 'btn-soft'}`}
+                onClick={() => handleStateFilter(3)}
+              >
+                {t('orders.delivered')}
               </button>
             </div>
           </div>
@@ -90,7 +123,11 @@ export const OrdersPage = () => {
               </span>
             </div>
 
-            <button className='btn btn-neutral'>
+            <button
+              className='btn btn-neutral'
+              disabled={customState === null}
+              onClick={() => handleStateFilter(null)}
+            >
               <MdOutlineFilterAltOff /> {t('common.restoreFilters')}
             </button>
           </div>
@@ -134,7 +171,7 @@ export const OrdersPage = () => {
                   {ordersData.map((order) => (
                     <tr
                       key={order?.id}
-                      className='cursor-pointer hover:bg-accent-content'
+                      className='cursor-pointer hover:bg-accent-content hover:text-white'
                       onClick={() => {
                         const dialog = document.getElementById(
                           order?.id,
@@ -186,12 +223,15 @@ export const OrdersPage = () => {
             </div>
           </div>
         )}
-
-        {/* MODAL FOR ORDER */}
-        {ordersData.map((order) => (
-          <OrderDetailsModal key={order?.id} {...order} />
-        ))}
       </div>
+
+      {/* MODAL FOR ORDER */}
+      {ordersData.map((order) => (
+        <OrderDetailsModal key={order?.id} {...order} />
+      ))}
+
+      {/* Modal for Searcher */}
+      <SearchOrderModal idRef='searcher' />
     </>
   );
 };

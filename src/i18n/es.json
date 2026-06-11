@@ -15,7 +15,9 @@
     "searchByTitle": "Buscar por nombre",
     "serverError": "Error de servidor. Vuelva a intentarlo más tarde",
     "noApply": "No aplica",
-    "typeHere": "Inserte"
+    "typeHere": "Inserte",
+    "searchByDate": "Buscar por fecha (yyyy-mm-dd)",
+    "searchByName": "Buscar por nombre"
   },
   "menu": {
     "products": "Productos",
@@ -81,7 +83,9 @@
     "slug": "Segmento de ruta",
     "description": "Descripción",
     "pack": "Paquete",
-    "weight": "Peso"
+    "weight": "Peso",
+    "byDate": "Por fecha",
+    "byName": "Por nombre"
   },
   "CAKES": "Tartas",
   "BISCUITS": "Galletas",
