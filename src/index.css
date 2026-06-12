@@ -8,7 +8,9 @@
 
 .custom-link {
   color: #b6d6ff;
+  cursor: pointer;
 }
 .custom-link:hover {
   color: var(--base-content);
+  text-decoration: underline;
 }
