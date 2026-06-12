@@ -25,7 +25,7 @@ export const OrdersPage = () => {
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
 
-  const getOrderStatusNode = (status: OrderStatus): React.ReactNode => {
+  const handleOrderStatusNode = (status: OrderStatus): React.ReactNode => {
     switch (status) {
       case 0:
         return (
@@ -192,7 +192,7 @@ export const OrdersPage = () => {
                       </td>
 
                       <td className='border-b-gray-600'>
-                        {getOrderStatusNode(order?.status)}
+                        {handleOrderStatusNode(order?.status)}
                       </td>
                     </tr>
                   ))}

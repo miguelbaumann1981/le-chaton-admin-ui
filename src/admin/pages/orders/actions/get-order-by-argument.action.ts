@@ -8,7 +8,7 @@ interface Options {
   name?: string;
 }
 
-export const getOrderByAgument = async (
+export const getOrderByAgumentAction = async (
   options: Options,
 ): Promise<OrdersApiResponse> => {
   const { limit, id, date, name } = options;

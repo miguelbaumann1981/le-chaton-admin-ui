@@ -77,7 +77,7 @@ export const SearchOrderModal = ({ idRef }: Props) => {
     setQuerySearch(query);
   };
 
-  const resetFilters = () => {
+  const handleResetFilters = () => {
     if (search.current) {
       search.current.value = '';
       setDisableReset(true);
@@ -94,7 +94,7 @@ export const SearchOrderModal = ({ idRef }: Props) => {
     }
   };
 
-  const onNavigateModal = (order: Order) => {
+  const handleDisplayOrderModal = (order: Order) => {
     setSelectedId(order?.id);
 
     const dialog = document.getElementById(
@@ -103,7 +103,7 @@ export const SearchOrderModal = ({ idRef }: Props) => {
     dialog?.showModal();
   };
 
-  const getLabelBySearchMode = (
+  const handleLabelBySearchMode = (
     mode: SearchOrderMode,
     order: Order,
   ): string => {
@@ -191,9 +191,9 @@ export const SearchOrderModal = ({ idRef }: Props) => {
                   <li
                     key={order?.id}
                     className='custom-link'
-                    onClick={() => onNavigateModal(order)}
+                    onClick={() => handleDisplayOrderModal(order)}
                   >
-                    {getLabelBySearchMode(searchMode, order)}
+                    {handleLabelBySearchMode(searchMode, order)}
                   </li>
                 ))}
               </ul>
@@ -214,7 +214,7 @@ export const SearchOrderModal = ({ idRef }: Props) => {
             <button
               className='btn btn-outline btn-info'
               disabled={disableReset}
-              onClick={() => resetFilters()}
+              onClick={() => handleResetFilters()}
             >
               {t('common.reset')}
             </button>

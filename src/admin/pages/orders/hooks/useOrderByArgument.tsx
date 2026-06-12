@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router';
-import { getOrderByAgument } from '../actions/get-order-by-argument';
+import { getOrderByAgumentAction } from '../actions/get-order-by-argument.action';
 
 export const useOrderByArgument = (
   id?: string,
@@ -22,7 +22,7 @@ export const useOrderByArgument = (
     ],
     queryFn: async () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      return getOrderByAgument({
+      return getOrderByAgumentAction({
         limit,
         id,
         date,

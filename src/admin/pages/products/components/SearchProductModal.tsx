@@ -87,7 +87,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
     }
   };
 
-  const onCloseDialog = () => {
+  const handleCloseDialog = () => {
     const dialog = document.getElementById(idRef) as HTMLDialogElement | null;
     dialog?.close();
   };
@@ -160,7 +160,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
             <h4 className='font-semibold'>{t('common.results')}</h4>
             <ul className='max-h-75 overflow-auto'>
               {results.map((product) => (
-                <li key={product?.id} onClick={() => onCloseDialog()}>
+                <li key={product?.id} onClick={() => handleCloseDialog()}>
                   {searchMode === 'id' && (
                     <Link
                       className='custom-link'
