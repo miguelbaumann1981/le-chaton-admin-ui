@@ -7,29 +7,44 @@ import { useState } from 'react';
 import type { OrderStatus } from '../types/order-status.type';
 import { useDeleteOrder } from '../hooks/useDeleteOrder';
 import { Spinner } from '../../../components/Spinner';
-import { useNavigate } from 'react-router';
+import { useUpdateOrder } from '../hooks/useUpdateOrder';
 
 export const OrderDetailsModal = (order: Order) => {
   const { t } = useI18n();
-  const navigate = useNavigate();
 
   const [showStateChange, setShowStateChange] = useState(false);
   const [newState, setNewState] = useState<OrderStatus>(null);
   const [showDeleteOrder, setShowDeleteOrder] = useState(false);
   const [deletedId, setDeletedId] = useState('');
+  const [updatedId, setUpdatedId] = useState('');
+  const [updatedBody, setUpdatedBody] = useState<Partial<Order>>({});
 
   const displayDate = new Date(order?.orderDate).toLocaleString();
   const state = useOrderStatusNode(order?.status);
   const { isLoading: isLoadingDeleted, error: errorDeleted } =
     useDeleteOrder(deletedId);
+  const { isLoading: isLoadingUpdated, error: errorUpdated } = useUpdateOrder(
+    updatedId,
+    updatedBody,
+  );
 
   const handleCloseModal = () => {
     setShowStateChange(false);
     setShowDeleteOrder(false);
   };
 
-  const handleChangeOrderState = (state: OrderStatus) => {
+  const handleChangeOrderState = (id: string, state: OrderStatus) => {
     console.log(state);
+    const body = {
+      status: state,
+    };
+    setUpdatedId(id);
+    setUpdatedBody(body);
+
+    if (!isLoadingUpdated && !errorUpdated) {
+      const dialog = document.getElementById(id) as HTMLDialogElement | null;
+      dialog?.close();
+    }
   };
 
   const handleDeleteOrder = (id: string) => {
@@ -38,7 +53,6 @@ export const OrderDetailsModal = (order: Order) => {
     if (!isLoadingDeleted && !errorDeleted) {
       const dialog = document.getElementById(id) as HTMLDialogElement | null;
       dialog?.close();
-      navigate('/orders');
     }
   };
 
@@ -131,7 +145,7 @@ export const OrderDetailsModal = (order: Order) => {
                 <button
                   className='btn btn-primary btn-soft btn-sm'
                   disabled={newState === null}
-                  onClick={() => handleChangeOrderState(newState)}
+                  onClick={() => handleChangeOrderState(order?.id, newState)}
                 >
                   Aceptar
                 </button>
