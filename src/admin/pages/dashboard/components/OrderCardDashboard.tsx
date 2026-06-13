@@ -3,12 +3,23 @@ import { useOrderStatusStyle } from '../hooks/useOrderStatusStyle';
 import type { Order } from '../../orders/interfaces/order.interface';
 import { OrderDetailsModal } from '../../orders/components/OrderDetailsModal';
 import { NumericFormat } from 'react-number-format';
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const OrderCardDashboard = (order: Order) => {
   const statusText = useOrderStatusText(order?.status);
   const statusStyle = useOrderStatusStyle(order?.status);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
   const displayDate = new Date(order?.orderDate).toLocaleDateString();
+
+  const handleClose = () => {
+    setIsOpen(false);
+
+    queryClient.invalidateQueries({
+      queryKey: ['latestOrders'],
+    });
+  };
 
   return (
     <>
@@ -43,7 +54,7 @@ export const OrderCardDashboard = (order: Order) => {
         </div>
       </div>
 
-      <OrderDetailsModal {...order} />
+      <OrderDetailsModal order={order} isOpen={isOpen} onClose={handleClose} />
     </>
   );
 };

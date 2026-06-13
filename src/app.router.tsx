@@ -50,6 +50,7 @@ export const appRouter = createBrowserRouter([
         path: 'orders',
         element: <OrdersPage />,
       },
+
       {
         path: 'notifications',
         element: <NotificationsPage />,

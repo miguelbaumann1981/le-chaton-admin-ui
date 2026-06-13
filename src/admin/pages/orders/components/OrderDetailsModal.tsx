@@ -3,21 +3,31 @@ import type { Order } from '../interfaces/order.interface';
 import { OrderDetailsCard } from '../../dashboard/components/OrderDetailsCard';
 import { useOrderStatusNode } from '../hooks/useOrderStatusNode';
 import { NumericFormat } from 'react-number-format';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { OrderStatus } from '../types/order-status.type';
 import { useDeleteOrder } from '../hooks/useDeleteOrder';
 import { Spinner } from '../../../components/Spinner';
 import { useUpdateOrder } from '../hooks/useUpdateOrder';
+import { MdCheckCircle, MdOutlineCancel, MdError } from 'react-icons/md';
 
-export const OrderDetailsModal = (order: Order) => {
+interface Props {
+  order: Order;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
   const { t } = useI18n();
-
+  const modalRef = useRef<HTMLDialogElement | null>(null);
   const [showStateChange, setShowStateChange] = useState(false);
   const [newState, setNewState] = useState<OrderStatus>(null);
   const [showDeleteOrder, setShowDeleteOrder] = useState(false);
   const [deletedId, setDeletedId] = useState('');
   const [updatedId, setUpdatedId] = useState('');
   const [updatedBody, setUpdatedBody] = useState<Partial<Order>>({});
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const displayDate = new Date(order?.orderDate).toLocaleString();
   const state = useOrderStatusNode(order?.status);
@@ -28,32 +38,74 @@ export const OrderDetailsModal = (order: Order) => {
     updatedBody,
   );
 
-  const handleCloseModal = () => {
+  const handleResetSectionsDisplayed = () => {
     setShowStateChange(false);
     setShowDeleteOrder(false);
+    setShowSuccessMessage(false);
+    setShowErrorMessage(false);
   };
 
+  useEffect(() => {
+    const modal = modalRef.current;
+
+    if (isOpen) {
+      modal?.showModal();
+    } else {
+      modal?.close();
+    }
+
+    const handleCancel = () => onClose;
+    modal?.addEventListener('close', handleCancel);
+
+    return () => modal?.removeEventListener('close', handleCancel);
+  }, [isOpen, onClose]);
+
   const handleChangeOrderState = (id: string, state: OrderStatus) => {
-    console.log(state);
     const body = {
       status: state,
     };
     setUpdatedId(id);
     setUpdatedBody(body);
 
-    if (!isLoadingUpdated && !errorUpdated) {
-      const dialog = document.getElementById(id) as HTMLDialogElement | null;
-      dialog?.close();
+    if (errorUpdated) {
+      setShowErrorMessage(true);
+      setAlertMessage(t('orders.errorChangeState'));
+      return;
     }
+
+    setAlertMessage(t('orders.successChangeState'));
+    setTimeout(() => {
+      setShowSuccessMessage(true);
+    }, 1000);
   };
 
   const handleDeleteOrder = (id: string) => {
     setDeletedId(id);
 
-    if (!isLoadingDeleted && !errorDeleted) {
-      const dialog = document.getElementById(id) as HTMLDialogElement | null;
-      dialog?.close();
+    if (errorDeleted) {
+      setShowErrorMessage(true);
+      setAlertMessage(t('orders.errorDeleted'));
+      return;
     }
+
+    setAlertMessage(t('orders.successDeleted'));
+    setTimeout(() => {
+      setShowSuccessMessage(true);
+    }, 1000);
+  };
+
+  const handleDefaultValueStateDropdown = (state: OrderStatus): string => {
+    switch (state) {
+      case 0:
+        return t('orders.canceled');
+      case 1:
+        return t('orders.registered');
+      case 2:
+        return t('orders.inProgress');
+      case 3:
+        return t('orders.delivered');
+    }
+    return '';
   };
 
   return (
@@ -108,9 +160,12 @@ export const OrderDetailsModal = (order: Order) => {
           </div>
 
           {showStateChange && (
-            <div className='flex flex-col gap-3'>
-              <select defaultValue='Seleccionar estado' className='select'>
-                <option disabled={true}>Seleccionar estado</option>
+            <div className='flex flex-col gap-2 mt-3'>
+              <label className='text-sm'>Seleccionar estado</label>
+              <select
+                defaultValue={handleDefaultValueStateDropdown(order?.status)}
+                className='select'
+              >
                 <option
                   className={`${order?.status === 0 ? 'text-base-content opacity-50' : 'text-error'}`}
                   disabled={order?.status === 0}
@@ -147,41 +202,76 @@ export const OrderDetailsModal = (order: Order) => {
                   disabled={newState === null}
                   onClick={() => handleChangeOrderState(order?.id, newState)}
                 >
-                  Aceptar
+                  {t('common.accept')}
                 </button>
                 <button
                   className='btn btn-error btn-soft btn-sm'
                   onClick={() => setShowStateChange(false)}
                 >
-                  Cancelar
+                  {t('common.cancel')}
                 </button>
+
+                {isLoadingUpdated && !errorUpdated && <Spinner />}
               </div>
             </div>
           )}
 
           {showDeleteOrder && (
             <div className='flex flex-col gap-2 mt-3'>
-              <p>Está seguro que desea eliminar...</p>
+              <p className='text-sm text-warning'>{t('orders.sureToDelete')}</p>
               <div className='flex gap-2'>
                 <button
                   className='btn btn-primary btn-soft btn-sm'
                   onClick={() => handleDeleteOrder(order?.id)}
                 >
-                  Aceptar
+                  {t('common.accept')}
                 </button>
 
                 <button
                   className='btn btn-error btn-soft btn-sm'
                   onClick={() => setShowDeleteOrder(false)}
                 >
-                  Cancelar
+                  {t('common.cancel')}
                 </button>
 
                 {isLoadingDeleted && !errorDeleted && <Spinner />}
-                {errorDeleted && (
-                  <p className='text-error text-sm'>No fue posible eliminar</p>
-                )}
               </div>
+            </div>
+          )}
+
+          {showErrorMessage && (
+            <div
+              role='alert'
+              className='alert alert-error alert-soft flex flex-row items-center justify-between'
+            >
+              <div className='flex items-center gap-3'>
+                <MdError />
+                <span>{alertMessage}</span>
+              </div>
+              <a
+                className='custom-link'
+                onClick={() => setShowErrorMessage(false)}
+              >
+                <MdOutlineCancel size={20} />
+              </a>
+            </div>
+          )}
+
+          {showSuccessMessage && (
+            <div
+              role='alert'
+              className='alert alert-success alert-soft flex flex-row items-center justify-between'
+            >
+              <div className='flex items-center gap-3'>
+                <MdCheckCircle />
+                <span>{alertMessage}</span>
+              </div>
+              <a
+                className='custom-link'
+                onClick={() => setShowSuccessMessage(false)}
+              >
+                <MdOutlineCancel size={20} />
+              </a>
             </div>
           )}
 
@@ -191,19 +281,20 @@ export const OrderDetailsModal = (order: Order) => {
               disabled={showDeleteOrder || showStateChange}
               onClick={() => setShowDeleteOrder(true)}
             >
-              Eliminar
+              {t('common.delete')}
             </button>
             <button
               className='btn btn-info btn-outline'
               disabled={showStateChange || showDeleteOrder}
               onClick={() => setShowStateChange(true)}
             >
-              Cambiar estado
+              {t('common.changeState')}
             </button>
             <form method='dialog'>
               <button
                 className='btn btn-outline'
-                onClick={() => handleCloseModal()}
+                onClick={onClose}
+                onClickCapture={handleResetSectionsDisplayed}
               >
                 {t('common.close')}
               </button>

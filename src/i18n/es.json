@@ -17,7 +17,11 @@
     "noApply": "No aplica",
     "typeHere": "Inserte",
     "searchByDate": "Buscar por fecha (yyyy-mm-dd)",
-    "searchByName": "Buscar por nombre"
+    "searchByName": "Buscar por nombre",
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "changeState": "Cambiar estado"
   },
   "menu": {
     "products": "Productos",
@@ -43,7 +47,12 @@
     "name": "Nombre",
     "state": "Estado",
     "noOrders": "No hay pedidos disponibles",
-    "details": "Detalle del pedido"
+    "details": "Detalle del pedido",
+    "errorChangeState": "Error al cambiar el estado. Intente más tarde",
+    "successChangeState": "Cambio de estado realizado con éxito",
+    "errorDeleted": "Error al eliminar el pedido. Intente más tarde",
+    "successDeleted": "Pedido eliminado con éxito",
+    "sureToDelete": "¿Está seguro que desea eliminar este pedido?"
   },
   "graphics": {
     "quantityProducts": "Cantidad de productos por pedido",

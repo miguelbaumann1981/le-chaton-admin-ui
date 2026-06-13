@@ -12,18 +12,26 @@ import type { OrderStatus } from './types/order-status.type';
 import { Paginator } from '../../components/Paginator';
 import { OrderDetailsModal } from './components/OrderDetailsModal';
 import { SearchOrderModal } from './components/SearchOrderModal';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const OrdersPage = () => {
-  const limitByDefault: number = 10;
   const { t } = useI18n();
+  const limitByDefault: number = 10;
   const [customLimit, setCustomLimit] = useState(limitByDefault);
   const [customState, setCustomState] = useState<OrderStatus>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const { data, isLoading, error } = useOrders(customLimit, customState);
 
   const ordersData: Order[] = data?.orders || [];
   const totalResults = data?.total || 0;
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
+  const queryClient = useQueryClient();
+
+  const handleOpenOrderModal = (id: string) => {
+    const dialog = document.getElementById(id) as HTMLDialogElement | null;
+    dialog?.showModal();
+  };
 
   const handleOrderStatusNode = (status: OrderStatus): React.ReactNode => {
     switch (status) {
@@ -62,6 +70,21 @@ export const OrdersPage = () => {
     }
     setCustomLimit(1000);
     setCustomState(state);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+
+    queryClient.invalidateQueries({
+      queryKey: [
+        'orders',
+        {
+          page: 1,
+          limit: limitByDefault,
+          state: null,
+        },
+      ],
+    });
   };
 
   return (
@@ -172,12 +195,7 @@ export const OrdersPage = () => {
                     <tr
                       key={order?.id}
                       className='cursor-pointer hover:bg-accent-content hover:text-white'
-                      onClick={() => {
-                        const dialog = document.getElementById(
-                          order?.id,
-                        ) as HTMLDialogElement | null;
-                        dialog?.showModal();
-                      }}
+                      onClick={() => handleOpenOrderModal(order?.id)}
                     >
                       <td className='border-b-gray-600'>{order?.id}</td>
 
@@ -227,7 +245,12 @@ export const OrdersPage = () => {
 
       {/* MODAL FOR ORDER */}
       {ordersData.map((order) => (
-        <OrderDetailsModal key={order?.id} {...order} />
+        <OrderDetailsModal
+          key={order?.id}
+          order={order}
+          isOpen={isOpen}
+          onClose={handleClose}
+        />
       ))}
 
       {/* Modal for Searcher */}

@@ -25,7 +25,6 @@ export const useOrders = (customLimit: number, customState: OrderStatus) => {
         state: customState,
       });
     },
-
     staleTime: 1000 * 60 * 5,
   });
 };
