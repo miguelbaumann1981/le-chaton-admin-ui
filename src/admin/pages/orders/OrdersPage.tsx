@@ -13,10 +13,12 @@ import { Paginator } from '../../components/Paginator';
 import { OrderDetailsModal } from './components/OrderDetailsModal';
 import { SearchOrderModal } from './components/SearchOrderModal';
 import { useQueryClient } from '@tanstack/react-query';
+import { NumericFormat } from 'react-number-format';
 
 export const OrdersPage = () => {
   const { t } = useI18n();
-  const limitByDefault: number = 10;
+  const limitByDefault: number = 9;
+  const maxLimit: number = 1000;
   const [customLimit, setCustomLimit] = useState(limitByDefault);
   const [customState, setCustomState] = useState<OrderStatus>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -68,7 +70,7 @@ export const OrdersPage = () => {
       setCustomState(null);
       return;
     }
-    setCustomLimit(1000);
+    setCustomLimit(maxLimit);
     setCustomState(state);
   };
 
@@ -170,7 +172,7 @@ export const OrdersPage = () => {
         ) : (
           <div className='card bg-base-300 border border-gray-600 rounded-t-lg'>
             <div
-              className={`overflow-x-auto ${customLimit === 1000 ? 'max-h-150' : ''}`}
+              className={`overflow-x-auto ${customLimit === maxLimit ? 'max-h-150' : ''}`}
             >
               <table className='table table-zebra'>
                 <thead>
@@ -180,6 +182,7 @@ export const OrdersPage = () => {
                       {t('orders.orderDate')}
                     </th>
                     <th className='border-b-gray-600'>{t('orders.name')}</th>
+                    <th className='border-b-gray-600'>{t('orders.amount')}</th>
                     <th className='border-b-gray-600'>{t('orders.state')}</th>
                   </tr>
                 </thead>
@@ -207,6 +210,18 @@ export const OrdersPage = () => {
 
                       <td className='border-b-gray-600'>
                         {order?.description}
+                      </td>
+
+                      <td className='border-b-gray-600 text-primary'>
+                        <NumericFormat
+                          value={order?.totalPrice}
+                          thousandSeparator='.'
+                          decimalSeparator=','
+                          suffix={' €'}
+                          decimalScale={2}
+                          fixedDecimalScale={true}
+                          displayType='text'
+                        />
                       </td>
 
                       <td className='border-b-gray-600'>

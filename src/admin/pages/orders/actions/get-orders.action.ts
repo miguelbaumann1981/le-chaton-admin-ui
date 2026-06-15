@@ -27,6 +27,7 @@ export const getOrdersAction = async (
     );
     return {
       ...data,
+      total: filteredOrders.length,
       orders: filteredOrders,
     };
   }

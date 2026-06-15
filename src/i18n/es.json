@@ -52,7 +52,8 @@
     "successChangeState": "Cambio de estado realizado con éxito",
     "errorDeleted": "Error al eliminar el pedido. Intente más tarde",
     "successDeleted": "Pedido eliminado con éxito",
-    "sureToDelete": "¿Está seguro que desea eliminar este pedido?"
+    "sureToDelete": "¿Está seguro que desea eliminar este pedido?",
+    "amount": "Importe"
   },
   "graphics": {
     "quantityProducts": "Cantidad de productos por pedido",
@@ -96,8 +97,18 @@
     "byDate": "Por fecha",
     "byName": "Por nombre"
   },
+  "users": {
+    "idUser": "ID usuario",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "isValidated": "Correo validado",
+    "role": "Rol",
+    "noUsers": "No hay usuarios disponibles"
+  },
   "CAKES": "Tartas",
   "BISCUITS": "Galletas",
   "ROSCONES": "Roscones",
-  "VEGAN": "Vegano"
+  "VEGAN": "Vegano",
+  "USER_ROLE": "Usuario",
+  "ADMIN_ROLE": "Administrador"
 }

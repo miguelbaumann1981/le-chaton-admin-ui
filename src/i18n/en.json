@@ -52,7 +52,8 @@
     "successChangeState": "State change successfully",
     "errorDeleted": "Error to delete. Please try later",
     "successDeleted": "Order deleted successfully",
-    "sureToDelete": "Are you sure you want to delete this order?"
+    "sureToDelete": "Are you sure you want to delete this order?",
+    "amount": "Amount"
   },
   "graphics": {
     "quantityProducts": "Quantity of products per order",
@@ -96,8 +97,18 @@
     "byDate": "By date",
     "byName": "By name"
   },
+  "users": {
+    "idUser": "User ID",
+    "name": "Name",
+    "email": "Email",
+    "isValidated": "Email validated",
+    "role": "Role",
+    "noUsers": "No users available"
+  },
   "CAKES": "Cakes",
   "BISCUITS": "Biscuits",
   "ROSCONES": "Roscones",
-  "VEGAN": "Vegan"
+  "VEGAN": "Vegan",
+  "USER_ROLE": "User",
+  "ADMIN_ROLE": "Administrator"
 }
