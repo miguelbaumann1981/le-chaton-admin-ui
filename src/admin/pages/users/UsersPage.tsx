@@ -12,6 +12,8 @@ import type { AuthUser } from './interfaces/auth-user.interface';
 import { Spinner } from '../../components/Spinner';
 import { Paginator } from '../../components/Paginator';
 import type { AuthRole } from './types/role-user.type';
+import { UserDetailModal } from './components/UserDetailsModal';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const UsersPage = () => {
   const { t } = useI18n();
@@ -26,7 +28,8 @@ export const UsersPage = () => {
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
 
-  console.log(data);
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleRoleText = (role: AuthRole): string => {
     switch (role) {
@@ -37,6 +40,26 @@ export const UsersPage = () => {
         return t('ADMIN_ROLE');
     }
     return t('USER_ROLE');
+  };
+
+  const handleOpenOrderModal = (id: string) => {
+    const dialog = document.getElementById(id) as HTMLDialogElement | null;
+    dialog?.showModal();
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+
+    queryClient.invalidateQueries({
+      queryKey: [
+        'users',
+        {
+          page: 1,
+          limit: limitByDefault,
+          role: undefined,
+        },
+      ],
+    });
   };
 
   const handleRoleFilter = (role: AuthRole) => {
@@ -146,6 +169,7 @@ export const UsersPage = () => {
                     <tr
                       key={user?.id}
                       className='cursor-pointer hover:bg-accent-content hover:text-white'
+                      onClick={() => handleOpenOrderModal(user?.id)}
                     >
                       <td className='border-b-gray-600'>{user?.id}</td>
                       <td className='border-b-gray-600'>{user?.name}</td>
@@ -194,6 +218,16 @@ export const UsersPage = () => {
           </div>
         )}
       </div>
+
+      {/* MODAL FOR ORDER */}
+      {usersData.map((user) => (
+        <UserDetailModal
+          key={user?.id}
+          user={user}
+          isOpen={isOpen}
+          onClose={handleClose}
+        />
+      ))}
     </>
   );
 };

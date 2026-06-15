@@ -222,6 +222,7 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
               <div className='flex gap-2'>
                 <button
                   className='btn btn-primary btn-soft btn-sm'
+                  disabled={showSuccessMessage}
                   onClick={() => handleDeleteOrder(order?.id)}
                 >
                   {t('common.accept')}
@@ -229,6 +230,7 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
 
                 <button
                   className='btn btn-error btn-soft btn-sm'
+                  disabled={showSuccessMessage}
                   onClick={() => setShowDeleteOrder(false)}
                 >
                   {t('common.cancel')}

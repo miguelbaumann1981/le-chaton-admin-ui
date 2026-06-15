@@ -103,7 +103,10 @@
     "email": "Correo electrónico",
     "isValidated": "Correo validado",
     "role": "Rol",
-    "noUsers": "No hay usuarios disponibles"
+    "noUsers": "No hay usuarios disponibles",
+    "errorDeleted": "Error al eliminar el usuario. Intente más tarde",
+    "successDeleted": "Usuario eliminado con éxito",
+    "sureToDelete": "¿Está seguro que desea eliminar a este usuario?"
   },
   "CAKES": "Tartas",
   "BISCUITS": "Galletas",
