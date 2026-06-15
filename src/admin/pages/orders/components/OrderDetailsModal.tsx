@@ -18,6 +18,7 @@ interface Props {
 
 export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
   const { t } = useI18n();
+
   const modalRef = useRef<HTMLDialogElement | null>(null);
   const [showStateChange, setShowStateChange] = useState(false);
   const [newState, setNewState] = useState<OrderStatus>(null);

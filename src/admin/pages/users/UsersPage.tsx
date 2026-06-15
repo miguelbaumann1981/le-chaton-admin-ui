@@ -3,10 +3,9 @@ import {
   MdCheckBox,
   MdFace,
   MdOutlineFilterAltOff,
-  MdOutlineSearch,
 } from 'react-icons/md';
 import { useI18n } from '../../../i18n';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useUsers } from './hooks/useUsers';
 import type { AuthUser } from './interfaces/auth-user.interface';
 import { Spinner } from '../../components/Spinner';
@@ -19,9 +18,18 @@ export const UsersPage = () => {
   const { t } = useI18n();
   const limitByDefault: number = 9;
   const maxLimit: number = 1000;
+  const search = useRef<HTMLInputElement>(null);
   const [customLimit, setCustomLimit] = useState(limitByDefault);
   const [customRole, setCustomRole] = useState<AuthRole>(undefined);
-  const { data, isLoading, error } = useUsers(customLimit, customRole);
+  const [selectedId, setSelectedId] = useState('');
+  const [selectedEmail, setSelectedEmail] = useState('');
+  const { data, isLoading, error } = useUsers(
+    customLimit,
+    customRole,
+    selectedId,
+    selectedEmail,
+  );
+  const [querySearch, setQuerySearch] = useState<string>('');
 
   const usersData: AuthUser[] = data?.users || [];
   const totalResults = data?.total || 0;
@@ -66,11 +74,30 @@ export const UsersPage = () => {
     if (role === undefined) {
       setCustomLimit(limitByDefault);
       setCustomRole(undefined);
+      setSelectedId('');
+      setSelectedEmail('');
       return;
     }
     setCustomLimit(maxLimit);
     setCustomRole(role);
+    setSelectedId('');
+    setSelectedEmail('');
   };
+
+  const handleSearchId = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== 'Enter') return;
+
+    const query = search.current?.value;
+    if (!query) return;
+
+    setQuerySearch(query);
+    setCustomLimit(maxLimit);
+    setSelectedId(querySearch);
+    setSelectedEmail('');
+    setCustomRole(undefined);
+  };
+
+  console.log(querySearch);
 
   return (
     <>
@@ -82,17 +109,13 @@ export const UsersPage = () => {
         {/* FILTERS */}
         <div className='flex flex-row justify-between items-center'>
           <div className='flex gap-15 items-center'>
-            <button
-              className='btn btn-neutral'
-              onClick={() => {
-                const dialog = document.getElementById(
-                  'searcher',
-                ) as HTMLDialogElement | null;
-                dialog?.showModal();
-              }}
-            >
-              <MdOutlineSearch /> {t('common.searcher')}
-            </button>
+            <input
+              type='text'
+              ref={search}
+              placeholder={`Buscar por ID o email...`}
+              className='input w-75'
+              onKeyDown={handleSearchId}
+            />
 
             {/* ROLES */}
             <div className='flex items-center gap-1'>

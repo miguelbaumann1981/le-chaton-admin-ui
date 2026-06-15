@@ -3,7 +3,12 @@ import { useSearchParams } from 'react-router';
 import { getUsersAction } from '../actions/get-users.action';
 import type { AuthRole } from '../types/role-user.type';
 
-export const useUsers = (customLimit: number, customRole: AuthRole) => {
+export const useUsers = (
+  customLimit: number,
+  customRole: AuthRole,
+  id: string,
+  email: string,
+) => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
   const limit = searchParams.get('limit') || customLimit;
@@ -15,6 +20,8 @@ export const useUsers = (customLimit: number, customRole: AuthRole) => {
         page,
         limit,
         role: customRole,
+        id,
+        email,
       },
     ],
     queryFn: async () => {
@@ -23,6 +30,8 @@ export const useUsers = (customLimit: number, customRole: AuthRole) => {
         page,
         limit,
         role: customRole,
+        id,
+        email,
       });
     },
     staleTime: 1000 * 60 * 5,

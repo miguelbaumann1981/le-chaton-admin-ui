@@ -7,6 +7,7 @@ import { useOrderByArgument } from '../hooks/useOrderByArgument';
 import type { Order } from '../interfaces/order.interface';
 import { OrderDetailsModal } from './OrderDetailsModal';
 import { useOrderById } from '../hooks/useOrderById';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   idRef: string;
@@ -15,16 +16,18 @@ interface Props {
 export const SearchOrderModal = ({ idRef }: Props) => {
   const { t } = useI18n();
   const search = useRef<HTMLInputElement>(null);
-
+  const limitByDefault: number = 9;
   const [searchMode, setSearchMode] = useState<SearchOrderMode>('');
   const [querySearch, setQuerySearch] = useState<string>('');
   const [placeholder, setPlaceholder] = useState<string>(t('common.search'));
   const [disableReset, setDisableReset] = useState<boolean>(true);
   const [selectedId, setSelectedId] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const idArgument = searchMode === 'id' ? querySearch : '';
   const dateArgument = searchMode === 'date' ? querySearch : '';
   const nameArgument = searchMode === 'name' ? querySearch : '';
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useOrderByArgument(
     idArgument,
@@ -117,6 +120,23 @@ export const SearchOrderModal = ({ idRef }: Props) => {
       default:
         return order?.description;
     }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+
+    queryClient.invalidateQueries({
+      queryKey: [
+        'orders',
+        {
+          page: 1,
+          limit: limitByDefault,
+          state: null,
+        },
+      ],
+    });
+
+    handleResetFilters();
   };
 
   return (
@@ -225,7 +245,11 @@ export const SearchOrderModal = ({ idRef }: Props) => {
         </div>
       </dialog>
 
-      <OrderDetailsModal {...orderData!} />
+      <OrderDetailsModal
+        order={orderData!}
+        isOpen={isOpen}
+        onClose={handleClose}
+      />
     </>
   );
 };
