@@ -70,7 +70,12 @@
     "ORDER_DELETED_BY": "Un pedido ha sido cancelado",
     "ORDER_UPDATED_BY": "Un pedido ha sido modificado",
     "NEW_REGISTER_CREATED": "Se ha registrado un nuevo usuario",
-    "NEW_LOGIN_DONE": "Un usuario ha iniciado sesión"
+    "NEW_LOGIN_DONE": "Un usuario ha iniciado sesión",
+    "idNotification": "ID Notificación",
+    "createdAt": "Fecha de creación",
+    "message": "Mensaje",
+    "action": "Acción",
+    "userId": "ID usuario"
   },
   "products": {
     "cakes": "Tartas",
@@ -106,7 +111,8 @@
     "noUsers": "No hay usuarios disponibles",
     "errorDeleted": "Error al eliminar el usuario. Intente más tarde",
     "successDeleted": "Usuario eliminado con éxito",
-    "sureToDelete": "¿Está seguro que desea eliminar a este usuario?"
+    "sureToDelete": "¿Está seguro que desea eliminar a este usuario?",
+    "searchByIdNameEmail": "Buscar por ID, nombre o correo electrónico"
   },
   "CAKES": "Tartas",
   "BISCUITS": "Galletas",

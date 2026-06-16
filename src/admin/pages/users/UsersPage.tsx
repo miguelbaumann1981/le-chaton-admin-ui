@@ -21,15 +21,12 @@ export const UsersPage = () => {
   const search = useRef<HTMLInputElement>(null);
   const [customLimit, setCustomLimit] = useState(limitByDefault);
   const [customRole, setCustomRole] = useState<AuthRole>(undefined);
-  const [selectedId, setSelectedId] = useState('');
-  const [selectedEmail, setSelectedEmail] = useState('');
+  const [querySearch, setQuerySearch] = useState<string>('');
   const { data, isLoading, error } = useUsers(
     customLimit,
     customRole,
-    selectedId,
-    selectedEmail,
+    querySearch,
   );
-  const [querySearch, setQuerySearch] = useState<string>('');
 
   const usersData: AuthUser[] = data?.users || [];
   const totalResults = data?.total || 0;
@@ -71,39 +68,47 @@ export const UsersPage = () => {
   };
 
   const handleRoleFilter = (role: AuthRole) => {
+    if (search.current) {
+      search.current.value = '';
+    }
     if (role === undefined) {
       setCustomLimit(limitByDefault);
       setCustomRole(undefined);
-      setSelectedId('');
-      setSelectedEmail('');
       return;
     }
     setCustomLimit(maxLimit);
     setCustomRole(role);
-    setSelectedId('');
-    setSelectedEmail('');
   };
 
-  const handleSearchId = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleSearchByQuery = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
     if (event.key !== 'Enter') return;
 
     const query = search.current?.value;
-    if (!query) return;
-
-    setQuerySearch(query);
+    if (!query || query === '') {
+      handleRestoreFilters();
+      return;
+    }
+    setQuerySearch(query!);
     setCustomLimit(maxLimit);
-    setSelectedId(querySearch);
-    setSelectedEmail('');
     setCustomRole(undefined);
   };
 
-  console.log(querySearch);
+  const handleRestoreFilters = () => {
+    setCustomLimit(limitByDefault);
+    setCustomRole(undefined);
+    setQuerySearch('');
+    if (search.current) {
+      search.current.value = '';
+    }
+  };
 
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-4xl font-bold mb-4 flex items-center gap-2'>
-          <MdFace /> {t('menu.users')}
+        <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
+          <MdFace /> <span>{t('menu.users')}</span>
         </h1>
 
         {/* FILTERS */}
@@ -112,9 +117,9 @@ export const UsersPage = () => {
             <input
               type='text'
               ref={search}
-              placeholder={`Buscar por ID o email...`}
-              className='input w-75'
-              onKeyDown={handleSearchId}
+              placeholder={`${t('users.searchByIdNameEmail')}...`}
+              className='input w-100'
+              onKeyDown={handleSearchByQuery}
             />
 
             {/* ROLES */}
@@ -144,8 +149,8 @@ export const UsersPage = () => {
 
             <button
               className='btn btn-neutral'
-              disabled={customRole === undefined}
-              onClick={() => handleRoleFilter(undefined)}
+              disabled={customRole === undefined && querySearch === ''}
+              onClick={() => handleRestoreFilters()}
             >
               <MdOutlineFilterAltOff /> {t('common.restoreFilters')}
             </button>
@@ -201,7 +206,7 @@ export const UsersPage = () => {
                         {user?.emailValidated ? (
                           <MdCheckBox size={20} color='lightgreen' />
                         ) : (
-                          <MdCancel size={20} color='lightsalmon' />
+                          <MdCancel size={20} color='lightcoral' />
                         )}
                       </td>
                       <td className='border-b-gray-600'>

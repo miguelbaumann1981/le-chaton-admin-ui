@@ -71,8 +71,8 @@ export const ProductsPage = () => {
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-4xl font-bold mb-4 flex items-center gap-2'>
-          <MdStorefront /> {t('menu.products')}
+        <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
+          <MdStorefront /> <span>{t('menu.products')}</span>
         </h1>
 
         {/* FILTERS */}

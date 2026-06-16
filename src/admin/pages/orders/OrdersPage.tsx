@@ -92,8 +92,8 @@ export const OrdersPage = () => {
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-4xl font-bold mb-4 flex items-center gap-2'>
-          <MdLibraryBooks /> {t('menu.orders')}
+        <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
+          <MdLibraryBooks /> <span>{t('menu.orders')}</span>
         </h1>
 
         {/* FILTERS */}

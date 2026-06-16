@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router';
-import { getUsersAction } from '../actions/get-users.action';
-import type { AuthRole } from '../types/role-user.type';
+import type { ActionNotification } from '../../dashboard/types/notification-action.type';
+import { getNotificationsAction } from '../actions/get-notifications.action';
 
-export const useUsers = (
+export const useNotifications = (
   customLimit: number,
-  customRole: AuthRole,
-  search: string,
+  customNotification: ActionNotification,
 ) => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
@@ -18,17 +17,15 @@ export const useUsers = (
       {
         page,
         limit,
-        role: customRole,
-        search,
+        notification: customNotification,
       },
     ],
     queryFn: async () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      return getUsersAction({
+      return getNotificationsAction({
         page,
         limit,
-        role: customRole,
-        search,
+        notification: customNotification,
       });
     },
     staleTime: 1000 * 60 * 5,

@@ -108,7 +108,7 @@ export const UserDetailModal = ({ user, isOpen, onClose }: Props) => {
             {user?.emailValidated ? (
               <MdCheckBox size={20} color='lightgreen' />
             ) : (
-              <MdCancel size={20} color='lightsalmon' />
+              <MdCancel size={20} color='lightcoral' />
             )}
           </div>
 

@@ -15,4 +15,5 @@ export const useNotificationActionStyle = (
     case 'UPDATE':
       return 'badge-info';
   }
+  return '';
 };

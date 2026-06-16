@@ -3,4 +3,5 @@ export type ActionNotification =
   | 'LOGIN'
   | 'CREATE'
   | 'DELETE'
-  | 'UPDATE';
+  | 'UPDATE'
+  | null;

@@ -32,11 +32,9 @@ export const NotificationCardDashboard = ({
       >
         <div className='card-body'>
           <div className='flex items-center justify-between'>
-            <div
-              className={`badge badge-soft ${notificationStyle} font-medium`}
-            >
+            <span className={`badge badge-soft ${notificationStyle}`}>
               {notificationText?.toUpperCase()}
-            </div>
+            </span>
 
             <span>{displayDate}</span>
           </div>

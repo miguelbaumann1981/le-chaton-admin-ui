@@ -18,4 +18,5 @@ export const useNotificationActionText = (
     case 'UPDATE':
       return t('notifications.update');
   }
+  return '';
 };

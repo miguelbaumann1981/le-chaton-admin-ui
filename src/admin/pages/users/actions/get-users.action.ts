@@ -6,14 +6,13 @@ interface Options {
   page?: number | string;
   limit?: number | string;
   role?: AuthRole;
-  id?: string;
-  email?: string;
+  search?: string;
 }
 
 export const getUsersAction = async (
   options: Options,
 ): Promise<UsersApiResponse> => {
-  const { page, limit, role, id, email } = options;
+  const { page, limit, role, search } = options;
 
   const { data } = await leChatonApi.get<UsersApiResponse>('/api/users', {
     params: {
@@ -31,17 +30,13 @@ export const getUsersAction = async (
     };
   }
 
-  if (id) {
-    const filteredUsers = data.users.filter((user) => user?.id === id);
-    return {
-      ...data,
-      total: filteredUsers.length,
-      users: filteredUsers,
-    };
-  }
-
-  if (email) {
-    const filteredUsers = data.users.filter((user) => user?.email === email);
+  if (search !== '' && search !== undefined) {
+    const filteredUsers = data.users.filter(
+      (user) =>
+        user?.id.includes(search) ||
+        user?.email.toLowerCase().includes(search.toLowerCase()) ||
+        user?.name.toLowerCase().includes(search.toLowerCase()),
+    );
     return {
       ...data,
       total: filteredUsers.length,
