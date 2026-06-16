@@ -21,7 +21,8 @@
     "accept": "Aceptar",
     "cancel": "Cancelar",
     "delete": "Eliminar",
-    "changeState": "Cambiar estado"
+    "changeState": "Cambiar estado",
+    "edit": "Editar"
   },
   "menu": {
     "products": "Productos",
@@ -75,7 +76,8 @@
     "createdAt": "Fecha de creación",
     "message": "Mensaje",
     "action": "Acción",
-    "userId": "ID usuario"
+    "userId": "ID usuario",
+    "noNotifications": "No hay notificaciones disponibles"
   },
   "products": {
     "cakes": "Tartas",

@@ -21,7 +21,8 @@
     "accept": "Accept",
     "cancel": "Cancel",
     "delete": "Delete",
-    "changeState": "Change state"
+    "changeState": "Change state",
+    "edit": "Edit"
   },
   "menu": {
     "products": "Products",
@@ -75,7 +76,8 @@
     "createdAt": "Created at",
     "message": "Message",
     "action": "Action",
-    "userId": "User ID"
+    "userId": "User ID",
+    "noNotifications": "No notifications available"
   },
   "products": {
     "cakes": "Cakes",

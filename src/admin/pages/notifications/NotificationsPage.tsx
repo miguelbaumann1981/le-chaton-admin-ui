@@ -8,6 +8,7 @@ import { MdEmail, MdOutlineFilterAltOff } from 'react-icons/md';
 import { Spinner } from '../../components/Spinner';
 import { Paginator } from '../../components/Paginator';
 import { useNotificationActionText } from '../dashboard/hooks/useNotificationActionText';
+import { NotificationDetailsModal } from './components/NotificationDetailsModal';
 
 export const NotificationsPage = () => {
   const { t } = useI18n();
@@ -150,9 +151,6 @@ export const NotificationsPage = () => {
                     <th className='border-b-gray-600'>
                       {t('notifications.action')}
                     </th>
-                    <th className='border-b-gray-600'>
-                      {t('notifications.userId')}
-                    </th>
                   </tr>
                 </thead>
 
@@ -180,9 +178,6 @@ export const NotificationsPage = () => {
                       </td>
                       <td className='border-b-gray-600'>
                         {handleNotificationActionText(notification?.action)}
-                      </td>
-                      <td className='border-b-gray-600'>
-                        {notification?.userId}
                       </td>
                     </tr>
                   ))}
@@ -214,6 +209,11 @@ export const NotificationsPage = () => {
           </div>
         )}
       </div>
+
+      {/* MODAL FOR NOTIFICATIONS */}
+      {notificationsData.map((notification) => (
+        <NotificationDetailsModal key={notification?.id} {...notification} />
+      ))}
     </>
   );
 };

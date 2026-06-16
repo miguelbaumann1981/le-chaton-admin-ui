@@ -1,9 +1,11 @@
 import { NumericFormat } from 'react-number-format';
 import { useI18n } from '../../../../i18n';
 import type { Product } from '../interfaces/products-api-response.interface';
+import { useNavigate } from 'react-router';
 
 export const ProductCardModal = (product: Product) => {
   const { t } = useI18n();
+  const navigate = useNavigate();
 
   const handleBadgeCategory = (category: string) => {
     switch (category) {
@@ -16,6 +18,11 @@ export const ProductCardModal = (product: Product) => {
       case 'VEGAN':
         return 'badge-success';
     }
+  };
+
+  const handleEditProduct = (slug: string) => {
+    if (!slug) return;
+    navigate(`/product/${slug}`);
   };
 
   return (
@@ -75,9 +82,18 @@ export const ProductCardModal = (product: Product) => {
           </div>
         )}
 
-        <form method='dialog' className='flex flex-row-reverse gap-2 mt-5'>
-          <button className='btn btn-outline'>{t('common.close')}</button>
-        </form>
+        <div className='flex flex-row-reverse gap-2 mt-5'>
+          <button
+            className='btn btn-outline btn-info'
+            onClick={() => handleEditProduct(product.slug)}
+          >
+            {t('common.edit')}
+          </button>
+
+          <form method='dialog'>
+            <button className='btn btn-outline'>{t('common.close')}</button>
+          </form>
+        </div>
       </div>
     </dialog>
   );
