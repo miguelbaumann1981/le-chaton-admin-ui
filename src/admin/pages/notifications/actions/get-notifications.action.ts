@@ -5,13 +5,13 @@ import type { NotificationsApiResponse } from '../interfaces/notifications-api-r
 interface Options {
   page?: number | string;
   limit?: number | string;
-  notification?: ActionNotification;
+  action?: ActionNotification;
 }
 
 export const getNotificationsAction = async (
   options: Options,
 ): Promise<NotificationsApiResponse> => {
-  const { page, limit, notification } = options;
+  const { page, limit, action } = options;
 
   const { data } = await leChatonApi.get<NotificationsApiResponse>(
     '/api/notifications',
@@ -19,15 +19,13 @@ export const getNotificationsAction = async (
       params: {
         page,
         limit,
-        notification,
+        action,
       },
     },
   );
 
-  if (notification !== null) {
-    const filteredOrders = data.logs.filter(
-      (log) => log.action === notification,
-    );
+  if (action !== null) {
+    const filteredOrders = data.logs.filter((log) => log.action === action);
     return {
       ...data,
       total: filteredOrders.length,

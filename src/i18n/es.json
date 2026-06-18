@@ -77,7 +77,11 @@
     "message": "Mensaje",
     "action": "Acción",
     "userId": "ID usuario",
-    "noNotifications": "No hay notificaciones disponibles"
+    "noNotifications": "No hay notificaciones disponibles",
+    "date": "Fecha",
+    "errorDeleted": "Error al eliminar la notificación. Intente más tarde",
+    "successDeleted": "Notificación eliminada con éxito",
+    "sureToDelete": "¿Está seguro que desea eliminar esta notificación?"
   },
   "products": {
     "cakes": "Tartas",

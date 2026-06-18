@@ -77,7 +77,11 @@
     "message": "Message",
     "action": "Action",
     "userId": "User ID",
-    "noNotifications": "No notifications available"
+    "noNotifications": "No notifications available",
+    "date": "Date",
+    "errorDeleted": "Error to delete. Please try later",
+    "successDeleted": "Notification deleted successfully",
+    "sureToDelete": "Are you sure you want to delete this notification?"
   },
   "products": {
     "cakes": "Cakes",

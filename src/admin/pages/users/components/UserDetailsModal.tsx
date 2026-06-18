@@ -72,6 +72,7 @@ export const UserDetailModal = ({ user, isOpen, onClose }: Props) => {
     setAlertMessage(t('users.successDeleted'));
     setTimeout(() => {
       setShowSuccessMessage(true);
+      setShowDeleteUser(false);
     }, 1000);
   };
 

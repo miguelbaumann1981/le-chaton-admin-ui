@@ -11,7 +11,7 @@ export const DashboardPage = () => {
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-4xl font-bold mb-4'>
+        <h1 className='text-3xl font-bold mb-4'>
           <span className='text-primary'>Baumann</span>, {t('dashboard.title')}
         </h1>
 

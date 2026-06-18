@@ -1,12 +1,79 @@
-import { MdInfo } from 'react-icons/md';
+import {
+  MdCheckCircle,
+  MdError,
+  MdInfo,
+  MdOutlineCancel,
+} from 'react-icons/md';
 import type { NotificationLog } from '../../dashboard/interfaces/notification-log.interface';
 import { useNotificationColor } from '../../dashboard/hooks/useNotificationColor';
 import { useI18n } from '../../../../i18n';
+import { useEffect, useRef, useState } from 'react';
+import { useDeleteNotification } from '../hooks/useDeleteNotification';
+import { Spinner } from '../../../components/Spinner';
 
-export const NotificationDetailsModal = (notification: NotificationLog) => {
+interface Props {
+  notification: NotificationLog;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const NotificationDetailsModal = ({
+  notification,
+  isOpen,
+  onClose,
+}: Props) => {
   const { t } = useI18n();
+  const modalRef = useRef<HTMLDialogElement | null>(null);
   const notificationColor = useNotificationColor(notification?.action);
+  const [showDeleteNotification, setShowDeleteNotification] = useState(false);
+  const [deletedId, setDeletedId] = useState('');
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const { isLoading, error } = useDeleteNotification(deletedId);
+
   const displayDate = new Date(notification?.createdAt).toLocaleString();
+  useEffect(() => {
+    const modal = modalRef.current;
+
+    if (isOpen) {
+      modal?.showModal();
+    } else {
+      modal?.close();
+    }
+
+    const handleCancel = () => onClose;
+    modal?.addEventListener('close', handleCancel);
+
+    return () => modal?.removeEventListener('close', handleCancel);
+  }, [isOpen, onClose]);
+
+  const handleResetSectionsDisplayed = () => {
+    setShowDeleteNotification(false);
+    setShowSuccessMessage(false);
+    setShowErrorMessage(false);
+  };
+
+  const handleDeleteNotification = (id: string) => {
+    setDeletedId(id);
+
+    if (error) {
+      setShowErrorMessage(true);
+      setAlertMessage(t('notifications.errorDeleted'));
+      return;
+    }
+
+    setAlertMessage(t('notifications.successDeleted'));
+    setTimeout(() => {
+      setShowSuccessMessage(true);
+      setShowDeleteNotification(false);
+    }, 1000);
+  };
+
+  const handleCloseSuccessMessage = () => {
+    setShowSuccessMessage(false);
+    setShowDeleteNotification(false);
+  };
 
   return (
     <dialog id={notification?.id} className='modal'>
@@ -18,24 +85,101 @@ export const NotificationDetailsModal = (notification: NotificationLog) => {
 
         {notification?.orderId && (
           <div className='flex text-sm'>
-            <span className='w-25'>ID pedido</span>
+            <span className='w-25'>{t('orders.idOrder')}</span>
             <span className='text-white'>{notification?.orderId}</span>
           </div>
         )}
 
         <div className='flex text-sm'>
-          <span className='w-25'>Fecha</span>
-          <span className='text-white'>{displayDate}</span>
+          <span className='w-25'>{t('notifications.date')}</span>
+          <span className='text-white'>{displayDate} h</span>
         </div>
 
         <div className='flex text-sm'>
-          <span className='w-25'>ID usuario</span>
+          <span className='w-25'>{t('notifications.userId')}</span>
           <span className='text-white'>{notification?.userId}</span>
         </div>
 
+        {showDeleteNotification && (
+          <div className='flex flex-col gap-2 mt-3'>
+            <p className='text-sm text-warning'>
+              {t('notifications.sureToDelete')}
+            </p>
+            <div className='flex gap-2'>
+              <button
+                className='btn btn-primary btn-soft btn-sm'
+                disabled={showSuccessMessage}
+                onClick={() => handleDeleteNotification(notification?.id)}
+              >
+                {t('common.accept')}
+              </button>
+
+              <button
+                className='btn btn-error btn-soft btn-sm'
+                disabled={showSuccessMessage}
+                onClick={() => setShowDeleteNotification(false)}
+              >
+                {t('common.cancel')}
+              </button>
+
+              {isLoading && !error && <Spinner />}
+            </div>
+          </div>
+        )}
+
+        {showErrorMessage && (
+          <div
+            role='alert'
+            className='alert alert-error alert-soft flex flex-row items-center justify-between'
+          >
+            <div className='flex items-center gap-3'>
+              <MdError />
+              <span>{alertMessage}</span>
+            </div>
+            <a
+              className='custom-link'
+              onClick={() => setShowErrorMessage(false)}
+            >
+              <MdOutlineCancel size={20} />
+            </a>
+          </div>
+        )}
+
+        {showSuccessMessage && (
+          <div
+            role='alert'
+            className='alert alert-success alert-soft flex flex-row items-center justify-between'
+          >
+            <div className='flex items-center gap-3'>
+              <MdCheckCircle />
+              <span>{alertMessage}</span>
+            </div>
+            <a
+              className='custom-link'
+              onClick={() => handleCloseSuccessMessage()}
+            >
+              <MdOutlineCancel size={20} />
+            </a>
+          </div>
+        )}
+
         <div className='modal-action'>
+          <button
+            className='btn btn-error btn-outline'
+            disabled={showDeleteNotification}
+            onClick={() => setShowDeleteNotification(true)}
+          >
+            {t('common.delete')}
+          </button>
+
           <form method='dialog'>
-            <button className='btn'>Close</button>
+            <button
+              className='btn btn-outline'
+              onClick={onClose}
+              onClickCapture={handleResetSectionsDisplayed}
+            >
+              {t('common.close')}
+            </button>
           </form>
         </div>
       </div>

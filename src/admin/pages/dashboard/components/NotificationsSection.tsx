@@ -6,7 +6,7 @@ import type { NotificationLog } from '../interfaces/notification-log.interface';
 
 export const NotificationsSection = () => {
   const { t } = useI18n();
-  const { data } = useLatestNotifications(6);
+  const { data } = useLatestNotifications(5);
 
   return (
     <div className='flex flex-col gap-3 w-full'>
@@ -19,17 +19,9 @@ export const NotificationsSection = () => {
         </Link>
       </div>
 
-      <div className='grid grid-cols-3 gap-3'>
+      <div className='grid grid-cols-5 gap-3'>
         {data?.map((notification: NotificationLog) => (
-          <NotificationCardDashboard
-            key={notification?.id}
-            id={notification?.id}
-            message={notification?.message}
-            action={notification?.action}
-            createdAt={notification?.createdAt}
-            userId={notification?.userId}
-            orderId={notification?.orderId}
-          />
+          <NotificationCardDashboard key={notification?.id} {...notification} />
         ))}
       </div>
     </div>

@@ -5,7 +5,7 @@ import { getNotificationsAction } from '../actions/get-notifications.action';
 
 export const useNotifications = (
   customLimit: number,
-  customNotification: ActionNotification,
+  customAction: ActionNotification,
 ) => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
@@ -13,11 +13,11 @@ export const useNotifications = (
 
   return useQuery({
     queryKey: [
-      'users',
+      'notifications',
       {
         page,
         limit,
-        notification: customNotification,
+        action: customAction,
       },
     ],
     queryFn: async () => {
@@ -25,9 +25,15 @@ export const useNotifications = (
       return getNotificationsAction({
         page,
         limit,
-        notification: customNotification,
+        action: customAction,
       });
     },
+    // queryFn: () =>
+    //   getNotificationsAction({
+    //     page,
+    //     limit,
+    //     action: customAction,
+    //   }),
     staleTime: 1000 * 60 * 5,
   });
 };

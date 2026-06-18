@@ -77,6 +77,7 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
     setAlertMessage(t('orders.successChangeState'));
     setTimeout(() => {
       setShowSuccessMessage(true);
+      setShowDeleteOrder(false);
     }, 1000);
   };
 

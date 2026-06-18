@@ -7,7 +7,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { MdEmail, MdOutlineFilterAltOff } from 'react-icons/md';
 import { Spinner } from '../../components/Spinner';
 import { Paginator } from '../../components/Paginator';
-import { useNotificationActionText } from '../dashboard/hooks/useNotificationActionText';
 import { NotificationDetailsModal } from './components/NotificationDetailsModal';
 
 export const NotificationsPage = () => {
@@ -15,42 +14,48 @@ export const NotificationsPage = () => {
   const limitByDefault: number = 9;
   const maxLimit: number = 1000;
   const [customLimit, setCustomLimit] = useState(limitByDefault);
-  const [notification, setNotification] = useState<ActionNotification>(null);
-  const { data, isLoading, error } = useNotifications(
-    customLimit,
-    notification,
-  );
+  const [action, setAction] = useState<ActionNotification>(null);
+  const { data, isLoading, error } = useNotifications(customLimit, action);
   const notificationsData: NotificationLog[] = data?.logs || [];
   const totalResults = data?.total || 0;
   const totalPages =
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
 
-  // const [isOpen, setIsOpen] = useState(false);
-  // const queryClient = useQueryClient();
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleOpenOrderModal = (id: string) => {
     const dialog = document.getElementById(id) as HTMLDialogElement | null;
     dialog?.showModal();
   };
 
-  // const handleClose = () => {
-  //   setIsOpen(false);
+  const handleClose = () => {
+    setIsOpen(false);
 
-  //   queryClient.invalidateQueries({
-  //     queryKey: [
-  //       'users',
-  //       {
-  //         page: 1,
-  //         limit: limitByDefault,
-  //         notification: null,
-  //       },
-  //     ],
-  //   });
-  // };
+    queryClient.invalidateQueries({
+      queryKey: [
+        'notifications',
+        // {
+        //   page: 1,
+        //   limit: limitByDefault,
+        //   action: null,
+        // },
+      ],
+    });
+  };
+
+  const handleActionFilter = (action: ActionNotification) => {
+    if (action === null) {
+      handleRestoreFilters();
+    }
+
+    setCustomLimit(maxLimit);
+    setAction(action);
+  };
 
   const handleRestoreFilters = () => {
     setCustomLimit(limitByDefault);
-    setNotification(null);
+    setAction(null);
   };
 
   const handleNotificationActionText = (
@@ -100,7 +105,36 @@ export const NotificationsPage = () => {
         {/* FILTERS */}
         <div className='flex flex-row justify-between items-center'>
           <div className='flex items-center gap-1'>
-            <button className={`btn btn-info `}>{t('LOGIN')}</button>
+            <button
+              className={`btn btn-warning ${action === 'REGISTRATION' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleActionFilter('REGISTRATION')}
+            >
+              {t('notifications.registration')}
+            </button>
+            <button
+              className={`btn btn-primary ${action === 'LOGIN' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleActionFilter('LOGIN')}
+            >
+              {t('notifications.login')}
+            </button>
+            <button
+              className={`btn btn-success ${action === 'CREATE' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleActionFilter('CREATE')}
+            >
+              {t('notifications.create')}
+            </button>
+            <button
+              className={`btn btn-error ${action === 'DELETE' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleActionFilter('DELETE')}
+            >
+              {t('notifications.delete')}
+            </button>
+            <button
+              className={`btn btn-info ${action === 'UPDATE' ? 'btn-outline' : 'btn-soft'}`}
+              onClick={() => handleActionFilter('UPDATE')}
+            >
+              {t('notifications.update')}
+            </button>
           </div>
 
           <div className='flex items-center gap-5'>
@@ -170,7 +204,7 @@ export const NotificationsPage = () => {
                       <td className='border-b-gray-600'>{notification?.id}</td>
                       <td className='border-b-gray-600'>
                         {notification?.createdAt
-                          ? new Date(notification.createdAt).toLocaleString()
+                          ? `${new Date(notification.createdAt).toLocaleString()} h`
                           : '-'}
                       </td>
                       <td className='border-b-gray-600'>
@@ -212,7 +246,12 @@ export const NotificationsPage = () => {
 
       {/* MODAL FOR NOTIFICATIONS */}
       {notificationsData.map((notification) => (
-        <NotificationDetailsModal key={notification?.id} {...notification} />
+        <NotificationDetailsModal
+          key={notification?.id}
+          notification={notification}
+          isOpen={isOpen}
+          onClose={handleClose}
+        />
       ))}
     </>
   );
