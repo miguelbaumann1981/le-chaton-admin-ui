@@ -54,7 +54,8 @@
     "errorDeleted": "Error to delete. Please try later",
     "successDeleted": "Order deleted successfully",
     "sureToDelete": "Are you sure you want to delete this order?",
-    "amount": "Amount"
+    "amount": "Amount",
+    "selectState": "Select state"
   },
   "graphics": {
     "quantityProducts": "Quantity of products per order",

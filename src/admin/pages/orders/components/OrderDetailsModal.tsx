@@ -8,7 +8,7 @@ import type { OrderStatus } from '../types/order-status.type';
 import { useDeleteOrder } from '../hooks/useDeleteOrder';
 import { Spinner } from '../../../components/Spinner';
 import { useUpdateOrder } from '../hooks/useUpdateOrder';
-import { MdCheckCircle, MdOutlineCancel, MdError } from 'react-icons/md';
+import { MdOutlineCancel, MdError } from 'react-icons/md';
 
 interface Props {
   order: Order;
@@ -26,7 +26,6 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
   const [deletedId, setDeletedId] = useState('');
   const [updatedId, setUpdatedId] = useState('');
   const [updatedBody, setUpdatedBody] = useState<Partial<Order>>({});
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
@@ -42,7 +41,6 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
   const handleResetSectionsDisplayed = () => {
     setShowStateChange(false);
     setShowDeleteOrder(false);
-    setShowSuccessMessage(false);
     setShowErrorMessage(false);
   };
 
@@ -74,10 +72,13 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
       return;
     }
 
-    setAlertMessage(t('orders.successChangeState'));
     setTimeout(() => {
-      setShowSuccessMessage(true);
+      setAlertMessage(t('orders.successChangeState'));
       setShowDeleteOrder(false);
+      onClose();
+      const dialog = document.getElementById(id) as HTMLDialogElement | null;
+      dialog?.close();
+      setShowStateChange(false);
     }, 1000);
   };
 
@@ -90,9 +91,12 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
       return;
     }
 
-    setAlertMessage(t('orders.successDeleted'));
     setTimeout(() => {
-      setShowSuccessMessage(true);
+      setAlertMessage(t('orders.successDeleted'));
+      onClose();
+      const dialog = document.getElementById(id) as HTMLDialogElement | null;
+      dialog?.close();
+      setShowDeleteOrder(false);
     }, 1000);
   };
 
@@ -163,7 +167,7 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
 
           {showStateChange && (
             <div className='flex flex-col gap-2 mt-3'>
-              <label className='text-sm'>Seleccionar estado</label>
+              <label className='text-sm'>{t('orders.selectState')}</label>
               <select
                 defaultValue={handleDefaultValueStateDropdown(order?.status)}
                 className='select'
@@ -224,7 +228,6 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
               <div className='flex gap-2'>
                 <button
                   className='btn btn-primary btn-soft btn-sm'
-                  disabled={showSuccessMessage}
                   onClick={() => handleDeleteOrder(order?.id)}
                 >
                   {t('common.accept')}
@@ -232,7 +235,6 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
 
                 <button
                   className='btn btn-error btn-soft btn-sm'
-                  disabled={showSuccessMessage}
                   onClick={() => setShowDeleteOrder(false)}
                 >
                   {t('common.cancel')}
@@ -255,24 +257,6 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
               <a
                 className='custom-link'
                 onClick={() => setShowErrorMessage(false)}
-              >
-                <MdOutlineCancel size={20} />
-              </a>
-            </div>
-          )}
-
-          {showSuccessMessage && (
-            <div
-              role='alert'
-              className='alert alert-success alert-soft flex flex-row items-center justify-between'
-            >
-              <div className='flex items-center gap-3'>
-                <MdCheckCircle />
-                <span>{alertMessage}</span>
-              </div>
-              <a
-                className='custom-link'
-                onClick={() => setShowSuccessMessage(false)}
               >
                 <MdOutlineCancel size={20} />
               </a>

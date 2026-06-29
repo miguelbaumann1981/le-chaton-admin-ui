@@ -1,5 +1,7 @@
 import {
+  MdCheckCircle,
   MdLibraryBooks,
+  MdOutlineCancel,
   MdOutlineFilterAltOff,
   MdOutlineSearch,
 } from 'react-icons/md';
@@ -22,6 +24,8 @@ export const OrdersPage = () => {
   const [customLimit, setCustomLimit] = useState(limitByDefault);
   const [customState, setCustomState] = useState<OrderStatus>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const { data, isLoading, error } = useOrders(customLimit, customState);
 
   const ordersData: Order[] = data?.orders || [];
@@ -33,6 +37,7 @@ export const OrdersPage = () => {
   const handleOpenOrderModal = (id: string) => {
     const dialog = document.getElementById(id) as HTMLDialogElement | null;
     dialog?.showModal();
+    setShowSuccessMessage(false);
   };
 
   const handleOrderStatusNode = (status: OrderStatus): React.ReactNode => {
@@ -87,6 +92,12 @@ export const OrdersPage = () => {
         },
       ],
     });
+
+    setAlertMessage('message');
+    setShowSuccessMessage(true);
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000);
   };
 
   return (
@@ -257,6 +268,24 @@ export const OrdersPage = () => {
           </div>
         )}
       </div>
+
+      {showSuccessMessage && (
+        <div
+          role='alert'
+          className='absolute top-20 right-10 min-w-75 alert alert-success flex flex-row items-center justify-between'
+        >
+          <div className='flex items-center gap-3'>
+            <MdCheckCircle />
+            <span>{alertMessage}</span>
+          </div>
+          <a
+            className='custom-link'
+            onClick={() => setShowSuccessMessage(false)}
+          >
+            <MdOutlineCancel size={20} color='#ffffff' />
+          </a>
+        </div>
+      )}
 
       {/* MODAL FOR ORDER */}
       {ordersData.map((order) => (

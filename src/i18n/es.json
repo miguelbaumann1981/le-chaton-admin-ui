@@ -54,7 +54,8 @@
     "errorDeleted": "Error al eliminar el pedido. Intente más tarde",
     "successDeleted": "Pedido eliminado con éxito",
     "sureToDelete": "¿Está seguro que desea eliminar este pedido?",
-    "amount": "Importe"
+    "amount": "Importe",
+    "selectState": "Seleccionar estado"
   },
   "graphics": {
     "quantityProducts": "Cantidad de productos por pedido",
@@ -63,7 +64,7 @@
   },
   "notifications": {
     "registration": "Registro",
-    "login": "Inicio de sesión",
+    "login": "Inicio sesión",
     "create": "Creación",
     "delete": "Eliminación",
     "update": "Actualización",
