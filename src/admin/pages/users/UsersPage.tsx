@@ -1,7 +1,9 @@
 import {
   MdCancel,
   MdCheckBox,
+  MdCheckCircle,
   MdFace,
+  MdOutlineCancel,
   MdOutlineFilterAltOff,
 } from 'react-icons/md';
 import { useI18n } from '../../../i18n';
@@ -13,6 +15,7 @@ import { Paginator } from '../../components/Paginator';
 import type { AuthRole } from './types/role-user.type';
 import { UserDetailModal } from './components/UserDetailsModal';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router';
 
 export const UsersPage = () => {
   const { t } = useI18n();
@@ -22,6 +25,7 @@ export const UsersPage = () => {
   const [customLimit, setCustomLimit] = useState(limitByDefault);
   const [customRole, setCustomRole] = useState<AuthRole>(undefined);
   const [querySearch, setQuerySearch] = useState<string>('');
+  const [searchParams] = useSearchParams();
   const { data, isLoading, error } = useUsers(
     customLimit,
     customRole,
@@ -34,6 +38,8 @@ export const UsersPage = () => {
     data?.total && data?.limit ? Math.ceil(data.total / data.limit) : 0;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const queryClient = useQueryClient();
 
   const handleRoleText = (role: AuthRole): string => {
@@ -50,21 +56,31 @@ export const UsersPage = () => {
   const handleOpenOrderModal = (id: string) => {
     const dialog = document.getElementById(id) as HTMLDialogElement | null;
     dialog?.showModal();
+    setShowSuccessMessage(false);
   };
 
   const handleClose = () => {
     setIsOpen(false);
+    const currentPage = searchParams.get('page');
 
     queryClient.invalidateQueries({
       queryKey: [
         'users',
         {
-          page: 1,
-          limit: limitByDefault,
-          role: undefined,
+          page: currentPage,
+          limit: customLimit,
+          role: customRole,
         },
       ],
     });
+  };
+
+  const handleMessage = (message: string) => {
+    setAlertMessage(message);
+    setShowSuccessMessage(true);
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000);
   };
 
   const handleRoleFilter = (role: AuthRole) => {
@@ -247,6 +263,24 @@ export const UsersPage = () => {
         )}
       </div>
 
+      {showSuccessMessage && (
+        <div
+          role='alert'
+          className='absolute top-20 right-10 min-w-75 alert alert-success flex flex-row items-center justify-between'
+        >
+          <div className='flex items-center gap-3'>
+            <MdCheckCircle />
+            <span>{alertMessage}</span>
+          </div>
+          <a
+            className='custom-link'
+            onClick={() => setShowSuccessMessage(false)}
+          >
+            <MdOutlineCancel size={20} color='#ffffff' />
+          </a>
+        </div>
+      )}
+
       {/* MODAL FOR ORDER */}
       {usersData.map((user) => (
         <UserDetailModal
@@ -254,6 +288,7 @@ export const UsersPage = () => {
           user={user}
           isOpen={isOpen}
           onClose={handleClose}
+          onMessage={(message) => handleMessage(message)}
         />
       ))}
     </>

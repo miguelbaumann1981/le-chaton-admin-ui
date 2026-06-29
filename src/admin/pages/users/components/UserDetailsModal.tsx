@@ -2,13 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../../../i18n';
 import type { AuthUser } from '../interfaces/auth-user.interface';
 import type { AuthRole } from '../types/role-user.type';
-import {
-  MdCancel,
-  MdCheckBox,
-  MdCheckCircle,
-  MdError,
-  MdOutlineCancel,
-} from 'react-icons/md';
+import { MdCancel, MdCheckBox, MdError, MdOutlineCancel } from 'react-icons/md';
 import { useDeleteUser } from '../hooks/useDeleteUser';
 import { Spinner } from '../../../components/Spinner';
 
@@ -16,9 +10,15 @@ interface Props {
   user: AuthUser;
   isOpen: boolean;
   onClose: () => void;
+  onMessage: (message: string) => void;
 }
 
-export const UserDetailModal = ({ user, isOpen, onClose }: Props) => {
+export const UserDetailModal = ({
+  user,
+  isOpen,
+  onClose,
+  onMessage,
+}: Props) => {
   const { t } = useI18n();
   const modalRef = useRef<HTMLDialogElement | null>(null);
   const [deletedId, setDeletedId] = useState('');
@@ -69,16 +69,13 @@ export const UserDetailModal = ({ user, isOpen, onClose }: Props) => {
       return;
     }
 
-    setAlertMessage(t('users.successDeleted'));
     setTimeout(() => {
-      setShowSuccessMessage(true);
+      onClose();
+      onMessage(t('users.successDeleted'));
+      const dialog = document.getElementById(id) as HTMLDialogElement | null;
+      dialog?.close();
       setShowDeleteUser(false);
     }, 1000);
-  };
-
-  const handleCloseSuccessMessage = () => {
-    setShowSuccessMessage(false);
-    setShowDeleteUser(false);
   };
 
   return (
@@ -150,24 +147,6 @@ export const UserDetailModal = ({ user, isOpen, onClose }: Props) => {
               <a
                 className='custom-link'
                 onClick={() => setShowErrorMessage(false)}
-              >
-                <MdOutlineCancel size={20} />
-              </a>
-            </div>
-          )}
-
-          {showSuccessMessage && (
-            <div
-              role='alert'
-              className='alert alert-success alert-soft flex flex-row items-center justify-between'
-            >
-              <div className='flex items-center gap-3'>
-                <MdCheckCircle />
-                <span>{alertMessage}</span>
-              </div>
-              <a
-                className='custom-link'
-                onClick={() => handleCloseSuccessMessage()}
               >
                 <MdOutlineCancel size={20} />
               </a>

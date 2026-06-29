@@ -16,6 +16,7 @@ import { OrderDetailsModal } from './components/OrderDetailsModal';
 import { SearchOrderModal } from './components/SearchOrderModal';
 import { useQueryClient } from '@tanstack/react-query';
 import { NumericFormat } from 'react-number-format';
+import { useSearchParams } from 'react-router';
 
 export const OrdersPage = () => {
   const { t } = useI18n();
@@ -26,6 +27,7 @@ export const OrdersPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [searchParams] = useSearchParams();
   const { data, isLoading, error } = useOrders(customLimit, customState);
 
   const ordersData: Order[] = data?.orders || [];
@@ -81,19 +83,22 @@ export const OrdersPage = () => {
 
   const handleClose = () => {
     setIsOpen(false);
+    const currentPage = searchParams.get('page');
 
     queryClient.invalidateQueries({
       queryKey: [
         'orders',
         {
-          page: 1,
-          limit: limitByDefault,
-          state: null,
+          page: currentPage,
+          limit: customLimit,
+          state: customState,
         },
       ],
     });
+  };
 
-    setAlertMessage('message');
+  const handleMessage = (message: string) => {
+    setAlertMessage(message);
     setShowSuccessMessage(true);
     setTimeout(() => {
       setShowSuccessMessage(false);
@@ -294,6 +299,7 @@ export const OrdersPage = () => {
           order={order}
           isOpen={isOpen}
           onClose={handleClose}
+          onMessage={(message) => handleMessage(message)}
         />
       ))}
 

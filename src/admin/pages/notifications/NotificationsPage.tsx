@@ -4,10 +4,16 @@ import { useNotifications } from './hooks/useNotifications';
 import type { ActionNotification } from '../dashboard/types/notification-action.type';
 import type { NotificationLog } from '../dashboard/interfaces/notification-log.interface';
 import { useQueryClient } from '@tanstack/react-query';
-import { MdEmail, MdOutlineFilterAltOff } from 'react-icons/md';
+import {
+  MdCheckCircle,
+  MdEmail,
+  MdOutlineCancel,
+  MdOutlineFilterAltOff,
+} from 'react-icons/md';
 import { Spinner } from '../../components/Spinner';
 import { Paginator } from '../../components/Paginator';
 import { NotificationDetailsModal } from './components/NotificationDetailsModal';
+import { useSearchParams } from 'react-router';
 
 export const NotificationsPage = () => {
   const { t } = useI18n();
@@ -15,6 +21,9 @@ export const NotificationsPage = () => {
   const maxLimit: number = 1000;
   const [customLimit, setCustomLimit] = useState(limitByDefault);
   const [action, setAction] = useState<ActionNotification>(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [searchParams] = useSearchParams();
   const { data, isLoading, error } = useNotifications(customLimit, action);
   const notificationsData: NotificationLog[] = data?.logs || [];
   const totalResults = data?.total || 0;
@@ -31,15 +40,16 @@ export const NotificationsPage = () => {
 
   const handleClose = () => {
     setIsOpen(false);
+    const currentPage = searchParams.get('page');
 
     queryClient.invalidateQueries({
       queryKey: [
         'notifications',
-        // {
-        //   page: 1,
-        //   limit: limitByDefault,
-        //   action: null,
-        // },
+        {
+          page: currentPage,
+          limit: customLimit,
+          action: action,
+        },
       ],
     });
   };
@@ -56,6 +66,14 @@ export const NotificationsPage = () => {
   const handleRestoreFilters = () => {
     setCustomLimit(limitByDefault);
     setAction(null);
+  };
+
+  const handleMessage = (message: string) => {
+    setAlertMessage(message);
+    setShowSuccessMessage(true);
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000);
   };
 
   const handleNotificationActionText = (
@@ -147,6 +165,7 @@ export const NotificationsPage = () => {
 
             <button
               className='btn btn-neutral'
+              disabled={action === null}
               onClick={() => handleRestoreFilters()}
             >
               <MdOutlineFilterAltOff /> {t('common.restoreFilters')}
@@ -244,6 +263,24 @@ export const NotificationsPage = () => {
         )}
       </div>
 
+      {showSuccessMessage && (
+        <div
+          role='alert'
+          className='absolute top-20 right-10 min-w-75 alert alert-success flex flex-row items-center justify-between'
+        >
+          <div className='flex items-center gap-3'>
+            <MdCheckCircle />
+            <span>{alertMessage}</span>
+          </div>
+          <a
+            className='custom-link'
+            onClick={() => setShowSuccessMessage(false)}
+          >
+            <MdOutlineCancel size={20} color='#ffffff' />
+          </a>
+        </div>
+      )}
+
       {/* MODAL FOR NOTIFICATIONS */}
       {notificationsData.map((notification) => (
         <NotificationDetailsModal
@@ -251,6 +288,7 @@ export const NotificationsPage = () => {
           notification={notification}
           isOpen={isOpen}
           onClose={handleClose}
+          onMessage={(message) => handleMessage(message)}
         />
       ))}
     </>

@@ -1,9 +1,4 @@
-import {
-  MdCheckCircle,
-  MdError,
-  MdInfo,
-  MdOutlineCancel,
-} from 'react-icons/md';
+import { MdError, MdInfo, MdOutlineCancel } from 'react-icons/md';
 import type { NotificationLog } from '../../dashboard/interfaces/notification-log.interface';
 import { useNotificationColor } from '../../dashboard/hooks/useNotificationColor';
 import { useI18n } from '../../../../i18n';
@@ -15,19 +10,20 @@ interface Props {
   notification: NotificationLog;
   isOpen: boolean;
   onClose: () => void;
+  onMessage: (message: string) => void;
 }
 
 export const NotificationDetailsModal = ({
   notification,
   isOpen,
   onClose,
+  onMessage,
 }: Props) => {
   const { t } = useI18n();
   const modalRef = useRef<HTMLDialogElement | null>(null);
   const notificationColor = useNotificationColor(notification?.action);
   const [showDeleteNotification, setShowDeleteNotification] = useState(false);
   const [deletedId, setDeletedId] = useState('');
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const { isLoading, error } = useDeleteNotification(deletedId);
@@ -50,7 +46,6 @@ export const NotificationDetailsModal = ({
 
   const handleResetSectionsDisplayed = () => {
     setShowDeleteNotification(false);
-    setShowSuccessMessage(false);
     setShowErrorMessage(false);
   };
 
@@ -65,14 +60,12 @@ export const NotificationDetailsModal = ({
 
     setAlertMessage(t('notifications.successDeleted'));
     setTimeout(() => {
-      setShowSuccessMessage(true);
+      onClose();
+      onMessage(t('notifications.successDeleted'));
+      const dialog = document.getElementById(id) as HTMLDialogElement | null;
+      dialog?.close();
       setShowDeleteNotification(false);
     }, 1000);
-  };
-
-  const handleCloseSuccessMessage = () => {
-    setShowSuccessMessage(false);
-    setShowDeleteNotification(false);
   };
 
   return (
@@ -108,7 +101,6 @@ export const NotificationDetailsModal = ({
             <div className='flex gap-2'>
               <button
                 className='btn btn-primary btn-soft btn-sm'
-                disabled={showSuccessMessage}
                 onClick={() => handleDeleteNotification(notification?.id)}
               >
                 {t('common.accept')}
@@ -116,7 +108,6 @@ export const NotificationDetailsModal = ({
 
               <button
                 className='btn btn-error btn-soft btn-sm'
-                disabled={showSuccessMessage}
                 onClick={() => setShowDeleteNotification(false)}
               >
                 {t('common.cancel')}
@@ -139,24 +130,6 @@ export const NotificationDetailsModal = ({
             <a
               className='custom-link'
               onClick={() => setShowErrorMessage(false)}
-            >
-              <MdOutlineCancel size={20} />
-            </a>
-          </div>
-        )}
-
-        {showSuccessMessage && (
-          <div
-            role='alert'
-            className='alert alert-success alert-soft flex flex-row items-center justify-between'
-          >
-            <div className='flex items-center gap-3'>
-              <MdCheckCircle />
-              <span>{alertMessage}</span>
-            </div>
-            <a
-              className='custom-link'
-              onClick={() => handleCloseSuccessMessage()}
             >
               <MdOutlineCancel size={20} />
             </a>

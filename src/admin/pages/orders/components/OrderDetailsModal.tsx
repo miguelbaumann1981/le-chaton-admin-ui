@@ -14,9 +14,15 @@ interface Props {
   order: Order;
   isOpen: boolean;
   onClose: () => void;
+  onMessage: (message: string) => void;
 }
 
-export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
+export const OrderDetailsModal = ({
+  order,
+  isOpen,
+  onClose,
+  onMessage,
+}: Props) => {
   const { t } = useI18n();
 
   const modalRef = useRef<HTMLDialogElement | null>(null);
@@ -53,7 +59,7 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
       modal?.close();
     }
 
-    const handleCancel = () => onClose;
+    const handleCancel = () => onClose();
     modal?.addEventListener('close', handleCancel);
 
     return () => modal?.removeEventListener('close', handleCancel);
@@ -73,9 +79,8 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
     }
 
     setTimeout(() => {
-      setAlertMessage(t('orders.successChangeState'));
-      setShowDeleteOrder(false);
       onClose();
+      onMessage(t('orders.successChangeState'));
       const dialog = document.getElementById(id) as HTMLDialogElement | null;
       dialog?.close();
       setShowStateChange(false);
@@ -92,8 +97,8 @@ export const OrderDetailsModal = ({ order, isOpen, onClose }: Props) => {
     }
 
     setTimeout(() => {
-      setAlertMessage(t('orders.successDeleted'));
       onClose();
+      onMessage(t('orders.successDeleted'));
       const dialog = document.getElementById(id) as HTMLDialogElement | null;
       dialog?.close();
       setShowDeleteOrder(false);
