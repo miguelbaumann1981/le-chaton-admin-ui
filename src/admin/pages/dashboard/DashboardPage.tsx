@@ -1,9 +1,7 @@
 import { useI18n } from '../../../i18n';
 import { OrdersSection } from './components/OrdersSection';
-import GraphOrdersPriceDate from './components/graphics/GraphOrdersPriceDate';
-import GraphOrdersProductsQuantity from './components/graphics/GraphOrdersProductsQuantity';
 import { NotificationsSection } from './components/NotificationsSection';
-import GraphOrdersByAction from './components/graphics/GraphOrdersByAction';
+import { GraphCard } from './components/GraphCard';
 
 export const DashboardPage = () => {
   const { t } = useI18n();
@@ -21,11 +19,18 @@ export const DashboardPage = () => {
           <NotificationsSection />
         </div>
 
-        <div className='mt-5 p-2'>
-          <div className='grid grid-cols-2 gap-10'>
-            <GraphOrdersProductsQuantity />
-            <GraphOrdersPriceDate />
-            <GraphOrdersByAction />
+        <div className='mt-5'>
+          <div className='grid grid-cols-4 gap-10'>
+            <GraphCard
+              id='productsInOrders'
+              title={t('graphics.quantityProducts')}
+            />
+            <GraphCard id='ordersByMonth' title={t('graphics.ordersMonth')} />
+            <GraphCard id='salesByMonth' title={t('graphics.salesDate')} />
+            <GraphCard
+              id='ordersByAction'
+              title={t('graphics.distributionOrders')}
+            />
           </div>
         </div>
       </div>

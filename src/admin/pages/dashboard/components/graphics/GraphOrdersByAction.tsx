@@ -4,6 +4,8 @@ import {
   type PieLabelRenderProps,
   type PieSectorShapeProps,
   Sector,
+  Tooltip,
+  type TooltipContentProps,
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
 import { useOrdersByAction } from '../../hooks/useOrdersByAction';
@@ -11,7 +13,6 @@ import type { OrdersByAction } from '../../interfaces/orders-by-action.interface
 import { useNotificationActionText } from '../../hooks/useNotificationActionText';
 import { useI18n } from '../../../../../i18n';
 
-// #endregion
 const RADIAN = Math.PI / 180;
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
@@ -39,6 +40,7 @@ const renderCustomizedLabel = ({
       fill='white'
       textAnchor={x > ncx ? 'start' : 'end'}
       dominantBaseline='central'
+      className='text-2xl'
     >
       {`${((percent ?? 1) * 100).toFixed(0)}%`}
     </text>
@@ -64,8 +66,26 @@ const OrderActionLegendItem = ({
         className='inline-block w-4 h-4 mr-1'
         style={{ backgroundColor: COLORS[index % COLORS.length] }}
       />
-      {actionText}
+      <span className='text-sm'>{actionText}</span>
     </span>
+  );
+};
+
+const CustomTooltip = ({ active, payload }: TooltipContentProps) => {
+  const { t } = useI18n();
+  const firstPayload = payload?.[0];
+  const isVisible = active && firstPayload != null;
+  return (
+    <div
+      className='text-white text-xl bg-base-100 py-2 px-4 border border-gray-100 rounded-md'
+      style={{ visibility: isVisible ? 'visible' : 'hidden' }}
+    >
+      {isVisible && (
+        <p>
+          {firstPayload.value} {t('menu.orders')}
+        </p>
+      )}
+    </div>
   );
 };
 
@@ -74,20 +94,15 @@ const GraphOrdersByAction = ({
 }: {
   isAnimationActive?: boolean;
 }) => {
-  const { t } = useI18n();
   const { data = [] } = useOrdersByAction();
   const ordersByAction: OrdersByAction[] = data;
 
+  console.log(data);
   return (
-    <div className='flex flex-col gap-3 border border-gray-600 p-4 px-8 bg-base-300 rounded-lg'>
-      <h2 className='text-xl font-semibold'>
-        {t('graphics.distributionOrders')}
-      </h2>
-
+    <>
       <PieChart
         style={{
           width: '100%',
-          maxWidth: '500px',
           maxHeight: '80vh',
           aspectRatio: 1,
         }}
@@ -102,6 +117,7 @@ const GraphOrdersByAction = ({
           isAnimationActive={isAnimationActive}
           shape={MyCustomPie}
         />
+        <Tooltip content={CustomTooltip} />
         <RechartsDevtools />
       </PieChart>
 
@@ -110,7 +126,7 @@ const GraphOrdersByAction = ({
           <OrderActionLegendItem key={index} order={order} index={index} />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

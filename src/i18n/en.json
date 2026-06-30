@@ -60,6 +60,7 @@
   "graphics": {
     "quantityProducts": "Quantity of products in orders",
     "salesDate": "Sales by month",
+    "ordersMonth": "Orders by month",
     "distributionOrders": "Distribution of orders by action",
     "quantity": "Quantity",
     "benefit": "Benefit"

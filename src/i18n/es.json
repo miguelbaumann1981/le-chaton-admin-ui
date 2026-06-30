@@ -60,6 +60,7 @@
   "graphics": {
     "quantityProducts": "Cantidad de productos en pedidos",
     "salesDate": "Ventas por mes",
+    "ordersMonth": "Pedidos por mes",
     "distributionOrders": "Distribución de pedidos por acción",
     "quantity": "Cantidad",
     "benefit": "Beneficio"
