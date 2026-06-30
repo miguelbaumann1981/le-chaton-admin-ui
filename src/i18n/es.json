@@ -58,9 +58,11 @@
     "selectState": "Seleccionar estado"
   },
   "graphics": {
-    "quantityProducts": "Cantidad de productos por pedido",
-    "salesDate": "Ventas por fecha",
-    "distributionOrders": "Distribución de pedidos por acción"
+    "quantityProducts": "Cantidad de productos en pedidos",
+    "salesDate": "Ventas por mes",
+    "distributionOrders": "Distribución de pedidos por acción",
+    "quantity": "Cantidad",
+    "benefit": "Beneficio"
   },
   "notifications": {
     "registration": "Registro",

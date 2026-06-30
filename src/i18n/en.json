@@ -58,9 +58,11 @@
     "selectState": "Select state"
   },
   "graphics": {
-    "quantityProducts": "Quantity of products per order",
-    "salesDate": "Sales by date",
-    "distributionOrders": "Distribution of orders by action"
+    "quantityProducts": "Quantity of products in orders",
+    "salesDate": "Sales by month",
+    "distributionOrders": "Distribution of orders by action",
+    "quantity": "Quantity",
+    "benefit": "Benefit"
   },
   "notifications": {
     "registration": "Registration",
