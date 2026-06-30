@@ -2,11 +2,17 @@ import { useNotificationActionStyle } from '../hooks/useNotificationActionStyle'
 import { useNotificationActionText } from '../hooks/useNotificationActionText';
 import type { NotificationLog } from '../interfaces/notification-log.interface';
 import { NotificationDetailsModal } from '../../notifications/components/NotificationDetailsModal';
-import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
-export const NotificationCardDashboard = (notification: NotificationLog) => {
-  const limitByDefault: number = 9;
+interface Props {
+  notification: NotificationLog;
+  onRefresh: (message: string) => void;
+}
+
+export const NotificationCardDashboard = ({
+  notification,
+  onRefresh,
+}: Props) => {
   const notificationText = useNotificationActionText(notification?.action);
   const notificationStyle = useNotificationActionStyle(notification?.action);
   const displayDate = new Date(notification?.createdAt).toLocaleDateString();
@@ -14,7 +20,6 @@ export const NotificationCardDashboard = (notification: NotificationLog) => {
     .toLocaleString()
     .split(',');
   const [isOpen, setIsOpen] = useState(false);
-  const queryClient = useQueryClient();
 
   const handleOpenDetailsModal = () => {
     const dialog = document.getElementById(
@@ -25,17 +30,10 @@ export const NotificationCardDashboard = (notification: NotificationLog) => {
 
   const handleClose = () => {
     setIsOpen(false);
+  };
 
-    queryClient.invalidateQueries({
-      queryKey: [
-        'notifications',
-        {
-          page: 1,
-          limit: limitByDefault,
-          action: null,
-        },
-      ],
-    });
+  const handleMessage = (message: string) => {
+    onRefresh(message);
   };
 
   return (
@@ -61,6 +59,7 @@ export const NotificationCardDashboard = (notification: NotificationLog) => {
         notification={notification}
         isOpen={isOpen}
         onClose={handleClose}
+        onMessage={(message) => handleMessage(message)}
       />
     </>
   );
