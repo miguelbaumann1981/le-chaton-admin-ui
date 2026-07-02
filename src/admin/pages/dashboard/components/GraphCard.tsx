@@ -4,6 +4,7 @@ import type React from 'react';
 import GraphOrdersProductsQuantity from './graphics/GraphOrdersProductsQuantity';
 import GraphOrdersPriceDate from './graphics/GraphOrdersPriceDate';
 import GraphOrdersByAction from './graphics/GraphOrdersByAction';
+import { useI18n } from '../../../../i18n';
 
 interface Props {
   id: string;
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export const GraphCard = ({ id, title }: Props) => {
+  const { t } = useI18n();
+
   const handleOpenModal = (id: string) => {
     const dialog = document.getElementById(id) as HTMLDialogElement | null;
     dialog?.showModal();
@@ -34,8 +37,12 @@ export const GraphCard = ({ id, title }: Props) => {
       <div className='flex flex-col gap-3 border border-gray-600 py-4 px-8 bg-base-300 rounded-lg'>
         <div className='flex items-center justify-between'>
           <h2 className='text-base font-semibold'>{title}</h2>
-          <a className='custom-link' onClick={() => handleOpenModal(id)}>
-            <MdFullscreen />
+          <a
+            className='custom-link tooltip'
+            data-tip={t('common.seeBigger')}
+            onClick={() => handleOpenModal(id)}
+          >
+            <MdFullscreen size={24} />
           </a>
         </div>
 
@@ -43,9 +50,10 @@ export const GraphCard = ({ id, title }: Props) => {
       </div>
 
       <dialog id={id} className='modal'>
-        <div className='modal-box w-11/12 max-w-5xl'>
+        <div className='modal-box w-11/12 max-w-5xl' tabIndex={-1}>
           <h3 className='font-bold text-lg mb-4'>{title}</h3>
           {handleReturnGraph(id)}
+
           <div className='modal-action'>
             <form method='dialog'>
               <button className='btn btn-outline'>Close</button>

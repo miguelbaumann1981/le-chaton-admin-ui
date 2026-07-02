@@ -38,7 +38,7 @@ export const OrdersSection = () => {
           </Link>
         </div>
 
-        <div className='grid grid-cols-3 gap-3'>
+        <div className='grid grid-cols-3  gap-3'>
           {data?.orders.map((order: Order) => (
             <OrderCardDashboard
               key={order.id}

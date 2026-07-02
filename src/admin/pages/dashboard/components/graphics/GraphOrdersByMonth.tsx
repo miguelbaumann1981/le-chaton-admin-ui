@@ -6,75 +6,84 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  type TooltipContentProps,
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
+import { useOrders } from '../../../orders/hooks/useOrders';
+import type { Order } from '../../../orders/interfaces/order.interface';
+import { parseMonthByName } from '../../../../helpers/parse-month-by-name';
+import { useI18n } from '../../../../../i18n';
 
-// #region Sample data
-const data = [
-  {
-    name: 'Ene',
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Feb',
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Mar',
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Abr',
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'May',
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Jun',
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Jul',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Ago',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Sep',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Oct',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Nov',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Dic',
-    pv: 4300,
-    amt: 2100,
-  },
-];
-// #endregion
+interface monthOrdersById {
+  month: string | Date;
+  quantity: number;
+}
 
 const GraphOrdersByMonth = () => {
+  const { t } = useI18n();
+  const { data } = useOrders(1000, null);
+  const allOrders: Order[] = data?.orders || [];
+
+  const defaultMonthOrders: monthOrdersById[] = [
+    { month: '01', quantity: 0 },
+    { month: '02', quantity: 0 },
+    { month: '03', quantity: 0 },
+    { month: '04', quantity: 0 },
+    { month: '05', quantity: 0 },
+    { month: '06', quantity: 0 },
+    { month: '07', quantity: 0 },
+    { month: '08', quantity: 0 },
+    { month: '09', quantity: 0 },
+    { month: '10', quantity: 0 },
+    { month: '11', quantity: 0 },
+    { month: '12', quantity: 0 },
+  ];
+
+  const groupOrders = (orders: Order[]): monthOrdersById[] => {
+    const ordersByMonth = orders.reduce<Record<string, number>>(
+      (acc, order) => {
+        const month = order.orderDate.toString().slice(5, 7);
+        acc[month] = (acc[month] ?? 0) + 1;
+        return acc;
+      },
+      {},
+    );
+
+    return Object.entries(ordersByMonth).map(([month, quantity]) => ({
+      month,
+      quantity,
+    }));
+  };
+
+  const mappedOrders = groupOrders(allOrders);
+
+  const finalOrders: monthOrdersById[] = defaultMonthOrders.map(
+    (defaultMonth) => ({
+      month: t(parseMonthByName(defaultMonth.month.toString())),
+      quantity:
+        mappedOrders.find((order) => order.month === defaultMonth.month)
+          ?.quantity ?? defaultMonth.quantity,
+    }),
+  );
+
+  const CustomTooltip = ({ active, payload, label }: TooltipContentProps) => {
+    const firstPayload = payload?.[0];
+    const isVisible = active && firstPayload != null;
+    return (
+      <div
+        className='text-white text-xl bg-base-100 py-2 px-4 border border-gray-100 rounded-md'
+        style={{ visibility: isVisible ? 'visible' : 'hidden' }}
+      >
+        {isVisible && (
+          <div className='flex gap-2'>
+            <p className='text-base-content'>{label}:</p>
+            <p>{firstPayload.value}</p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <LineChart
       style={{
@@ -84,7 +93,7 @@ const GraphOrdersByMonth = () => {
         aspectRatio: 1.618,
       }}
       responsive
-      data={data}
+      data={finalOrders}
       margin={{
         top: 5,
         right: 0,
@@ -93,7 +102,7 @@ const GraphOrdersByMonth = () => {
       }}
     >
       <CartesianGrid strokeDasharray='3 3' stroke='grey' />
-      <XAxis dataKey='name' stroke='grey' />
+      <XAxis dataKey='month' stroke='grey' />
       <YAxis width='auto' stroke='grey' />
       <Tooltip
         cursor={{
@@ -103,16 +112,18 @@ const GraphOrdersByMonth = () => {
           backgroundColor: '#2a2a2a',
           borderColor: 'grey',
         }}
+        content={CustomTooltip}
       />
       <Legend />
       <Line
         type='monotone'
-        dataKey='pv'
+        dataKey='quantity'
         stroke='pink'
         dot={{
           fill: 'purple',
         }}
         activeDot={{ r: 8, stroke: 'purple' }}
+        name={t('graphics.quantity')}
       />
 
       <RechartsDevtools />

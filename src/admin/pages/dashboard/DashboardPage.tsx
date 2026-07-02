@@ -13,14 +13,14 @@ export const DashboardPage = () => {
           <span className='text-primary'>Baumann</span>, {t('dashboard.title')}
         </h1>
 
-        <div className='grid grid-cols-2 gap-10'>
+        <div className='grid grid-cols-2  gap-10'>
           <OrdersSection />
 
           <NotificationsSection />
         </div>
 
         <div className='mt-5'>
-          <div className='grid grid-cols-4 gap-10'>
+          <div className='grid grid-cols-4  gap-10'>
             <GraphCard
               id='productsInOrders'
               title={t('graphics.quantityProducts')}

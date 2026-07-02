@@ -97,7 +97,6 @@ const GraphOrdersByAction = ({
   const { data = [] } = useOrdersByAction();
   const ordersByAction: OrdersByAction[] = data;
 
-  console.log(data);
   return (
     <>
       <PieChart
