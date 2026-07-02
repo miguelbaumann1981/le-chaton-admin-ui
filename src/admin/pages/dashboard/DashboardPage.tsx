@@ -9,18 +9,18 @@ export const DashboardPage = () => {
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-3xl font-bold mb-4'>
-          <span className='text-primary'>Baumann</span>, {t('dashboard.title')}
+        <h1 className='text-xl md:text-3xl text-white font-bold mb-4'>
+          {t('dashboard.adminZone')}
         </h1>
 
-        <div className='grid grid-cols-2  gap-10'>
+        <div className='grid grid-cols-1 xl:grid-cols-2 gap-10'>
           <OrdersSection />
 
           <NotificationsSection />
         </div>
 
         <div className='mt-5'>
-          <div className='grid grid-cols-4  gap-10'>
+          <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-10'>
             <GraphCard
               id='productsInOrders'
               title={t('graphics.quantityProducts')}

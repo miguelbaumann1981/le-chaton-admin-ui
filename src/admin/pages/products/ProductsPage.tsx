@@ -71,13 +71,13 @@ export const ProductsPage = () => {
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
+        <h1 className='text-xl md:text-3xl font-bold mb-1 md:mb-4 flex items-center gap-2'>
           <MdStorefront /> <span>{t('menu.products')}</span>
         </h1>
 
         {/* FILTERS */}
-        <div className='flex flex-row justify-between items-center'>
-          <div className='flex gap-15 items-center'>
+        <div className='flex flex-row justify-between items-center flex-wrap'>
+          <div className='flex gap-5 md:gap-15 items-center flex-wrap'>
             <button
               className='btn btn-neutral'
               onClick={() => {
@@ -281,7 +281,7 @@ export const ProductsPage = () => {
 
         {/* PAGINATOR */}
         {totalPages > 1 && (
-          <div className='flex justify-between items-center my-4 border-t-gray-600'>
+          <div className='flex gap-3 justify-between items-center my-4 border-t-gray-600 flex-wrap'>
             <Paginator totalPages={totalPages} />
 
             <div className='flex gap-2 items-center'>

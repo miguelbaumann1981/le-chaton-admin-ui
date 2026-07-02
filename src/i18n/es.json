@@ -36,7 +36,8 @@
     "latestOrders": "Últimos pedidos",
     "viewAllOrders": "Ver todos",
     "latestNotifications": "Últimas notificaciones",
-    "viewAllNotifications": "Ver todas"
+    "viewAllNotifications": "Ver todas",
+    "adminZone": "Zona de administración"
   },
   "orders": {
     "canceled": "Cancelado",

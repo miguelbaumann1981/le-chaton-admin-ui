@@ -120,7 +120,7 @@ const GraphOrdersByAction = ({
         <RechartsDevtools />
       </PieChart>
 
-      <div className='flex items-center gap-6'>
+      <div className='flex flex-row flex-wrap gap-6 '>
         {ordersByAction.map((order, index) => (
           <OrderActionLegendItem key={index} order={order} index={index} />
         ))}

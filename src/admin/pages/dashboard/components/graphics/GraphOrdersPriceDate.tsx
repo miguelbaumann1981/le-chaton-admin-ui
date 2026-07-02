@@ -13,6 +13,7 @@ import { useOrdersPriceDate } from '../../hooks/useOrdersPriceDate';
 import type { OrdersPriceDate } from '../../interfaces/orders-price-date.inteface';
 import { useI18n } from '../../../../../i18n';
 import { NumericFormat } from 'react-number-format';
+import { parseMonthByName } from '../../../../helpers/parse-month-by-name';
 
 interface PriceMonth {
   month: string;
@@ -25,16 +26,10 @@ const GraphOrdersPriceDate = () => {
   const { data } = useOrdersPriceDate();
 
   const mapDataByDate = data?.map((item: OrdersPriceDate) => {
-    const monthRaw = new Date(item.orderDate).toLocaleString('default', {
-      month: 'long',
-    });
-    const monthCapitalized =
-      monthRaw.charAt(0).toUpperCase() + monthRaw.slice(1);
-    const index = item.orderDate.slice(5, 7); // Find the index of the first space
-
+    const index = item.orderDate.slice(5, 7);
     return {
       ...item,
-      month: monthCapitalized,
+      month: t(parseMonthByName(item.orderDate.slice(5, 7))),
       index,
     };
   });

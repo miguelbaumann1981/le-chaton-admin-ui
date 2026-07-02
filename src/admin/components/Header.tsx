@@ -11,7 +11,7 @@ interface MenuItem {
 }
 
 export const Header = () => {
-  const { t, setLang } = useI18n();
+  const { t, lang, setLang } = useI18n();
 
   const menu: MenuItem[] = [
     {
@@ -105,17 +105,25 @@ export const Header = () => {
           ))}
         </ul>
       </div>
-      <div className='navbar-end'>
-        <a className='btn' onClick={() => setLang('es')}>
+      <div className='navbar-end pr-4'>
+        <button
+          className={`btn ${lang === 'en' ? 'opacity-60' : ''} hover:opacity-100`}
+          disabled={lang === 'es'}
+          onClick={() => setLang('es')}
+        >
           <img
             src='/images/spain-flag.png'
             alt='Spain flag icon'
             className='h-5'
           />
-        </a>
-        <a className='btn' onClick={() => setLang('en')}>
+        </button>
+        <button
+          className={`btn ${lang === 'es' ? 'opacity-60' : ''} hover:opacity-100`}
+          disabled={lang === 'en'}
+          onClick={() => setLang('en')}
+        >
           <img src='/images/uk-flag.png' alt='UK flag icon' className='h-5' />
-        </a>
+        </button>
       </div>
     </header>
   );
