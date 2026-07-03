@@ -80,8 +80,8 @@ const GraphOrdersProductsQuantity = () => {
       <Legend />
       <Bar
         dataKey='quantity'
-        fill='#43c6ac'
-        activeBar={{ fill: 'pink', stroke: 'purple' }}
+        fill='#9AD694'
+        activeBar={{ fill: 'pink', stroke: '#F58CD9' }}
         radius={[10, 10, 0, 0]}
         name={t('graphics.quantity')}
       />

@@ -21,13 +21,6 @@ export const IngredientsProductForm = ({ ingredients }: Props) => {
             readOnly
           />
         ))}
-
-        {/* <input
-          type='text'
-          className='input w-fit bg-base-300 text-white'
-          placeholder='Add new...'
-          disabled
-        /> */}
       </div>
     </div>
   );

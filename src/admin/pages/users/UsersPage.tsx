@@ -123,13 +123,13 @@ export const UsersPage = () => {
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
+        <h1 className='text-xl md:text-3xl font-bold mb-1 md:mb-4 flex items-center gap-2'>
           <MdFace /> <span>{t('menu.users')}</span>
         </h1>
 
         {/* FILTERS */}
-        <div className='flex flex-row justify-between items-center'>
-          <div className='flex gap-15 items-center'>
+        <div className='flex flex-row justify-between items-center flex-wrap gap-3'>
+          <div className='flex gap-5 md:gap-15 items-center flex-wrap'>
             <input
               type='text'
               ref={search}
@@ -227,7 +227,7 @@ export const UsersPage = () => {
                       </td>
                       <td className='border-b-gray-600'>
                         <span
-                          className={`badge badge-soft ${user?.role[0] === 'USER_ROLE' ? 'badge-info' : 'badge-warning'}`}
+                          className={`badge badge-soft ${user?.role[0] === 'USER_ROLE' ? 'badge-info' : 'badge-warning'} text-xs lg:text-sm`}
                         >
                           {handleRoleText(user?.role[0])}
                         </span>
@@ -242,7 +242,7 @@ export const UsersPage = () => {
 
         {/* PAGINATOR */}
         {totalPages > 1 && (
-          <div className='flex justify-between items-center my-4 border-t-gray-600'>
+          <div className='flex gap-3 justify-center md:justify-between items-center my-4 border-t-gray-600 flex-wrap'>
             <Paginator totalPages={totalPages} />
 
             <div className='flex gap-2 items-center'>

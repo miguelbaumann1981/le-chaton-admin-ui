@@ -6,7 +6,7 @@ const AdminLayout = () => {
   return (
     <>
       <Header />
-      <main className='py-5 px-4 md:px-8'>
+      <main className='py-5 px-4 md:px-8' tabIndex={0}>
         <Outlet />
       </main>
     </>

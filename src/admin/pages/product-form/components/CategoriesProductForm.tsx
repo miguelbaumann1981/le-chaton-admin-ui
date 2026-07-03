@@ -15,7 +15,7 @@ export const CategoriesProductForm = ({ category }: Props) => {
   return (
     <div className='flex flex-col gap-2 w-full'>
       <label className='text-sm'>{t('products.category')}</label>
-      <div className='flex gap-5'>
+      <div className='flex gap-5 flex-wrap'>
         <div className='flex items-center gap-3'>
           <input
             type='radio'

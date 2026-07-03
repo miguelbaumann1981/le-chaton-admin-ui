@@ -120,9 +120,9 @@ const GraphOrdersByMonth = () => {
         dataKey='quantity'
         stroke='pink'
         dot={{
-          fill: 'purple',
+          fill: 'yellow',
         }}
-        activeDot={{ r: 8, stroke: 'purple' }}
+        activeDot={{ r: 8, fill: 'red', stroke: 'yellow' }}
         name={t('graphics.quantity')}
       />
 

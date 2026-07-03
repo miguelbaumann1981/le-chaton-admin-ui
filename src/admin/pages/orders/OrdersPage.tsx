@@ -46,25 +46,25 @@ export const OrdersPage = () => {
     switch (status) {
       case 0:
         return (
-          <span className='badge badge-soft badge-error'>
+          <span className='badge badge-soft badge-error text-xs lg:text-sm'>
             {t('orders.canceled')}
           </span>
         );
       case 1:
         return (
-          <span className='badge badge-soft badge-warning'>
+          <span className='badge badge-soft badge-warning text-xs lg:text-sm'>
             {t('orders.registered')}
           </span>
         );
       case 2:
         return (
-          <span className='badge badge-soft badge-info'>
+          <span className='badge badge-soft badge-info text-xs lg:text-sm'>
             {t('orders.inProgress')}
           </span>
         );
       case 3:
         return (
-          <span className='badge badge-soft badge-success'>
+          <span className='badge badge-soft badge-success text-xs lg:text-sm'>
             {t('orders.delivered')}
           </span>
         );
@@ -105,30 +105,32 @@ export const OrdersPage = () => {
     }, 3000);
   };
 
+  const openSearchModal = () => {
+    const dialog = document.getElementById(
+      'searcher',
+    ) as HTMLDialogElement | null;
+    dialog?.showModal();
+  };
+
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
+        <h1 className='text-xl md:text-3xl font-bold mb-1 md:mb-4 flex items-center gap-2'>
           <MdLibraryBooks /> <span>{t('menu.orders')}</span>
         </h1>
 
         {/* FILTERS */}
-        <div className='flex flex-row justify-between items-center'>
-          <div className='flex gap-15 items-center'>
+        <div className='flex flex-row justify-between items-center flex-wrap gap-3'>
+          <div className='flex gap-5 md:gap-15 items-center flex-wrap'>
             <button
-              className='btn btn-neutral'
-              onClick={() => {
-                const dialog = document.getElementById(
-                  'searcher',
-                ) as HTMLDialogElement | null;
-                dialog?.showModal();
-              }}
+              className='btn btn-neutral w-full md:w-auto'
+              onClick={() => openSearchModal()}
             >
               <MdOutlineSearch /> {t('common.searcher')}
             </button>
 
             {/* STATES */}
-            <div className='flex items-center gap-1'>
+            <div className='flex items-center gap-1 flex-wrap'>
               <button
                 className={`btn btn-error ${customState === 0 ? 'btn-outline' : 'btn-soft'}`}
                 onClick={() => handleStateFilter(0)}
@@ -253,7 +255,7 @@ export const OrdersPage = () => {
 
         {/* PAGINATOR */}
         {totalPages > 1 && (
-          <div className='flex justify-between items-center my-4 border-t-gray-600'>
+          <div className='flex gap-3 justify-center md:justify-between items-center my-4 border-t-gray-600 flex-wrap'>
             <Paginator totalPages={totalPages} />
 
             <div className='flex gap-2 items-center'>

@@ -68,6 +68,13 @@ export const ProductsPage = () => {
     setLanguage(lang);
   };
 
+  const openSearchModal = () => {
+    const dialog = document.getElementById(
+      'searcher',
+    ) as HTMLDialogElement | null;
+    dialog?.showModal();
+  };
+
   return (
     <>
       <div className='flex flex-col gap-5'>
@@ -76,22 +83,17 @@ export const ProductsPage = () => {
         </h1>
 
         {/* FILTERS */}
-        <div className='flex flex-row justify-between items-center flex-wrap'>
+        <div className='flex flex-row justify-between items-center flex-wrap gap-3'>
           <div className='flex gap-5 md:gap-15 items-center flex-wrap'>
             <button
-              className='btn btn-neutral'
-              onClick={() => {
-                const dialog = document.getElementById(
-                  'searcher',
-                ) as HTMLDialogElement | null;
-                dialog?.showModal();
-              }}
+              className='btn btn-neutral w-full md:w-auto'
+              onClick={() => openSearchModal()}
             >
               <MdOutlineSearch /> {t('common.searcher')}
             </button>
 
             {/* CATEGORIES */}
-            <div className='flex items-center gap-1'>
+            <div className='flex items-center gap-1 flex-wrap'>
               <button
                 className={`btn btn-warning ${customCategory === 'CAKES' ? 'btn-outline' : 'btn-soft'}`}
                 onClick={() => handleCategoryFilter('CAKES')}
@@ -281,7 +283,7 @@ export const ProductsPage = () => {
 
         {/* PAGINATOR */}
         {totalPages > 1 && (
-          <div className='flex gap-3 justify-between items-center my-4 border-t-gray-600 flex-wrap'>
+          <div className='flex gap-3 justify-center md:justify-between items-center my-4 border-t-gray-600 flex-wrap'>
             <Paginator totalPages={totalPages} />
 
             <div className='flex gap-2 items-center'>

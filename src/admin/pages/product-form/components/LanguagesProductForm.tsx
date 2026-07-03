@@ -10,7 +10,7 @@ export const LanguagesProductForm = ({ language, onLanguage }: Props) => {
   const { t } = useI18n();
 
   return (
-    <div className='flex flex-col gap-2 w-1/2'>
+    <div className='flex flex-col gap-2 w-full md:w-1/2'>
       <label className='text-sm'>{t('products.language')}</label>
       <div className='flex gap-10'>
         <div className='flex items-center gap-3'>

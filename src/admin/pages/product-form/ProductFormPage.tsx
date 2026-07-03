@@ -41,23 +41,26 @@ export const ProductFormPage = () => {
       ) : (
         <div className='flex flex-col gap-5'>
           {/* TITLE */}
-          <div className='flex items-center justify-between'>
-            <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
+          <div className='flex items-center justify-between flex-wrap gap-3'>
+            <h1 className='text-xl md:text-3xl font-bold mb-1 md:mb-4 flex items-center gap-2'>
               <MdOutlinePlaylistAddCheck /> {product?.title}
             </h1>
 
-            <button className='btn btn-neutral' onClick={() => handleReturn()}>
+            <button
+              className='btn btn-neutral w-full md:w-auto'
+              onClick={() => handleReturn()}
+            >
               <MdOutlineSearch /> {t('common.searcher')}
             </button>
           </div>
 
           {/* BODY */}
-          <div className='grid grid-cols-2 gap-10'>
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-10'>
             {/* FIELDS */}
-            <div className='flex flex-col gap-5'>
-              <div className='flex gap-5'>
+            <div className='flex flex-col gap-3 md:gap-5'>
+              <div className='flex gap-3 flex-col md:gap-5 md:flex-row'>
                 {/* ID */}
-                <div className='flex flex-col gap-1 w-1/2'>
+                <div className='flex flex-col gap-1 w-full md:w-1/2'>
                   <label className='text-sm'>{t('products.idProduct')}</label>
                   <input
                     type='text'
@@ -69,7 +72,7 @@ export const ProductFormPage = () => {
                 </div>
 
                 {/* SLUG */}
-                <div className='flex flex-col gap-1 w-1/2'>
+                <div className='flex flex-col gap-1 w-full md:w-1/2'>
                   <label className='text-sm'>{t('products.slug')}</label>
                   <input
                     type='text'
@@ -81,9 +84,9 @@ export const ProductFormPage = () => {
                 </div>
               </div>
 
-              <div className='flex gap-5'>
+              <div className='flex gap-3 flex-col md:gap-5 md:flex-row'>
                 {/* NAME */}
-                <div className='flex flex-col gap-1 w-1/2'>
+                <div className='flex flex-col gap-1 w-full md:w-1/2'>
                   <label className='text-sm'>{t('products.name')}</label>
                   <input
                     type='text'
@@ -112,9 +115,9 @@ export const ProductFormPage = () => {
                 ></textarea>
               </div>
 
-              <div className='flex gap-5'>
+              <div className='flex gap-3 flex-col md:gap-5 md:flex-row'>
                 {/* PRICE */}
-                <div className='flex flex-col gap-1 w-1/3'>
+                <div className='flex flex-col gap-1 w-full md:w-1/3'>
                   <label className='text-sm'>{t('products.price')} (€)</label>
                   <input
                     type='number'
@@ -126,7 +129,7 @@ export const ProductFormPage = () => {
                 </div>
 
                 {/* PACK */}
-                <div className='flex flex-col gap-1 w-1/3'>
+                <div className='flex flex-col gap-1 w-full md:w-1/3'>
                   <label className='text-sm'>{t('products.pack')} (uds)</label>
                   <input
                     type='number'
@@ -139,7 +142,7 @@ export const ProductFormPage = () => {
                 </div>
 
                 {/* WEIGHT */}
-                <div className='flex flex-col gap-1 w-1/3'>
+                <div className='flex flex-col gap-1 w-full md:w-1/3'>
                   <label className='text-sm'>{t('products.weight')}</label>
                   <input
                     type='text'
@@ -160,7 +163,7 @@ export const ProductFormPage = () => {
             </div>
 
             {/* IMAGE */}
-            <div className='w-full'>
+            <div className=''>
               <img
                 src={product?.image}
                 alt={product?.title}

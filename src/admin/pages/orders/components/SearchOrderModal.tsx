@@ -1,7 +1,11 @@
 import { useRef, useState } from 'react';
 import { useI18n } from '../../../../i18n';
 import { Spinner } from '../../../components/Spinner';
-import { MdOutlineWarning } from 'react-icons/md';
+import {
+  MdCheckCircle,
+  MdOutlineCancel,
+  MdOutlineWarning,
+} from 'react-icons/md';
 import type { SearchOrderMode } from '../../products/types/search-mode.type';
 import { useOrderByArgument } from '../hooks/useOrderByArgument';
 import type { Order } from '../interfaces/order.interface';
@@ -23,6 +27,8 @@ export const SearchOrderModal = ({ idRef }: Props) => {
   const [disableReset, setDisableReset] = useState<boolean>(true);
   const [selectedId, setSelectedId] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const idArgument = searchMode === 'id' ? querySearch : '';
   const dateArgument = searchMode === 'date' ? querySearch : '';
@@ -139,6 +145,14 @@ export const SearchOrderModal = ({ idRef }: Props) => {
     handleResetFilters();
   };
 
+  const handleMessage = (message: string) => {
+    setAlertMessage(message);
+    setShowSuccessMessage(true);
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000);
+  };
+
   return (
     <>
       <dialog id={idRef} className='modal'>
@@ -148,7 +162,7 @@ export const SearchOrderModal = ({ idRef }: Props) => {
           </h3>
 
           {/* Radio-buttons */}
-          <div className='flex gap-6 items-center'>
+          <div className='flex gap-6 items-center flex-wrap'>
             <div className='flex items-center gap-2'>
               <input
                 type='radio'
@@ -249,7 +263,26 @@ export const SearchOrderModal = ({ idRef }: Props) => {
         order={orderData!}
         isOpen={isOpen}
         onClose={handleClose}
+        onMessage={(message) => handleMessage(message)}
       />
+
+      {showSuccessMessage && (
+        <div
+          role='alert'
+          className='absolute top-20 right-10 min-w-75 alert alert-success flex flex-row items-center justify-between'
+        >
+          <div className='flex items-center gap-3'>
+            <MdCheckCircle />
+            <span>{alertMessage}</span>
+          </div>
+          <a
+            className='custom-link'
+            onClick={() => setShowSuccessMessage(false)}
+          >
+            <MdOutlineCancel size={20} color='#ffffff' />
+          </a>
+        </div>
+      )}
     </>
   );
 };

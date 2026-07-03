@@ -3,6 +3,7 @@ import { MdEmail } from 'react-icons/md';
 import { MdLibraryBooks } from 'react-icons/md';
 import { Link, useLocation } from 'react-router';
 import { useI18n } from '../../i18n';
+import { useState } from 'react';
 
 interface MenuItem {
   name: string;
@@ -36,11 +37,19 @@ export const Header = () => {
     },
   ];
   const { pathname } = useLocation();
+  const [displayMenuMobile, setDisplayMenuMobile] = useState(true);
   const isActiveRoute = (to: string) => {
     if (pathname.includes('/products/') && to === '/products') {
       return true;
     }
     return pathname === to;
+  };
+
+  const closeMenuAfterClick = () => {
+    setDisplayMenuMobile(false);
+    setTimeout(() => {
+      setDisplayMenuMobile(true);
+    }, 1000);
   };
 
   return (
@@ -64,19 +73,49 @@ export const Header = () => {
               />{' '}
             </svg>
           </div>
-          <ul
-            tabIndex={-1}
-            className='menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow'
-          >
-            {menu.map((item: MenuItem) => (
-              <li key={item.name} className='flex items-center gap-2'>
-                <Link to={item.url}>
-                  {item.icon}
-                  <span>{item.name}</span>
-                </Link>
+          {displayMenuMobile && (
+            <ul
+              tabIndex={-1}
+              className='menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow flex flex-col items-start'
+            >
+              {menu.map((item: MenuItem) => (
+                <li
+                  key={item.name}
+                  className='flex items-center gap-2 text-lg'
+                  onClick={() => closeMenuAfterClick()}
+                >
+                  <Link to={item.url}>
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </Link>
+                </li>
+              ))}
+              <li className='flex items-center flex-row gap-2'>
+                <button
+                  className={`btn ${lang === 'en' ? 'opacity-60' : ''} hover:opacity-100`}
+                  disabled={lang === 'es'}
+                  onClick={() => setLang('es')}
+                >
+                  <img
+                    src='/images/spain-flag.png'
+                    alt='Spain flag icon'
+                    className='h-4'
+                  />
+                </button>
+                <button
+                  className={`btn ${lang === 'es' ? 'opacity-60' : ''} hover:opacity-100`}
+                  disabled={lang === 'en'}
+                  onClick={() => setLang('en')}
+                >
+                  <img
+                    src='/images/uk-flag.png'
+                    alt='UK flag icon'
+                    className='h-4'
+                  />
+                </button>
               </li>
-            ))}
-          </ul>
+            </ul>
+          )}
         </div>
 
         <Link to='/' className='btn btn-ghost text-xl'>
@@ -87,6 +126,7 @@ export const Header = () => {
           />
         </Link>
       </div>
+
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
           {menu.map((item: MenuItem) => (
@@ -105,7 +145,8 @@ export const Header = () => {
           ))}
         </ul>
       </div>
-      <div className='navbar-end pr-4'>
+
+      <div className='navbar-end pr-4 md:visible invisible'>
         <button
           className={`btn ${lang === 'en' ? 'opacity-60' : ''} hover:opacity-100`}
           disabled={lang === 'es'}

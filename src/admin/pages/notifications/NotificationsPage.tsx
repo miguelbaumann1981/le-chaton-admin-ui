@@ -82,31 +82,31 @@ export const NotificationsPage = () => {
     switch (action) {
       case 'REGISTRATION':
         return (
-          <span className='badge badge-soft badge-warning'>
+          <span className='badge badge-soft badge-warning text-xs lg:text-sm'>
             {t('notifications.registration')}
           </span>
         );
       case 'LOGIN':
         return (
-          <span className='badge badge-soft badge-primary'>
+          <span className='badge badge-soft badge-primary text-xs lg:text-sm'>
             {t('notifications.login')}
           </span>
         );
       case 'CREATE':
         return (
-          <span className='badge badge-soft badge-success'>
+          <span className='badge badge-soft badge-success text-xs lg:text-sm'>
             {t('notifications.create')}
           </span>
         );
       case 'DELETE':
         return (
-          <span className='badge badge-soft badge-error'>
+          <span className='badge badge-soft badge-error text-xs lg:text-sm'>
             {t('notifications.delete')}
           </span>
         );
       case 'UPDATE':
         return (
-          <span className='badge badge-soft badge-info'>
+          <span className='badge badge-soft badge-info text-xs lg:text-sm'>
             {t('notifications.update')}
           </span>
         );
@@ -116,13 +116,13 @@ export const NotificationsPage = () => {
   return (
     <>
       <div className='flex flex-col gap-5'>
-        <h1 className='text-3xl font-bold mb-4 flex items-center gap-2'>
+        <h1 className='text-xl md:text-3xl font-bold mb-1 md:mb-4 flex items-center gap-2'>
           <MdEmail /> <span>{t('menu.notifications')}</span>
         </h1>
 
         {/* FILTERS */}
-        <div className='flex flex-row justify-between items-center'>
-          <div className='flex items-center gap-1'>
+        <div className='flex flex-row justify-between items-center flex-wrap gap-3'>
+          <div className='flex items-center gap-1 flex-wrap'>
             <button
               className={`btn btn-warning ${action === 'REGISTRATION' ? 'btn-outline' : 'btn-soft'}`}
               onClick={() => handleActionFilter('REGISTRATION')}
@@ -198,7 +198,7 @@ export const NotificationsPage = () => {
                     <th className='border-b-gray-600'>
                       {t('notifications.createdAt')}
                     </th>
-                    <th className='border-b-gray-600'>
+                    <th className='border-b-gray-600 hidden md:block'>
                       {t('notifications.message')}
                     </th>
                     <th className='border-b-gray-600'>
@@ -226,7 +226,7 @@ export const NotificationsPage = () => {
                           ? `${new Date(notification.createdAt).toLocaleString()} h`
                           : '-'}
                       </td>
-                      <td className='border-b-gray-600'>
+                      <td className='border-b-gray-600 hidden md:block'>
                         {t(`notifications.${notification?.message}`)}
                       </td>
                       <td className='border-b-gray-600'>
@@ -242,7 +242,7 @@ export const NotificationsPage = () => {
 
         {/* PAGINATOR */}
         {totalPages > 1 && (
-          <div className='flex justify-between items-center my-4 border-t-gray-600'>
+          <div className='flex gap-3 justify-center md:justify-between items-center my-4 border-t-gray-600 flex-wrap'>
             <Paginator totalPages={totalPages} />
 
             <div className='flex gap-2 items-center'>

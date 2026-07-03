@@ -105,8 +105,8 @@ const GraphOrdersPriceDate = () => {
       <Legend />
       <Bar
         dataKey='totalPrice'
-        fill='#A9DBEB'
-        activeBar={{ fill: 'pink', stroke: 'purple' }}
+        fill='#94D6D0'
+        activeBar={{ fill: 'pink', stroke: '#F58CD9' }}
         radius={[10, 10, 0, 0]}
         name={t('graphics.benefit')}
       />

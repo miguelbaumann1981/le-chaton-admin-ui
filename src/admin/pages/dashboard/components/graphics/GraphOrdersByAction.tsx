@@ -14,7 +14,7 @@ import { useNotificationActionText } from '../../hooks/useNotificationActionText
 import { useI18n } from '../../../../../i18n';
 
 const RADIAN = Math.PI / 180;
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+const COLORS = ['#9AD694', '#D69494', '#94D6D0'];
 
 const renderCustomizedLabel = ({
   cx,

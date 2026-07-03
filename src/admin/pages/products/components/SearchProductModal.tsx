@@ -100,7 +100,7 @@ export const SearchProductModal = ({ idRef }: Props) => {
         </h3>
 
         {/* Radio-buttons */}
-        <div className='flex gap-6 items-center'>
+        <div className='flex gap-6 items-center flex-wrap'>
           <div className='flex items-center gap-2'>
             <input
               type='radio'
