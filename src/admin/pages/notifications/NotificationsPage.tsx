@@ -198,7 +198,7 @@ export const NotificationsPage = () => {
                     <th className='border-b-gray-600'>
                       {t('notifications.createdAt')}
                     </th>
-                    <th className='border-b-gray-600 hidden md:block'>
+                    <th className='border-b-gray-600'>
                       {t('notifications.message')}
                     </th>
                     <th className='border-b-gray-600'>
@@ -226,7 +226,7 @@ export const NotificationsPage = () => {
                           ? `${new Date(notification.createdAt).toLocaleString()} h`
                           : '-'}
                       </td>
-                      <td className='border-b-gray-600 hidden md:block'>
+                      <td className='border-b-gray-600'>
                         {t(`notifications.${notification?.message}`)}
                       </td>
                       <td className='border-b-gray-600'>

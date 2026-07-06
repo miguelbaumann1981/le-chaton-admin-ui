@@ -56,7 +56,7 @@ export const GraphCard = ({ id, title }: Props) => {
 
           <div className='modal-action'>
             <form method='dialog'>
-              <button className='btn btn-outline'>Close</button>
+              <button className='btn btn-outline'>{t('common.close')}</button>
             </form>
           </div>
         </div>
