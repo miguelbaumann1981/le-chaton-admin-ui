@@ -13,4 +13,5 @@ export const useNotificationColor = (action: ActionNotification): string => {
     case 'UPDATE':
       return 'text-info';
   }
+  return '';
 };

@@ -1,4 +1,4 @@
-import type { Order } from '../../orders/interfaces/orders-api-response.interface';
+import type { Order } from '../../orders/interfaces/order.interface';
 
 export interface LatestOrdersApiResponse {
   total: number;

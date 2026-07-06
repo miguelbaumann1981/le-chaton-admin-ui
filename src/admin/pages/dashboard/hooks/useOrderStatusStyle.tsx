@@ -1,4 +1,4 @@
-import type { OrderStatus } from '../types/order-status.type';
+import type { OrderStatus } from '../../orders/types/order-status.type';
 
 export const useOrderStatusStyle = (status: OrderStatus): string => {
   switch (status) {
@@ -11,4 +11,5 @@ export const useOrderStatusStyle = (status: OrderStatus): string => {
     case 3:
       return 'badge-success';
   }
+  return '';
 };

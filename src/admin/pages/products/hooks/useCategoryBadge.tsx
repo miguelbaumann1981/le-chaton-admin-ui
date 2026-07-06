@@ -11,4 +11,5 @@ export const useCategoryBadge = (category: Category): string => {
     case 'VEGAN':
       return 'badge-success';
   }
+  return '';
 };
