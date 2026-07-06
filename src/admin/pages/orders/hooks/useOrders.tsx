@@ -17,14 +17,12 @@ export const useOrders = (customLimit: number, customState: OrderStatus) => {
         state: customState,
       },
     ],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return getOrdersAction({
+    queryFn: () =>
+      getOrdersAction({
         page,
         limit,
         state: customState,
-      });
-    },
+      }),
     staleTime: 1000 * 60 * 5,
   });
 };

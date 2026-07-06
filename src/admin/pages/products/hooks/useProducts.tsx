@@ -24,15 +24,13 @@ export const useProducts = (
         language,
       },
     ],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return getProductsAction({
+    queryFn: () =>
+      getProductsAction({
         page,
         limit,
         category,
         language,
-      });
-    },
+      }),
     staleTime: 1000 * 60 * 5,
   });
 };

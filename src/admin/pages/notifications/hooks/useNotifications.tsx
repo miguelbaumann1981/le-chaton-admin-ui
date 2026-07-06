@@ -20,20 +20,12 @@ export const useNotifications = (
         action: customAction,
       },
     ],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return getNotificationsAction({
+    queryFn: () =>
+      getNotificationsAction({
         page,
         limit,
         action: customAction,
-      });
-    },
-    // queryFn: () =>
-    //   getNotificationsAction({
-    //     page,
-    //     limit,
-    //     action: customAction,
-    //   }),
+      }),
     staleTime: 1000 * 60 * 5,
   });
 };

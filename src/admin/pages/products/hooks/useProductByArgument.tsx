@@ -20,15 +20,13 @@ export const useProductByArgument = (
         title,
       },
     ],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return getProductByArgumentAction({
+    queryFn: () =>
+      getProductByArgumentAction({
         limit,
         id,
         slug,
         title,
-      });
-    },
+      }),
     staleTime: 1000 * 60 * 5,
   });
 };

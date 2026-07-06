@@ -21,7 +21,7 @@ export const getOrdersAction = async (
     },
   });
 
-  if (state) {
+  if (state !== null) {
     const filteredOrders = data.orders.filter(
       (order) => order.status === state,
     );

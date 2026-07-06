@@ -22,15 +22,13 @@ export const useUsers = (
         search,
       },
     ],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return getUsersAction({
+    queryFn: () =>
+      getUsersAction({
         page,
         limit,
         role: customRole,
         search,
-      });
-    },
+      }),
     staleTime: 1000 * 60 * 5,
   });
 };

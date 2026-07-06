@@ -20,15 +20,13 @@ export const useOrderByArgument = (
         name,
       },
     ],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return getOrderByAgumentAction({
+    queryFn: () =>
+      getOrderByAgumentAction({
         limit,
         id,
         date,
         name,
-      });
-    },
+      }),
     staleTime: 1000 * 60 * 5,
   });
 };
